@@ -10,8 +10,13 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "js-cookie": "^3.0.5",
+    "mitt": "^3.0.1",
     "nuxt": "^3.13.0",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6"
   }
 }

@@ -18,7 +18,7 @@
                 </NuxtLink>
                 <ul class="top-nav">
                     <li menuItemName="View Cart" class="  nav-item-cart" id="Secondary_Navbar-View_Cart">
-                        <a href="cart.php?a=view">
+                        <a href="#">
                             <i class="fas fa-test lm lm-basket"></i>
                             <span class="item-text">View Cart
                             </span>
@@ -39,24 +39,24 @@
                         </a>
                         <ul class="dropdown-menu dropdown-lazy has-scroll client-alerts">
                             <li menuItemName="Alert_0" class="" id="Secondary_Navbar-Notifications-Alert_0">
-                                <a href="javascript:void(0)" class="client-alerts-header">
+                                <a href="#" class="client-alerts-header">
                                     Notifications
                                 </a>
                             </li>
                             <li menuItemName="Alert_1" class="" id="Secondary_Navbar-Notifications-Alert_1">
-                                <a href="cart/domain/renew">
+                                <a href="#">
                                     <i class="fas fa-ticket lm lm-info text-danger"></i>
                                     <div>You have 1 domain(s) expiring within the next 7 days.</div>
                                 </a>
                             </li>
                             <li menuItemName="Alert_2" class="" id="Secondary_Navbar-Notifications-Alert_2">
-                                <a href="clientarea.php?action=masspay&all=true">
+                                <a href="#">
                                     <i class="fas fa-ticket lm lm-info text-info"></i>
                                     <div>You have 4 unpaid invoice(s). Pay them early for peace of mind.</div>
                                 </a>
                             </li>
                             <li menuItemName="Alert_3" class="" id="Secondary_Navbar-Notifications-Alert_3">
-                                <a href="clientarea.php?action=masspay&all=true">
+                                <a href="#">
                                     <i class="fas fa-ticket lm lm-info text-warning"></i>
                                     <div>You have 4 overdue invoice(s) with a total balance due of $170.95 . Pay them
                                         now to
@@ -74,8 +74,12 @@
                                     alt="Avatar">
                             </div>
                             <div class="active-client">
-                                <span class="item-text">Petey MacGibbon</span>
-                                <span>LockWorth</span>
+                                <span class="item-text">
+                                    {{ user.data.nombres }}
+                                    {{ user.data.paterno }}
+                                    {{ user.data.materno }}
+                                </span>
+                                <span>{{ Role[user.data.role] }}</span>
                             </div>
                             <b class="ls ls-caret"></b>
                         </a>
@@ -98,38 +102,38 @@
                                 -----
                             </li>
                             <li menuItemName="Account Details" class=" " id="Secondary_Navbar-Account-Account_Details">
-                                <a href="clientarea.php?action=details">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-info-circle"></i>
                                     <span class="menu-item-content">Account Details</span>
                                 </a>
                             </li>
                             <li menuItemName="User Management" class=" " id="Secondary_Navbar-Account-User_Management">
-                                <a href="account/users">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-configure"></i>
                                     <span class="menu-item-content">User Management</span>
                                 </a>
                             </li>
                             <li menuItemName="Payment Methods" class=" " id="Secondary_Navbar-Account-Payment_Methods">
-                                <a href="account/paymentmethods">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-wallet"></i>
                                     <span class="menu-item-content">Payment Methods</span>
                                 </a>
                             </li>
                             <li menuItemName="Contacts" class=" " id="Secondary_Navbar-Account-Contacts">
-                                <a href="account/contacts">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-smartphone"></i>
                                     <span class="menu-item-content">Contacts</span>
                                 </a>
                             </li>
                             <li menuItemName="Account Security" class=" "
                                 id="Secondary_Navbar-Account-Account_Security">
-                                <a href="clientarea.php?action=security">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-shield"></i>
                                     <span class="menu-item-content">Account Security</span>
                                 </a>
                             </li>
                             <li menuItemName="Email History" class=" " id="Secondary_Navbar-Account-Email_History">
-                                <a href="clientarea.php?action=emails">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-envelope"></i>
                                     <span class="menu-item-content">Email History</span>
                                 </a>
@@ -139,26 +143,26 @@
                                 -----
                             </li>
                             <li menuItemName="Your Profile" class=" " id="Secondary_Navbar-Account-Your_Profile">
-                                <a href="user/profile">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-user"></i>
                                     <span class="menu-item-content">Your Profile</span>
                                 </a>
                             </li>
                             <li menuItemName="Switch Account" class=" " id="Secondary_Navbar-Account-Switch_Account">
-                                <a href="user/accounts">
+                                <a href="#">
                                     <i class="fas fa-random"></i>
                                     <span class="menu-item-content">Switch Account</span>
                                 </a>
                             </li>
                             <li menuItemName="Change Password" class=" " id="Secondary_Navbar-Account-Change_Password">
-                                <a href="user/password">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-padlock"></i>
                                     <span class="menu-item-content">Change Password</span>
                                 </a>
                             </li>
                             <li menuItemName="Security Settings" class=" "
                                 id="Secondary_Navbar-Account-Security_Settings">
-                                <a href="user/security">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-security-code"></i>
                                     <span class="menu-item-content">Security Settings</span>
                                 </a>
@@ -168,9 +172,9 @@
                                 -----
                             </li>
                             <li menuItemName="Logout" class="" id="Secondary_Navbar-Account-Logout">
-                                <a href="#" @click="logout">
+                                <a href="#" @click="showLogout = true">
                                     <i class="fas fa-test ls ls-arrow-left-wall"></i>
-                                    <span class="menu-item-content">Logout</span>
+                                    <span class="menu-item-content">Cerrar sesión</span>
                                 </a>
                             </li>
                         </ul>
@@ -189,12 +193,12 @@
                         :class="linkClass == 'panel' ? 'active' : ''">
                         <NuxtLink to="/admin" @click="sendTitle('panel', 'Panel principal')">
                             <span class="item-text">
-                                Panel
+                                Panel principal
                             </span>
                         </NuxtLink>
                     </li>
                     <li menuItemName="Services" class="  nav-item-text-only" id="Primary_Navbar-Services">
-                        <a href="clientarea.php?action=services">
+                        <a href="#">
                             <svg class="svg-icon {if $onDark} svg-icon-on-dark {/if}" xmlns="http://www.w3.org/2000/svg"
                                 width="64" height="64" fill="none" viewBox="0 0 64 64">
                                 <path fill="var(--svg-icon-color-2)" stroke="var(--svg-icon-color-2)"
@@ -212,7 +216,7 @@
                         </a>
                     </li>
                     <li menuItemName="Domains" class="  nav-item-text-only" id="Primary_Navbar-Domains">
-                        <a href="clientarea.php?action=domains">
+                        <a href="#">
                             <svg class="svg-icon {if $onDark} svg-icon-on-dark {/if}" xmlns="http://www.w3.org/2000/svg"
                                 width="64" height="64" fill="none" viewBox="0 0 64 64">
                                 <path fill="var(--svg-icon-color-3)" fill-rule="evenodd"
@@ -260,14 +264,14 @@
                         </a>
                         <ul class="dropdown-menu dropdown-lazy has-scroll  ">
                             <li menuItemName="My Invoices" class=" " id="Primary_Navbar-Billing-My_Invoices">
-                                <a href="clientarea.php?action=invoices">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-document"></i>
                                     <span class="menu-item-content">My Invoices</span>
                                     <span class='badge badge-danger badge-right'>4</span>
                                 </a>
                             </li>
                             <li menuItemName="My Quotes" class=" " id="Primary_Navbar-Billing-My_Quotes">
-                                <a href="clientarea.php?action=quotes">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-text-cloud"></i>
                                     <span class="menu-item-content">My Quotes</span>
                                 </a>
@@ -276,13 +280,13 @@
                                 -----
                             </li>
                             <li menuItemName="Mass Payment" class=" " id="Primary_Navbar-Billing-Mass_Payment">
-                                <a href="clientarea.php?action=masspay&all=true">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-bank-note"></i>
                                     <span class="menu-item-content">Mass Payment</span>
                                 </a>
                             </li>
                             <li menuItemName="Payment Methods" class=" " id="Primary_Navbar-Billing-Payment_Methods">
-                                <a href="account/paymentmethods">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-bank-note"></i>
                                     <span class="menu-item-content">Payment Methods</span>
                                 </a>
@@ -312,32 +316,32 @@
                         </a>
                         <ul class="dropdown-menu dropdown-lazy has-scroll  ">
                             <li menuItemName="Tickets" class=" " id="Primary_Navbar-Support-Tickets">
-                                <a href="supporttickets.php">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-envelope"></i>
                                     <span class="menu-item-content">Tickets</span>
                                     <span class='badge badge-info badge-right'>1</span>
                                 </a>
                             </li>
                             <li menuItemName="Announcements" class=" " id="Primary_Navbar-Support-Announcements">
-                                <a href="announcements">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-text-cloud"></i>
                                     <span class="menu-item-content">Announcements</span>
                                 </a>
                             </li>
                             <li menuItemName="Knowledgebase" class=" " id="Primary_Navbar-Support-Knowledgebase">
-                                <a href="knowledgebase">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-document-info"></i>
                                     <span class="menu-item-content">Knowledgebase</span>
                                 </a>
                             </li>
                             <li menuItemName="Downloads" class=" " id="Primary_Navbar-Support-Downloads">
-                                <a href="download">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-download-square"></i>
                                     <span class="menu-item-content">Downloads</span>
                                 </a>
                             </li>
                             <li menuItemName="Network Status" class=" " id="Primary_Navbar-Support-Network_Status">
-                                <a href="serverstatus.php">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-range"></i>
                                     <span class="menu-item-content">Network Status</span>
                                 </a>
@@ -355,7 +359,7 @@
                     </li>
                     <li menuItemName="Store" class="dropdown is-right  dropdown-mega nav-item-text-only"
                         id="Primary_Navbar-Store">
-                        <a href="javascript:void(0)" @click="goHome" id="go-home">
+                        <a href="#" @click="goHome" id="go-home">
                             <span class="item-text">
                                 Inicio
                             </span>
@@ -371,7 +375,7 @@
                                             <ul class="dropdown-menu-list">
                                                 <li menuItemName="Web Hosting" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-Web_Hosting">
-                                                    <a href="store/web-hosting">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-hosting"></i>
                                                         Web Hosting
 
@@ -379,7 +383,7 @@
                                                 </li>
                                                 <li menuItemName="Reseller Hosting" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-Reseller_Hosting">
-                                                    <a href="store/reseller-hosting">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-hosting"></i>
                                                         Reseller Hosting
 
@@ -387,7 +391,7 @@
                                                 </li>
                                                 <li menuItemName="VPS Hosting" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-VPS_Hosting">
-                                                    <a href="store/vps-hosting">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-hosting"></i>
                                                         VPS Hosting
 
@@ -395,7 +399,7 @@
                                                 </li>
                                                 <li menuItemName="Dedicated Servers" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-Dedicated_Servers">
-                                                    <a href="store/dedicated-servers">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-hosting"></i>
                                                         Dedicated Servers
 
@@ -412,7 +416,7 @@
                                             <ul class="dropdown-menu-list">
                                                 <li menuItemName="symantec" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-symantec">
-                                                    <a href="store/ssl-certificates">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-padlock"></i>
                                                         SSL Certificates
 
@@ -420,7 +424,7 @@
                                                 </li>
                                                 <li menuItemName="weebly" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-weebly">
-                                                    <a href="store/weebly-website-builder">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-dashboard"></i>
                                                         Website Builder
 
@@ -428,7 +432,7 @@
                                                 </li>
                                                 <li menuItemName="sitelock" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-sitelock">
-                                                    <a href="store/sitelock">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-shield"></i>
                                                         Website Security
 
@@ -436,7 +440,7 @@
                                                 </li>
                                                 <li menuItemName="spamexperts" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-spamexperts">
-                                                    <a href="store/email-spam-filtering">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-envelope"></i>
                                                         E-mail Services
 
@@ -444,14 +448,14 @@
                                                 </li>
                                                 <li menuItemName="codeguard" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-codeguard">
-                                                    <a href="store/codeguard">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-refresh"></i>
                                                         Website Backup
                                                     </a>
                                                 </li>
                                                 <li menuItemName="marketgoo" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-marketgoo">
-                                                    <a href="store/marketgoo">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-search"></i>
                                                         SEO Tools
 
@@ -459,7 +463,7 @@
                                                 </li>
                                                 <li menuItemName="ox" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-ox">
-                                                    <a href="store/professional-email">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-envelope"></i>
                                                         Professional Email
 
@@ -467,7 +471,7 @@
                                                 </li>
                                                 <li menuItemName="siteBuilder" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-siteBuilder">
-                                                    <a href="store/site-builder">
+                                                    <a href="#">
                                                         <i class="fas fa-ticket ls ls-sitebuilder"></i>
                                                         Site Builder
 
@@ -484,7 +488,7 @@
                                             <ul class="dropdown-menu-list">
                                                 <li menuItemName="Domain Renewals" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-Domain_Renewals">
-                                                    <a href="cart/domain/renew">
+                                                    <a href="#">
                                                         <i class="fas fa-test ls ls-refresh"></i>
                                                         <span class="menu-item-content">
                                                             <span class="menu-item-title">Domain Renewals</span>
@@ -493,7 +497,7 @@
                                                 </li>
                                                 <li menuItemName="Register a New Domain" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-Register_a_New_Domain">
-                                                    <a href="cart.php?a=add&domain=register">
+                                                    <a href="#">
                                                         <i class="fas fa-test ls ls-ticket-tag"></i>
                                                         <span class="menu-item-content">
                                                             <span class="menu-item-title">Register a New Domain</span>
@@ -502,7 +506,7 @@
                                                 </li>
                                                 <li menuItemName="Transfer Domains to Us" class="dropdown-menu-item  "
                                                     id="Primary_Navbar-Store-Transfer_Domains_to_Us">
-                                                    <a href="cart.php?a=add&domain=transfer">
+                                                    <a href="#">
                                                         <i class="fas fa-test ls ls-transfer"></i>
                                                         <span class="menu-item-content">
                                                             <span class="menu-item-title">Transfer Domains to Us</span>
@@ -536,20 +540,51 @@
                     </li>
                 </ul>
             </div>
+            <UModal v-model="showLogout">
+                <UCard>
+                    <div class="space-y-2 text-center">
+                        <h2 class="text-xl font-weight-bolder">¿ Seguro que quiere cerrar la sesión ?</h2>
+                        <UIcon name="i-heroicons-question-mark-circle" class="w-24 h-24 text-yellow-500" />
+                        <div class="p-1">
+                            <button class="btn btn-info mr-3" @click="logout">Cerrar sesión</button>
+                            <button class="btn btn-danger" @click="showLogout = false">Cancelar</button>
+                        </div>
+                    </div>
+                </UCard>
+            </UModal>
         </div>
     </div>
 </template>
 
 <script setup>
 import Cookies from 'js-cookie'
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useUserStore } from '~/stores/user'
 
-const logout = () => {
-    Cookies.remove('token')
-    sessionStorage.setItem('successMessage', 'Sesión cerrada correctamente')
+const toast = useToast()
+const showLogout = ref(false)
 
-    return navigateTo('/login')
-}
+const actions = ref([{
+    label: 'Cerrar sesión',
+    class: 'bg-orange-500 text-white',
+    click: () => {
+        Cookies.remove('token')
+        sessionStorage.setItem('loading', true)
+        sessionStorage.setItem('successMessage', 'Sesión cerrada correctamente')
+
+        return navigateTo('/login')
+    }
+}])
+
+const logout = (() => {
+    setTimeout(() => {
+        Cookies.remove('token')
+        sessionStorage.setItem('loading', true)
+        sessionStorage.setItem('successMessage', 'Sesión cerrada correctamente')
+
+        return navigateTo('/login')
+    }, 250)
+})
 
 const linkClass = ref('panel')
 
@@ -574,8 +609,23 @@ const goHome = () => {
         return navigateTo('/')
     }, 250)
 }
+
+const user = useUserStore()
+
+const Role = ref({
+    'admin': 'ADMINISTRADOR',
+    'user': 'USUARIO',
+    'guest': 'POSTULANTE'
+})
 </script>
 
 <style scoped>
-/* Estilos del header del admin */
+/* Centrando la notificación con CSS */
+.nuxt-toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
 </style>

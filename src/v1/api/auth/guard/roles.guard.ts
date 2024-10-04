@@ -34,10 +34,14 @@ export class RolesGuard implements CanActivate {
       return true
     }
 
+    if (role === Role.GUEST && user.sub.role) {
+      return true
+    }
+
     // Role USER tiene acceso a las funciones de estudiante, docente y administrativo
-    if (user.sub.role === Role.USER) {
+    if (role === Role.USER) {
       if (userRole) {
-        if (user.sub.roles.includes(userRole)) {
+        if (user.sub.role === Role.USER && user.sub.roles.includes(userRole)) {
           return true
         } else {
           throw new ForbiddenException({

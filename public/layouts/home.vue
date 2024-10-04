@@ -1,6 +1,6 @@
 <template>
     <div class="lagom lagom-layout-top lagom-modern page-homepage" :class="layoutClass">
-        <div class="bg-load" id="bg-load">
+        <div id="bg-load" v-if="loading">
             <div class="loader">
             </div>
 
@@ -23,19 +23,22 @@
 <script setup>
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
-import { onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
+const loading = ref(true)
+
+onMounted(() => {
+    setTimeout(() => {
+        loading.value = false
+    }, 500)
+})
 
 const layoutClass = computed(() => {
     if (process.client) {
         return route.meta.bodyClass || ''
     }
-})
-
-onMounted(() => {
-    document.getElementById('bg-load').style.display = 'none'
 })
 </script>
 

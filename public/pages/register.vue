@@ -5,15 +5,14 @@
                 <div class="login-wrapper">
                     <div class="login-body register" id="registration">
                         <h1 class="login-title">Registrarse</h1>
-                        <form method="post" class="loginForm" action="https://demo.rsstudio.net/lagom/register.php"
-                            role="form" name="orderfrm" id="frmCheckout">
+                        <form method="post" class="loginForm" @submit.prevent="postRegister">
                             <div class="section section-sm" id="containerNewUserSignup">
                                 <div class="section section-sm">
                                     <div class="section-body" id="connectWith">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group text-center">
-                                                    <label for="inputEmail">
+                                                    <label for="connect">
                                                         Conéctate con
                                                     </label>
                                                     <br>
@@ -44,15 +43,15 @@
                                     <div class="section-header">
                                         <h2 class="section-title">Información personal</h2>
                                     </div>
-                                    <div class="section-body" id="personalInformation">
+                                    <div class="section-body" id="personalInformacion">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group ">
                                                     <label for="numeroDocumento" class="label-required">
                                                         Cédula de identidad
                                                     </label>
-                                                    <input type="text" name="numeroDocumento" id="numeroDocumento"
-                                                        class="form-control" placeholder="CI">
+                                                    <input type="text" id="numeroDocumento" class="form-contrl"
+                                                        placeholder="CI" v-model="numeroDocumento">
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -61,7 +60,8 @@
                                                         class="label-required">
                                                         Expedición
                                                     </label>
-                                                    <select name="country" id="inputCountry" class="form-control">
+                                                    <select name="country" id="inputCountry" class="form-control"
+                                                        v-model="expedido">
                                                         <option value="">
                                                             -
                                                         </option>
@@ -110,7 +110,7 @@
                                                         Nombres
                                                     </label>
                                                     <input type="text" name="firstname" id="inputFirstName"
-                                                        class="form-control" placeholder="Nombres">
+                                                        class="form-control" placeholder="Nombres" v-model="nombres">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -119,7 +119,7 @@
                                                         Apellido paterno
                                                     </label>
                                                     <input type="text" name="paterno" id="paterno" class="form-control"
-                                                        placeholder="Paterno">
+                                                        placeholder="Paterno" v-model="paterno">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -128,16 +128,7 @@
                                                         Apellido materno
                                                     </label>
                                                     <input type="text" name="materno" id="materno" class="form-control"
-                                                        placeholder="Materno">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="form-group ">
-                                                    <label for="inputEmail" class="label-required">
-                                                        Correo electrónico
-                                                    </label>
-                                                    <input type="email" name="email" id="inputEmail"
-                                                        class="form-control" placeholder="Email">
+                                                        placeholder="Materno" v-model="materno">
                                                 </div>
                                             </div>
                                         </div>
@@ -147,47 +138,46 @@
                             <div class="section section-sm" id="containerNewUserSecurity">
                                 <h5 class="section-title">Cuenta de usuario</h5>
                                 <div id="containerPassword" class="row">
-                                    <div id="passwdFeedback" style="display: none;"
-                                        class="alert alert-lagom alert-info text-center col-md-12"></div>
+                                    <div class="col-md-6">
+                                        <div class="form-group ">
+                                            <label for="inputUsername" class="label-required">
+                                                Correo electrónico
+                                            </label>
+                                            <input type="text" name="username" id="inputUsername" class="form-control"
+                                                placeholder="Username" v-model="username">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group ">
+                                            <label for="inputEmail" class="label-required">
+                                                Correo electrónico
+                                            </label>
+                                            <input type="email" name="email" id="inputEmail" class="form-control"
+                                                placeholder="Email" v-model="email">
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-feedback" id="newPassword1">
                                             <div class="password-content password-content-top password-content-group">
                                                 <label for="inputNewPassword1" class="label-required">
-                                                    Password
+                                                    Contraseña
                                                 </label>
-                                                <div class="progress m-t-0" id="passwordStrengthBar"
-                                                    style="display: none">
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0"
-                                                        aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">New Password Rating: 0%</span>
-                                                    </div>
-                                                </div>
-                                                <span class="text-small text-lighter password-content-text"><span
-                                                        id="passwordStrengthTextLabel">at least 5
-                                                        characters</span><i data-toggle="tooltip"
-                                                        title="<strong>Tips for a good password</strong><br />Use both upper and lowercase characters<br />Include at least one symbol (# $ ! % &amp; etc...)<br />Don't use dictionary words"
-                                                        data-html="true" data-container="body"
-                                                        class="ls ls-info-circle m-l-1x"></i></span>
+                                                <span class="text-small text-lighter password-content-text">
+                                                    <span id="passwordStrengthTextLabel">Mínimo 5 caracteres</span>
+                                                </span>
                                             </div>
                                             <div class="input-password-strenght">
                                                 <input type="password" name="password" id="inputNewPassword1"
                                                     data-error-threshold="50" data-warning-threshold="75"
-                                                    class="form-control" placeholder="" autocomplete="off">
+                                                    class="form-control" placeholder="" autocomplete="off"
+                                                    v-model="password">
                                             </div>
-
-                                            <div class="password-content password-content-group">
-                                                <button type="button" class="btn btn-default btn-sm generate-password"
-                                                    data-targetfields="inputNewPassword1,inputNewPassword2">
-                                                    <i class="ls ls-refresh"></i>Generate Password
-                                                </button>
-                                            </div>
-
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-feedback" id="newPassword2">
                                             <label for="inputNewPassword2" class="label-required">
-                                                Confirm Password
+                                                Confirmar contraseña
                                             </label>
                                             <input type="password" name="password2" id="inputNewPassword2"
                                                 class="form-control" placeholder="" autocomplete="off">
@@ -197,43 +187,35 @@
                                 </div>
 
                             </div>
-                            <div class="section section-sm ">
-                                <div class="section-header">
-                                    <h2 class="section-title">Join our mailing list</h2>
-                                    <p class="section-desc">We would like to send you occasional news, information
-                                        and special offers by email. Choose below whether you want to join our
-                                        mailing list. You can unsubscribe at any time.</p>
-                                </div>
-                                <div class="panel panel-switch m-w-xs">
-                                    <div class="panel-body">
-                                        <span class="switch-label">Receive Emails: </span>
-                                        <label class="switch switch--lg switch--text">
-                                            <input class="switch__checkbox" type="checkbox" name="marketingoptin"
-                                                value="1" checked>
-                                            <span class="switch__container"><span class="switch__handle"></span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="section section-sm">
+                            <!-- <div class="section section-sm">
                                 <div class="section-body">
                                     <div class="checkbox">
                                         <label>
                                             <input class="icheck-control accepttos" type="checkbox" name="accepttos">
-                                            <span class="label-required">I have read and agree to the <a
-                                                    href="http://www.example.com/tos.html" target="_blank">Terms of
+                                            <span class="label-required">I have read and agree to the <a href="#"
+                                                    target="_blank">Terms of
                                                     Service</a></span>
                                         </label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
+                            <UAlert v-if="errors.length > 0" title="Error de validación" icon="i-heroicons-error-circle"
+                                color="red" variant="soft">
+                                <template #description>
+                                    <ul>
+                                        <li v-for="(error, index) in errors" :key="index" class="mb-1">
+                                            {{ error }}
+                                        </li>
+                                    </ul>
+                                </template>
+                            </UAlert>
 
                             <div class="form-actions">
                                 <button type="submit" class="btn btn-lg btn-primary btn-block ">
                                     <span class="btn-text">
-                                        Register
+                                        Registrarme
                                     </span>
-                                    <div class="loader loader-button hidden">
+                                    <!-- <div class="loader loader-button hidden">
 
                                         <div class="spinner spinner-sm spinner-light">
                                             <div class="rect1"></div>
@@ -242,7 +224,7 @@
                                             <div class="rect4"></div>
                                             <div class="rect5"></div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </button>
                             </div>
                         </form>
@@ -270,7 +252,64 @@ definePageMeta({
     middleware: 'guest',
     bodyClass: 'page-login-primary'
 })
+
+import { ref } from 'vue'
+import { useApiFetch } from '~/composables/useApiFetch'
+const errors = ref([])
+const errorsWithBreaks = computed(() => {
+    return errors.value.join('<br>')
+})
+
+const numeroDocumento = ref('')
+const expedido = ref('')
+const nombres = ref('')
+const paterno = ref('')
+const materno = ref('')
+const email = ref('')
+const username = ref('')
+const password = ref('')
+const password2 = ref('')
+
+const postRegister = async () => {
+    errors.value = []
+
+    try {
+        const { data, error } = await useApiFetch('/auth/register', {
+            method: 'POST',
+            body: {
+                numeroDocumento: numeroDocumento.value,
+                expedido: expedido.value,
+                nombres: nombres.value,
+                paterno: paterno.value,
+                materno: materno.value,
+                email: email.value,
+                username: username.value,
+                password: password.value
+            }
+        })
+
+        if (error.value) {
+            errors.value = error.value.data.message
+            console.log(errors.value);
+        } else {
+            sessionStorage.setItem('loading', true)
+            sessionStorage.setItem('successMessage', data.value.message)
+
+            return navigateTo('/login')
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
 </script>
 
 <style scoped>
+ul {
+    margin-left: 30px;
+}
+
+li {
+    list-style: disc !important;
+    ;
+}
 </style>

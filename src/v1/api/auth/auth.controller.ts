@@ -10,6 +10,7 @@ import { Request } from 'express';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Role } from 'src/common/enums/role.enum';
 import { UserRole } from 'src/common/enums/user-role.enum';
+import { User } from './users/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -26,17 +27,17 @@ export class AuthController {
     const byCiPersona = await this.personasService.findByCi(createUserDto.numeroDocumento)
     const byEmailPersona = await this.personasService.findByEmail(createUserDto.email)
     if (byCiPersona) {
-      errors.push({ field: 'numeroDocumento', message: 'Número de documento ya está registrado con una persona' })
+      errors.push('Número de documento ya está registrado con una persona')
     }
     if (byEmailPersona) {
-      errors.push({ field: 'email', message: 'El email ya está registrado con una persona' })
+      errors.push('El email ya está registrado con una persona')
     }
 
     if (errors.length > 0) {
       throw new BadRequestException({
-        success: false,
-        message: 'Error al validar la persona',
-        errors
+        message: errors,
+        error: 'Error al validar la persona',
+        statusCode: 400
       });
     }
 
@@ -58,20 +59,20 @@ export class AuthController {
     const byUsername = await this.usersService.findByUsername(createUserDto.username)
 
     if (byCi) {
-      errors.push({ field: 'numeroDocumento', message: 'Número de documento de usuario ya está registrado' })
+      errors.push('Número de documento de usuario ya está registrado')
     }
     if (byEmail) {
-      errors.push({ field: 'email', message: 'Correo electrónico de usuario ya está registrado' })
+      errors.push('Correo electrónico de usuario ya está registrado')
     }
     if (byUsername) {
-      errors.push({ field: 'username', message: 'Nombre de usuario de usuario ya está registrado' })
+      errors.push('Nombre de usuario de usuario ya está registrado')
     }
 
     if (errors.length > 0) {
       throw new BadRequestException({
-        success: false,
-        message: 'Error al validar el usuario',
-        errors: errors
+        message: errors,
+        error: 'Error al validar el usuario',
+        statusCode: 400
       });
     }
 
@@ -102,7 +103,7 @@ export class AuthController {
 
   @Get('profile')
   @Version('1')
-  @Auth(Role.USER)
+  @Auth(Role.GUEST)
   getProfile(@Req() req: Request) {
     return this.usersService.getProfile(req)
   }

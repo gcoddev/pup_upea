@@ -43,21 +43,21 @@
                                     </svg>
                                 </i>
                             </h3>
-                            <ul class="footer-nav collapse" id="footer-nav-0">
+                            <ul class="footer-nav" id="footer-nav-0">
                                 <li>
-                                    <a href="store/web-hosting.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Web Hosting</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/reseller-hosting.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Reseller Hosting</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/vps-hosting.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>VPS Hosting</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/dedicated-servers.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Dedicated Servers</span> </a>
                                 </li>
                             </ul>
@@ -74,37 +74,37 @@
                                     </svg>
                                 </i>
                             </h3>
-                            <ul class="footer-nav collapse" id="footer-nav-1">
+                            <ul class="footer-nav" id="footer-nav-1">
                                 <li>
-                                    <a href="store/ssl-certificates.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>SSL Certificates</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/email-spam-filtering.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>E-mail Services</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/site-builder.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Site Builder</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/weebly-website-builder.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Website Builder</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/professional-email.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Professional Email</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/sitelock.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Website Security</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/codeguard.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Website Backup</span> </a>
                                 </li>
                                 <li>
-                                    <a href="store/marketgoo.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>SEO Tools</span> </a>
                                 </li>
                             </ul>
@@ -121,21 +121,21 @@
                                     </svg>
                                 </i>
                             </h3>
-                            <ul class="footer-nav collapse" id="footer-nav-2">
+                            <ul class="footer-nav" id="footer-nav-2">
                                 <li>
-                                    <a href="contact.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Contact Us</span> </a>
                                 </li>
                                 <li>
-                                    <a href="announcements.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>News</span> </a>
                                 </li>
                                 <li>
-                                    <a href="knowledgebase.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Knowledgebase</span> </a>
                                 </li>
                                 <li>
-                                    <a href="login.html" class="nav-link ">
+                                    <a href="#" class="nav-link ">
                                         <span>Affiliates</span> </a>
                                 </li>
                             </ul>
@@ -149,8 +149,8 @@
             <div class="container text-center">
                 <div class="footer-copyright">
                     ©Copyright 2024
-                    <a href="https://utic.upea.bo">UTIC</a> <a href="https://upea.bo">UPEA</a> -
-                    Dev by <a href="https://garycdev.com/" target="_blank">Gary</a>
+                    <a href="#">UTIC</a> <a href="#">UPEA</a> -
+                    Dev by <a href="#" target="_blank">Gary</a>
                 </div>
             </div>
         </div>

@@ -2644,7 +2644,7 @@ screen and (-ms-high-contrast:active) {
 
 input:-webkit-autofill,
 select:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px #fff inset
+    /* -webkit-box-shadow: 0 0 0 1000px #fff inset */
 }
 
 a[href^=tel] {

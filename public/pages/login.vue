@@ -61,7 +61,6 @@ definePageMeta({
     bodyClass: 'page-login-primary'
 })
 
-import { useApiFetch } from '~/composables/useApiFetch'
 import { ref, onMounted } from 'vue'
 import Cookies from 'js-cookie'
 
@@ -88,6 +87,7 @@ const postLogin = async () => {
             errorMessage.value = ''
 
             Cookies.set('token', data.value.token, { expires: 2 / 24 })
+            sessionStorage.setItem('logged', true)
 
             return navigateTo('/admin')
         }

@@ -13,21 +13,34 @@
                                         <img src="https://www.gravatar.com/avatar/eb76e3210778a71baad903fcff70c215"
                                             alt="Avatar">
                                     </div>
-                                    <strong>LockWorth</strong>
+                                    <strong>{{ Role[user.data.role] }}</strong>
                                     <br>
-                                    <em>Petey MacGibbon</em>
+                                    <em>{{ user.data.nombres }} {{ user.data.paterno }} {{ user.data.materno }}</em>
                                     <br>
-                                    Waubesa Center<br>
-                                    Norfolk, Virginia, 54839<br>United States
+                                    {{ user.data.numeroDocumento }} {{ user.data.expedido }}
+                                    <br>
+                                    {{ user.data.email }}
+                                    <br>
+                                    {{ user.data.username }}
 
                                 </div>
                                 <div class="panel-footer clearfix">
-                                    <a href="clientarea.php?action=details" class="btn btn-success btn-sm btn-block">
+                                    <NuxtLink to="/admin" class="btn btn-success btn-sm btn-block">
                                         <i class="fas fa-pencil-alt"></i>
-                                        Update
+                                        Perfil
 
-                                    </a>
-                                    <a href="logout.php" class="btn btn-outline btn-sm btn-block">Logout
+                                    </NuxtLink>
+                                    <!-- <a href="#" class="btn btn-outline btn-sm btn-block" @click="toast.add({
+                                        title: '¿Esta seguro de cerrar sesión?',
+                                        actions,
+                                        class: 'bg-orange-500 text-white',
+                                        icon: 'i-heroicons-question-mark-circle',
+                                        timeout: null
+                                    })">
+                                        Cerrar sesión
+                                    </a> -->
+                                    <a href="#" class="btn btn-outline btn-sm btn-block" @click="showLogout = true">
+                                        Cerrar sesión
                                     </a>
                                 </div>
                             </div>
@@ -45,49 +58,46 @@
                                     <div menuItemName="No Contacts" class="list-group-item"
                                         id="Secondary_Sidebar-Client_Contacts-No_Contacts">No Contacts Found
                                     </div>
-                                    <a menuItemName="more" href="clientarea.php?action=contacts"
-                                        class="list-group-item contact-more"
+                                    <NuxtLink menuItemName="more" to="/admin" class="list-group-item contact-more"
                                         id="Secondary_Sidebar-Client_Contacts-more">
                                         <i class="fas fa-ticket ls ls-more"></i>
                                         More
 
-                                    </a>
+                                    </NuxtLink>
                                 </div>
                                 <div class="panel-footer clearfix">
-                                    <a href="clientarea.php?action=addcontact" class="btn btn-default btn-sm btn-block">
+                                    <NuxtLink to="/admin" class="btn btn-default btn-sm btn-block">
                                         <i class="fas fa-plus"></i>
                                         New Contact...
 
-                                    </a>
+                                    </NuxtLink>
                                 </div>
                             </div>
                             <div menuItemName="Client Shortcuts" class="panel panel-sidebar ">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
                                         <i class="fas fa-bookmark"></i>
-                                        &nbsp;Shortcuts
+                                        &nbsp;Accesos rápidos
                                         <i class="fa fa-chevron-up panel-minimise pull-right"></i>
                                     </h5>
                                 </div>
                                 <div class="list-group">
-                                    <a menuItemName="Order New Services" href="cart.php" class="list-group-item"
+                                    <NuxtLink menuItemName="Order New Services" to="/admin" class="list-group-item"
                                         id="Secondary_Sidebar-Client_Shortcuts-Order_New_Services">
                                         <i class="fas fa-ticket ls ls-basket"></i>
-                                        Order New Services
+                                        Nueva orden
+                                    </NuxtLink>
 
-                                    </a>
-                                    <a menuItemName="Register New Domain" href="domainchecker.php"
-                                        class="list-group-item"
+                                    <NuxtLink menuItemName="Register New Domain" to="/admin" class="list-group-item"
                                         id="Secondary_Sidebar-Client_Shortcuts-Register_New_Domain">
                                         <i class="fas fa-ticket ls ls-dns"></i>
-                                        Register a New Domain
+                                        Estado de pagos
+                                    </NuxtLink>
 
-                                    </a>
-                                    <a menuItemName="Logout" href="logout.php" class="list-group-item"
-                                        id="Secondary_Sidebar-Client_Shortcuts-Logout">
+                                    <a menuItemName="Logout" href="#" class="list-group-item"
+                                        id="Secondary_Sidebar-Client_Shortcuts-Logout" @click="showLogout = true">
                                         <i class="fas fa-ticket ls ls-reply"></i>
-                                        Logout
-
+                                        Cerrar sesión
                                     </a>
                                 </div>
                             </div>
@@ -95,49 +105,10 @@
                     </div>
                 </div>
                 <div class="main-content  ">
-                    <div class="client-home-alerts alert-group">
-                        <div class="alert alert-lagom alert-warning alert-faded client-home-alert elooo"
-                            data-alert-id="ClientAreaHomePagePanels-Overdue_Invoices"
-                            href="clientarea.php?action=invoices">
-                            <span class="alert-icon ls ls-exclamation-circle"></span>
-                            <div class="alert-body">
-                                <p>You have 4 overdue invoice(s) with a total balance due of $170.95 . Pay them now
-                                    to avoid any interruptions in service.</p>
-                            </div>
-                            <div class="alert-actions">
-                                <a class="btn btn-sm btn-icon" href="clientarea.php?action=invoices"
-                                    data-toggle="tooltip" data-placement="top" data-title="Pay Now"
-                                    data-boundary="window">
-                                    <i class="ls ls-wallet"></i>
-                                </a>
-                                <button class="btn btn-sm btn-icon btn-close-alert" type="button" data-dismiss="alert"
-                                    data-toggle="tooltip" data-title="Close" aria-label="Close" data-boundary="window">
-                                    <i class="ls ls-close"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="alert alert-lagom alert-warning alert-faded client-home-alert elooo"
-                            data-alert-id="ClientAreaHomePagePanels-Domains_Expiring_Soon"
-                            href="index.php?rp=/cart/domain/renew">
-                            <span class="alert-icon ls ls-exclamation-circle"></span>
-                            <div class="alert-body">
-                                <p>You have 1 domain(s) expiring within the next 45 days. Renew them today for peace
-                                    of mind.</p>
-                            </div>
-                            <div class="alert-actions">
-                                <a class="btn btn-sm btn-icon" href="index.php?rp=/cart/domain/renew"
-                                    data-toggle="tooltip" data-title="Renew Domain" data-boundary="window"
-                                    data-original-title="" title="">
-                                    <i class="ls ls-refresh"></i>
-                                </a>
-                                <button class="btn btn-sm btn-icon btn-close-alert" type="button" data-dismiss="alert"
-                                    data-toggle="tooltip" data-title="Close" aria-label="Close" data-boundary="window">
-                                    <i class="ls ls-close"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="promo-slider promo-slider-default" data-promo-slider>
+                    <UAlert icon="i-heroicons-information-circle" color="orange" variant="outline" title="NOTA"
+                        description="Recuerda cerrar la sesión al finalizar" class="text-lg" />
+                    <br>
+                    <!-- <div class="promo-slider promo-slider-default" data-promo-slider>
                         <div class="promo-slider-header">
                             <ul class="promo-slider-nav" data-promo-slider-pagination>
                                 <li data-promo-slider-pagination-item>
@@ -199,7 +170,7 @@
                                 </div>
                             </div>
                             <div class="promo-slider-slides" data-promo-slider-wrapper>
-                                <a href="store/weebly-website-builder" class="promo-slider-slide">
+                                <NuxtLink to="/admin" class="promo-slider-slide">
                                     <div class="promo-slider-body">
                                         <div class="promo-slider-content" data-animation-content>
                                             <h2 class="promo-slider-title">Building a Website Has Never Been Easier
@@ -364,8 +335,8 @@
                                                 d="M270.407 162.281C270.451 162.497 270.426 162.722 270.337 162.923C270.247 163.124 270.097 163.292 269.907 163.403C269.718 163.513 269.499 163.561 269.281 163.539C269.064 163.517 268.858 163.427 268.694 163.28C268.194 162.953 267.777 162.51 267.479 161.989C267.181 161.467 267.01 160.882 266.98 160.281C266.937 160.065 266.963 159.841 267.053 159.641C267.143 159.44 267.293 159.273 267.482 159.163C267.671 159.052 267.89 159.005 268.107 159.026C268.324 159.047 268.53 159.137 268.694 159.281C269.193 159.61 269.609 160.053 269.906 160.574C270.204 161.095 270.376 161.68 270.407 162.281V162.281ZM277.274 166.28C277.317 166.496 277.292 166.721 277.202 166.922C277.112 167.123 276.962 167.29 276.773 167.401C276.583 167.511 276.364 167.559 276.147 167.537C275.929 167.515 275.724 167.425 275.56 167.28C275.06 166.951 274.644 166.509 274.346 165.987C274.048 165.466 273.877 164.881 273.846 164.28C273.803 164.064 273.829 163.84 273.919 163.639C274.009 163.438 274.159 163.271 274.348 163.161C274.537 163.051 274.755 163.003 274.973 163.024C275.19 163.046 275.395 163.135 275.56 163.28C276.059 163.609 276.475 164.052 276.773 164.573C277.071 165.094 277.243 165.679 277.274 166.28V166.28ZM284.14 170.279C284.182 170.495 284.157 170.719 284.067 170.92C283.977 171.121 283.827 171.288 283.638 171.398C283.449 171.509 283.231 171.556 283.013 171.535C282.796 171.513 282.591 171.424 282.426 171.279C281.926 170.951 281.51 170.508 281.212 169.987C280.914 169.466 280.742 168.88 280.712 168.279C280.669 168.063 280.694 167.839 280.784 167.637C280.874 167.436 281.024 167.269 281.213 167.158C281.403 167.048 281.621 167 281.839 167.022C282.057 167.044 282.262 167.134 282.426 167.28C282.925 167.61 283.339 168.053 283.637 168.574C283.934 169.095 284.106 169.679 284.14 170.279V170.279Z" />
                                         </svg>
                                     </div>
-                                </a>
-                                <a href="store/professional-email" class="promo-slider-slide">
+                                </NuxtLink>
+                                <NuxtLink to="/admin" class="promo-slider-slide">
                                     <div class="promo-slider-body">
                                         <div class="promo-slider-content" data-animation-content>
                                             <h2 class="promo-slider-title">OX App Suite -
@@ -707,8 +678,8 @@
                                             </defs>
                                         </svg>
                                     </div>
-                                </a>
-                                <a href="store/sitelock" class="promo-slider-slide">
+                                </NuxtLink>
+                                <NuxtLink to="/admin" class="promo-slider-slide">
                                     <div class="promo-slider-body">
                                         <div class="promo-slider-content" data-animation-content>
                                             <h2 class="promo-slider-title">SiteLock Website Security -
@@ -934,8 +905,8 @@
                                                 d="M318.225 201.938C313.42 199.134 309.516 201.437 309.516 206.944C309.516 212.451 313.42 219.16 318.225 221.963C323.031 224.767 326.935 222.464 326.935 216.957C326.935 211.45 323.031 204.741 318.225 201.938ZM318.225 219.961C314.121 217.257 311.518 212.852 311.318 207.945C311.318 203.54 314.421 201.737 318.225 203.94C322.33 206.644 324.933 211.049 325.133 215.956C325.233 220.361 322.13 222.164 318.225 219.961Z" />
                                         </svg>
                                     </div>
-                                </a>
-                                <a href="store/codeguard" class="promo-slider-slide">
+                                </NuxtLink>
+                                <NuxtLink to="/admin" class="promo-slider-slide">
                                     <div class="promo-slider-body">
                                         <div class="promo-slider-content" data-animation-content>
                                             <h2 class="promo-slider-title">CodeGuard Website Backup -
@@ -1060,8 +1031,8 @@
                                             </defs>
                                         </svg>
                                     </div>
-                                </a>
-                                <a href="store/marketgoo" class="promo-slider-slide">
+                                </NuxtLink>
+                                <NuxtLink to="/admin" class="promo-slider-slide">
                                     <div class="promo-slider-body">
                                         <div class="promo-slider-content" data-animation-content>
                                             <h2 class="promo-slider-title">SEO Tools from Marketgoo -
@@ -1284,54 +1255,55 @@
                                             </defs>
                                         </svg>
                                     </div>
-                                </a>
+                                </NuxtLink>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="tiles swiper-container">
                         <div class="row swiper-wrapper">
                             <div class="col-md-3 swiper-slide"
                                 onclick="window.location='clientarea.php?action=services'">
-                                <a class="tile" href="clientarea.php?action=services">
+                                <NuxtLink class="tile" to="/admin">
                                     <div class="tile-icon-absolute">
                                         <i class="ls ls-hosting"></i>
                                     </div>
                                     <div class="tile-stat">3</div>
-                                    <div class="tile-title">Services</div>
-                                </a>
+                                    <div class="tile-title">Total</div>
+                                </NuxtLink>
                             </div>
                             <div class="col-md-3 swiper-slide"
                                 onclick="window.location='clientarea.php?action=domains'">
-                                <a class="tile" href="clientarea.php?action=domains">
+                                <NuxtLink class="tile" to="/admin">
                                     <div class="tile-icon-absolute">
                                         <i class="ls ls-dns"></i>
                                     </div>
                                     <div class="tile-stat">2</div>
-                                    <div class="tile-title">Domains</div>
-                                </a>
+                                    <div class="tile-title">Pagados</div>
+                                </NuxtLink>
                             </div>
                             <div class="col-md-3 swiper-slide"
                                 onclick="window.location='clientarea.php?action=invoices'">
-                                <a class="tile" href="clientarea.php?action=invoices">
+                                <NuxtLink class="tile" to="/admin">
                                     <div class="tile-icon-absolute">
                                         <i class="icon-alert ls ls-exclamation-circle text-danger"></i>
                                     </div>
                                     <div class="tile-stat text-danger">3</div>
-                                    <div class="tile-title">Unpaid Invoices</div>
-                                </a>
+                                    <div class="tile-title">Pendiente</div>
+                                </NuxtLink>
                             </div>
                             <div class="col-md-3 swiper-slide" onclick="window.location='supporttickets.php'">
-                                <a class="tile" href="supporttickets.php">
+                                <NuxtLink class="tile" to="/admin">
                                     <div class="tile-icon-absolute">
                                         <i class="ls ls-ticket-tag"></i>
                                     </div>
                                     <div class="tile-stat">1</div>
                                     <div class="tile-title">Tickets</div>
-                                </a>
+                                </NuxtLink>
                             </div>
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
+                    <br>
                     <div class="client-home-panels row" data-panels-grid>
                         <div class="col-md-6 column-sizer"></div>
                         <div class=" col-md-12" data-panels-grid-item>
@@ -1347,8 +1319,7 @@
                                 <div class="list-group has-scroll ">
                                     <div menuItemName="0" class="list-group-item "
                                         id="ClientAreaHomePagePanels-Active_Products_Services-0">
-                                        <div class="list-group-item-content"
-                                            data-href="clientarea.php?action=productdetails&id=3">
+                                        <div class="list-group-item-content" data-to="/admin">
                                             <div class="list-group-item-name">
                                                 <span>
                                                     <b>VPS Hosting</b>
@@ -1368,8 +1339,7 @@
                                     </div>
                                     <div menuItemName="1" class="list-group-item "
                                         id="ClientAreaHomePagePanels-Active_Products_Services-1">
-                                        <div class="list-group-item-content"
-                                            data-href="clientarea.php?action=productdetails&id=2">
+                                        <div class="list-group-item-content" data-to="/admin">
                                             <div class="list-group-item-name">
                                                 <span>
                                                     <b>Reseller Hosting</b>
@@ -1389,8 +1359,7 @@
                                     </div>
                                     <div menuItemName="2" class="list-group-item "
                                         id="ClientAreaHomePagePanels-Active_Products_Services-2">
-                                        <div class="list-group-item-content"
-                                            data-href="clientarea.php?action=productdetails&id=1">
+                                        <div class="list-group-item-content" data-to="/admin">
                                             <div class="list-group-item-name">
                                                 <span>
                                                     <b>Web Hosting</b>
@@ -1410,8 +1379,7 @@
                                                         <span>Manage</span>
                                                         <i class="ls ls-caret"></i>
                                                     </button>
-                                                    <ul class="dropdown-menu" data-service-id="1"
-                                                        data-href="clientarea.php?action=productdetails&id=1">
+                                                    <ul class="dropdown-menu" data-service-id="1" data-to="/admin">
                                                         <li class="dropdown-item btn-custom-action" data-serviceid="1"
                                                             data-identifier="cpanel" data-active="1">
                                                             Log in to cPanel
@@ -1460,8 +1428,8 @@
                                     </h5>
                                 </div>
                                 <div class="list-group has-scroll ">
-                                    <a menuItemName="0" href="viewticket.php?tid=SUZ-129485&c=Mqxd7B2O"
-                                        class="list-group-item" id="ClientAreaHomePagePanels-Recent_Support_Tickets-0">
+                                    <NuxtLink menuItemName="0" to="/admin" class="list-group-item"
+                                        id="ClientAreaHomePagePanels-Recent_Support_Tickets-0">
                                         <span class="status-modern">
                                             <b>#SUZ-129485</b>
                                             - Praesent sed metus eu orci porta imperdiet et ut sapien. <label
@@ -1469,7 +1437,7 @@
                                             <br />
                                             <small>Last Updated: 26/04/2022 (13:37)</small>
                                         </span>
-                                    </a>
+                                    </NuxtLink>
                                 </div>
                             </div>
                         </div>
@@ -1510,29 +1478,27 @@
                                     </h5>
                                 </div>
                                 <div class="list-group has-scroll ">
-                                    <a menuItemName="0" href="announcements/12/Presentation-Article-Content.html"
-                                        class="list-group-item" id="ClientAreaHomePagePanels-Recent_News-0">
+                                    <NuxtLink menuItemName="0" to="/admin" class="list-group-item"
+                                        id="ClientAreaHomePagePanels-Recent_News-0">
                                         <span class="status-modern">
                                             Presentation Article Content<br />
                                             <span class="text-last-updated">13/12/2021</span>
                                         </span>
-                                    </a>
-                                    <a menuItemName="1"
-                                        href="announcements/11/Launches-Remarkable-New-Range-of-Premium-Dedicated-Servers.html"
-                                        class="list-group-item" id="ClientAreaHomePagePanels-Recent_News-1">
+                                    </NuxtLink>
+                                    <NuxtLink menuItemName="1" to="/admin" class="list-group-item"
+                                        id="ClientAreaHomePagePanels-Recent_News-1">
                                         <span class="status-modern">
                                             Launches Remarkable New Range of Premium Dedicated Servers<br />
                                             <span class="text-last-updated">04/09/2018</span>
                                         </span>
-                                    </a>
-                                    <a menuItemName="2"
-                                        href="announcements/7/Internet-Launches-Dynamic-Cloud-Server.html"
-                                        class="list-group-item" id="ClientAreaHomePagePanels-Recent_News-2">
+                                    </NuxtLink>
+                                    <NuxtLink menuItemName="2" to="/admin" class="list-group-item"
+                                        id="ClientAreaHomePagePanels-Recent_News-2">
                                         <span class="status-modern">
                                             Internet Launches Dynamic Cloud Server<br />
                                             <span class="text-last-updated">19/06/2018</span>
                                         </span>
-                                    </a>
+                                    </NuxtLink>
                                 </div>
                             </div>
                         </div>
@@ -1540,6 +1506,18 @@
                 </div>
             </div>
         </div>
+        <UModal v-model="showLogout">
+            <UCard>
+                <div class="space-y-2 text-center">
+                    <h2 class="text-xl font-weight-bolder">¿ Seguro que quiere cerrar la sesión ?</h2>
+                    <UIcon name="i-heroicons-question-mark-circle" class="w-24 h-24 text-yellow-500" />
+                    <div class="p-1">
+                        <button class="btn btn-info mr-3" @click="logout">Si, cerrar sesión</button>
+                        <button class="btn btn-danger" @click="showLogout = false">Cancelar</button>
+                    </div>
+                </div>
+            </UCard>
+        </UModal>
     </div>
 </template>
 
@@ -1551,5 +1529,55 @@ definePageMeta({
 
 useHead({
     title: 'Panel principal | Admin'
+})
+
+import Cookies from 'js-cookie'
+import { useUserStore } from '~/stores/user'
+import { onMounted } from 'vue'
+
+const user = useUserStore()
+const toast = useToast()
+const showLogout = ref(false)
+
+const Role = ref({
+    'admin': 'ADMINISTRADOR',
+    'user': 'USUARIO',
+    'guest': 'POSTULANTE'
+})
+
+const logout = () => {
+    setTimeout(() => {
+        Cookies.remove('token')
+        sessionStorage.setItem('loading', true)
+        sessionStorage.setItem('successMessage', 'Sesión cerrada correctamente')
+
+        return navigateTo('/login')
+    }, 250)
+}
+
+const actions = ref([{
+    label: 'Cerrar sesión',
+    class: 'bg-orange-500 text-black',
+    click: () => {
+        Cookies.remove('token')
+        sessionStorage.setItem('loading', true)
+        sessionStorage.setItem('successMessage', 'Sesión cerrada correctamente')
+
+        return navigateTo('/login')
+    }
+}])
+
+onMounted(() => {
+    const logged = sessionStorage.getItem('logged')
+
+    if (logged) {
+        toast.add({
+            title: 'Inicio de sesión exitoso',
+            description: 'Bienvenido/a',
+            class: 'bg-orange-500 text-white',
+            icon: 'i-heroicons-check-circle',
+        })
+        sessionStorage.removeItem('logged')
+    }
 })
 </script>

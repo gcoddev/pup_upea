@@ -21,7 +21,7 @@
                 </NuxtLink>
                 <ul class="top-nav">
                     <li menuItemName="View Cart" class="  nav-item-cart" id="Secondary_Navbar-View_Cart">
-                        <a href="cart17cb.html?a=view">
+                        <a href="#">
                             <i class="fas fa-cart-register lm lm-basket"></i>
                             <span class="item-text">
                                 Ver carrito
@@ -79,7 +79,7 @@
 
                             <li menuItemName="Reseller Hosting" class=" "
                                 id="Primary_Navbar-footer_extended.products-Reseller_Hosting">
-                                <a href="store/reseller-hosting.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-hosting"></i>
                                     Reseller Hosting
                                 </a>
@@ -87,7 +87,7 @@
 
                             <li menuItemName="VPS Hosting" class=" "
                                 id="Primary_Navbar-footer_extended.products-VPS_Hosting">
-                                <a href="store/vps-hosting.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-hosting"></i>
                                     VPS Hosting
                                 </a>
@@ -95,7 +95,7 @@
 
                             <li menuItemName="Dedicated Servers" class=" "
                                 id="Primary_Navbar-footer_extended.products-Dedicated_Servers">
-                                <a href="store/dedicated-servers.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-hosting"></i>
                                     Dedicated Servers
                                 </a>
@@ -128,7 +128,7 @@
                         <ul class="dropdown-menu dropdown-lazy has-scroll  ">
                             <li menuItemName="Register a New Domain" class=" "
                                 id="Primary_Navbar-Domains-Register_a_New_Domain">
-                                <a href="cart2029.html?a=add&amp;domain=register">
+                                <a href="#">
                                     <i class="fas fa-test lm lm-globe"></i>
                                     <span class="menu-item-content">Register a New Domain</span>
                                 </a>
@@ -136,7 +136,7 @@
 
                             <li menuItemName="Transfer Domains to Us" class=" "
                                 id="Primary_Navbar-Domains-Transfer_Domains_to_Us">
-                                <a href="cart7c76.html?a=add&amp;domain=transfer">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-transfer"></i>
                                     <span class="menu-item-content">Transfer Domains to Us</span>
                                 </a>
@@ -147,7 +147,7 @@
                             </li>
 
                             <li menuItemName="Domain Pricing" class=" " id="Primary_Navbar-Domains-Domain_Pricing">
-                                <a href="domain/pricing.html">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-document-info"></i>
                                     <span class="menu-item-content">Domain Pricing</span>
                                 </a>
@@ -177,56 +177,56 @@
                         </a>
                         <ul class="dropdown-menu dropdown-lazy has-scroll  ">
                             <li menuItemName="symantec" class=" " id="Primary_Navbar-Website_&_Security-symantec">
-                                <a href="store/ssl-certificates.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-padlock"></i>
                                     SSL Certificates
                                 </a>
                             </li>
 
                             <li menuItemName="weebly" class=" " id="Primary_Navbar-Website_&_Security-weebly">
-                                <a href="store/weebly-website-builder.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-dashboard"></i>
                                     Website Builder
                                 </a>
                             </li>
 
                             <li menuItemName="sitelock" class=" " id="Primary_Navbar-Website_&_Security-sitelock">
-                                <a href="store/sitelock.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-shield"></i>
                                     Website Security
                                 </a>
                             </li>
 
                             <li menuItemName="spamexperts" class=" " id="Primary_Navbar-Website_&_Security-spamexperts">
-                                <a href="store/email-spam-filtering.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-envelope"></i>
                                     E-mail Services
                                 </a>
                             </li>
 
                             <li menuItemName="codeguard" class=" " id="Primary_Navbar-Website_&_Security-codeguard">
-                                <a href="store/codeguard.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-refresh"></i>
                                     Website Backup
                                 </a>
                             </li>
 
                             <li menuItemName="marketgoo" class=" " id="Primary_Navbar-Website_&_Security-marketgoo">
-                                <a href="store/marketgoo.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-search"></i>
                                     SEO Tools
                                 </a>
                             </li>
 
                             <li menuItemName="ox" class=" " id="Primary_Navbar-Website_&_Security-ox">
-                                <a href="store/professional-email.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-envelope"></i>
                                     Professional Email
                                 </a>
                             </li>
 
                             <li menuItemName="siteBuilder" class=" " id="Primary_Navbar-Website_&_Security-siteBuilder">
-                                <a href="store/site-builder.html">
+                                <a href="#">
                                     <i class="fas fa-ticket ls ls-sitebuilder"></i>
                                     Site Builder
                                 </a>
@@ -261,7 +261,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-lazy has-scroll  ">
                             <li menuItemName="Contact Us" class=" " id="Primary_Navbar-Support-Contact_Us">
-                                <a href="contact.html">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-chat-clouds"></i>
                                     <span class="menu-item-content">Contact Us</span>
                                 </a>
@@ -272,21 +272,21 @@
                             </li>
 
                             <li menuItemName="Network Status" class=" " id="Primary_Navbar-Support-Network_Status">
-                                <a href="login.html">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-spark"></i>
                                     <span class="menu-item-content">Network Status</span>
                                 </a>
                             </li>
 
                             <li menuItemName="Knowledgebase" class=" " id="Primary_Navbar-Support-Knowledgebase">
-                                <a href="knowledgebase.html">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-document-info"></i>
                                     <span class="menu-item-content">Knowledgebase</span>
                                 </a>
                             </li>
 
                             <li menuItemName="News" class=" " id="Primary_Navbar-Support-News">
-                                <a href="announcements.html">
+                                <a href="#">
                                     <i class="fas fa-test ls ls-document"></i>
                                     <span class="menu-item-content">News</span>
                                 </a>
@@ -296,16 +296,16 @@
                     </li>
                     <li class=" nav-item-btn is-right" id="Primary_Navbar-Register" v-if="!token">
                         <NuxtLink class="btn btn-outline btn-default" to="/register">
-                            <span>Register</span>
+                            <span>Registrarse</span>
                         </NuxtLink>
                     </li>
                     <li class=" nav-item-btn is-right" id="Primary_Navbar-Login" v-if="!token">
                         <NuxtLink class="btn btn-primary" to="/login">
-                            <span>Login</span>
+                            <span>Ingresar</span>
                         </NuxtLink>
                     </li>
                     <li class=" nav-item-btn is-right" id="Primary_Navbar-Dashboard" v-if="token">
-                        <a class="btn btn-primary" href="javascript:void(0)" @click="goAdmin" id="go-admin">
+                        <a class="btn btn-primary" href="#" @click="goAdmin" id="go-admin">
                             <span>Panel</span>
                         </a>
                     </li>

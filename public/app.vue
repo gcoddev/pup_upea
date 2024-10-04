@@ -1,6 +1,8 @@
 <template>
   <NuxtLayout :key="currentLayout">
+    <UNotifications />
     <NuxtPage />
+
   </NuxtLayout>
 </template>
 

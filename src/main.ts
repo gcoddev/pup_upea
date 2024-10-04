@@ -20,6 +20,12 @@ async function bootstrap() {
 
   app.useGlobalFilters()
 
+	app.enableCors({
+		origin: '*',
+		methods: ['GET', 'POST', 'PUT', 'DELETE'],
+		credentials: true
+	});
+
   // Validar los DTOs
   app.useGlobalPipes(
     new ValidationPipe({

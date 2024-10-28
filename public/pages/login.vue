@@ -13,13 +13,15 @@
                                     v-model="emailOrUsername">
                             </div>
                             <div class="form-group">
-                                <div class="d-flex space-between">
+                                <div>
                                     <label for="inputPassword">Contraseña</label>
                                 </div>
                                 <input type="password" name="password" class="form-control input-lg" id="inputPassword"
                                     placeholder="Ingrese su contraseña" autocomplete="off" v-model="password">
-                                <div class="d-flex space-between">
-                                    <NuxtLink to="/reset">¿Olvidaste la contraseña?</NuxtLink>
+                                <div class="d-flex justify-content-end">
+                                    <div>
+                                        <NuxtLink to="/reset">¿Lo olvidaste?</NuxtLink>
+                                    </div>
                                 </div>
                             </div>
                             <!-- <div class="form-group">
@@ -28,20 +30,43 @@
                                     Recordarme
                                 </label>
                             </div> -->
-                            <button class="btn btn-lg btn-primary btn-block mt-4" id="" type="submit">
+                            <button class="btn btn-lg btn-primary btn-block mt-3 mb-3" id="" type="submit">
                                 Iniciar sesión
                             </button>
-                            <div class="alert alert-sm alert-danger m-b-0 m-t-3x" v-if="errorMessage">
-                                <div class="alert-body">
-                                    <p class="m-b-0">{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                            <div class="alert alert-sm alert-success m-b-0 m-t-3x" v-if="successMessage">
-                                <div class="alert-body">
-                                    <p class="m-b-0">{{ successMessage }}</p>
-                                </div>
-                            </div>
+                            <Message :message="messageAlert" :status="statusAlert" @close="clearMessage" />
                         </form>
+                        <div class="login-divider">
+                            <span></span>
+                            <span>o</span>
+                            <span></span>
+                        </div>
+                        <div class="section section-sm" id="containerNewUserSignup">
+                            <div class="section section-sm">
+                                <div class="section-body" id="connectWith">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group text-center">
+                                                <label for="connect">
+                                                    Acceder con
+                                                </label>
+                                                <br>
+                                                <div>
+                                                    <a href="#" class="ml-1 connect-icon">
+                                                        <img src="~/public/icons/google-icon.png" alt="">
+                                                    </a>
+                                                    <a href="#" class="ml-3 connect-icon">
+                                                        <img src="~/public/icons/facebook-icon.png" alt="">
+                                                    </a>
+                                                    <a href="#" class="ml-3 connect-icon">
+                                                        <img src="~/public/icons/github-icon.png" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="login-footer">
                         <div class="text-light">¿Aun no tienes cuenta?
@@ -58,20 +83,33 @@
 definePageMeta({
     layout: 'home',
     middleware: 'guest',
-    bodyClass: 'page-login-primary'
+    // bodyClass: 'page-login-primary'
+})
+
+useHead({
+    title: 'Ingresar | Admin'
 })
 
 import { ref, onMounted } from 'vue'
 import Cookies from 'js-cookie'
+import Message from '~/components/Message.vue';
+
+const messageAlert = ref('');
+const statusAlert = ref('');
+const clearMessage = () => {
+    messageAlert.value = '';
+    statusAlert.value = '';
+};
+/*
+<Message :message="messageAlert" :status="statusAlert" @close="clearMessage" />
+*/
 
 const emailOrUsername = ref('')
 const password = ref('')
-const errorMessage = ref('')
-const successMessage = ref('')
 
 const postLogin = async () => {
     try {
-        const { data, error } = await useApiFetch('/auth/login', {
+        const data = await useApiFetch('/auth/login', {
             method: 'POST',
             body: {
                 emailOrUsername: emailOrUsername.value,
@@ -79,29 +117,35 @@ const postLogin = async () => {
             }
         })
 
-        if (error.value) {
-            errorMessage.value = error.value.data.message
-            successMessage.value = ''
+        // if (error.value) {
+        //     errorMessage.value = error.value.data.message
+        //     successMessage.value = ''
+        // } else {
+        messageAlert.value = data.message
+        statusAlert.value = 'success'
+
+        Cookies.set('token', data.token, { expires: 2 / 24 })
+        sessionStorage.setItem('logged', true)
+
+        // return navigateTo('/admin')
+        location.reload()
+        // }
+    } catch (e) {
+        if (!e.data.success) {
+            messageAlert.value = e.data.message
+            statusAlert.value = 'danger'
         } else {
-            successMessage.value = data.value.message
-            errorMessage.value = ''
-
-            Cookies.set('token', data.value.token, { expires: 2 / 24 })
-            sessionStorage.setItem('logged', true)
-
-            return navigateTo('/admin')
+            console.log(e.data)
         }
-    } catch (err) {
-        errorMessage.value = 'Ha ocurrido un error'
-        console.error(err)
     }
 }
 
 onMounted(() => {
-    const message = sessionStorage.getItem('successMessage')
+    const successMessage = sessionStorage.getItem('successMessage')
 
-    if (message) {
-        successMessage.value = message
+    if (successMessage) {
+        messageAlert.value = successMessage
+        statusAlert.value = 'success'
         sessionStorage.removeItem('successMessage')
     }
 })

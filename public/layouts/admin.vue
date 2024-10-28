@@ -1,5 +1,5 @@
 <template>
-    <div class="lagom lagom-layout-top lagom-modern page-homepage">
+    <div class="lagom lagom-layout-top" id="layout-main">
         <div id="bg-load" v-if="loading">
             <div class="loader">
             </div>
@@ -12,9 +12,9 @@
                 <div class="rect5"></div>
             </div>
         </div>
-        <AdminHeader @titleFromHeader="handleTitle" />
+        <!-- <AdminHeader @titleFromHeader="handleTitle" /> -->
+        <AdminHeader />
         <div class="app-main">
-            <AdminTitle :receivedTitle="titleFromHeader" />
             <slot />
             <AdminFooter />
         </div>
@@ -24,33 +24,34 @@
 <script setup>
 import AdminHeader from '~/components/admin/AdminHeader.vue'
 import AdminFooter from '~/components/admin/AdminFooter.vue'
-import AdminTitle from '~/components/admin/AdminTitle.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, provide } from 'vue'
 import { useUserStore } from '~/stores/user'
 
 const loading = ref(true)
 const titleFromHeader = ref('')
+const errorMessage = ref('')
 
 const handleTitle = (title) => {
     titleFromHeader.value = title
 }
+provide('setTitle', handleTitle)
 
 const userStore = useUserStore()
 const getProfile = async () => {
     try {
-        const { data, error } = await useApiFetch('/auth/profile', { method: 'GET' })
-        userStore.login(data.value)
+        const data = await useApiFetch('/auth/profile')
+        userStore.login(data)
     } catch (err) {
         errorMessage.value = 'Ha ocurrido un error'
-        console.error(err)
+        console.log(err)
     }
 }
 
 
 onMounted(() => {
     setTimeout(() => {
-        loading.value = false
         getProfile()
+        loading.value = false
     }, 500)
 })
 </script>

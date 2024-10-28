@@ -1,5 +1,5 @@
 <template>
-    <div class="lagom lagom-layout-top lagom-modern page-homepage" :class="layoutClass">
+    <div class="lagom lagom-layout-top page-homepage" :class="layoutClass" id="layout-home">
         <div id="bg-load" v-if="loading">
             <div class="loader">
             </div>

@@ -1,7 +1,8 @@
-import { IsEnum, IsNumber, IsOptional, IsString, MinLength } from "class-validator"
+import { IsEmail, IsEnum, IsNumber, IsOptional, IsString, MinLength } from "class-validator"
+import { IsDateFormat } from "src/common/decorators/is-date-format.decorator"
 import { Estado } from "src/common/enums/estado.enum"
 import { Expedido } from "src/common/enums/expedido.enum"
-import { Role } from "src/common/enums/role.enum"
+import { Role } from "src/common/enums/auth/role.enum"
 
 export class CreateUserDto {
     @IsString()
@@ -11,18 +12,25 @@ export class CreateUserDto {
     expedido: Expedido
 
     @IsString()
+    @MinLength(3)
     nombres: string
 
     @IsString()
+    @MinLength(3)
     paterno: string
 
     @IsString()
+    @MinLength(3)
     materno: string
 
-    @IsString()
+    @IsDateFormat()
+    fecha_nac: Date
+
+    @IsEmail()
     email: string
 
     @IsString()
+    @MinLength(4)
     username: string
 
     @IsString()
@@ -34,16 +42,15 @@ export class CreateUserDto {
     google_id?: string
 
     @IsEnum(Role)
-    @IsOptional()
+    // @IsOptional()
     role: Role
 
-    @IsNumber()
-    @IsOptional()
-    idPersona?: number
+    // @IsNumber()
+    // @IsOptional()
+    // idPersona?: number
 
     @IsNumber()
-    @IsOptional()
-    id_persona?: number
+    id_persona: number
 
     @IsNumber()
     @IsOptional()

@@ -7,14 +7,17 @@ import { LoginDto } from './users/dto/login.dto';
 import { UsersService } from './users/users.service';
 import { Estado } from 'src/common/enums/estado.enum';
 import { encrypt } from 'src/common/helpers/encryption.helper'
-import { UserRole } from 'src/common/enums/user-role.enum';
-import { Role } from 'src/common/enums/role.enum';
+import { UserRole } from 'src/common/enums/auth/user-role.enum';
+import { Role } from 'src/common/enums/auth/role.enum';
+import { VistaPersonaService } from 'src/v1/base_upea/vista_persona/vista_persona.service';
+import { AuthPersonaDto } from 'src/v1/base_upea/vista_persona/dto/auth-persona.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly vistaPersonaService: VistaPersonaService
   ) { }
 
   async login(loginDto: LoginDto) {
@@ -70,6 +73,7 @@ export class AuthService {
       name: user.nombres,
       email: user.email,
       username: user.username,
+      id_carrera: user.id_carrera ? user.id_carrera : 0,
       role: user.role,
       roles
     }
@@ -87,6 +91,12 @@ export class AuthService {
       data,
       token
     }
+  }
+
+  async findOneByNameCi(auth: AuthPersonaDto) {
+    const user = await this.vistaPersonaService.findOneByCi(auth)
+
+    return user
   }
 
   create(createAuthDto: CreateAuthDto) {

@@ -172,7 +172,8 @@
 
 .app-main > .main-body > .container .custom-alerts .alert + .alert:not(:first-child),
 .app-main > .main-body > .container-fluid .custom-alerts .alert + .alert:not(:first-child) {
-  margin-top: var(--spacing-2x); }
+  /* margin-top: var(--spacing-2x); */
+}
 
 .login-body > .custom-alerts .clientAlert > .container {
   display: flex;

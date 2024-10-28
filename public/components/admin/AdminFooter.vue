@@ -1,6 +1,6 @@
 <template>
-    <div class="main-footer main-footer-extended">
-        <div class="footer-top">
+    <div class="main-footer main-footer-extended" id="footer-lagom">
+        <!-- <div class="footer-top">
             <div class="container">
                 <div class="footer-company">
                     <div class="footer-company-intro">
@@ -136,14 +136,21 @@
                 </div>
 
             </div>
-        </div>
+        </div> -->
         <div class="footer-bottom">
             <div class="container text-center">
                 <div class="footer-copyright">
-                    ©Copyright 2024
-                    <a href="#">UTIC</a> <a href="#">UPEA</a> -
-                    Dev by <a href="#" target="_blank">Gary</a>
+                    © <a href="https://utic.upea.bo" style="text-decoration:underline;">UTIC</a>
+                    &nbsp;<a href="https://upea.bo" style="text-decoration:underline;">UPEA</a> 2024 -
+                    Dev by <a href="https://garycdev.com" target="_blank" style="text-decoration:underline;">Gary</a>
                 </div>
+                <ul class="footer-nav footer-nav-h">
+                    <li>
+                        <a href="#">
+                            <UIcon name="i-heroicons-arrow-up-tray" class="w-5 h-5" />
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

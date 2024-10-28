@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Expedido } from "../../../../../common/enums/expedido.enum";
 import { Estado } from "src/common/enums/estado.enum";
-import { Role } from "src/common/enums/role.enum";
+import { Role } from "src/common/enums/auth/role.enum";
 
 
 @Entity()
@@ -22,11 +22,14 @@ export class User {
     @Column()
     nombres: string;
 
-    @Column({ nullable: true })
-    paterno?: string;
+    @Column()
+    paterno: string;
 
-    @Column({ nullable: true })
-    materno?: string;
+    @Column()
+    materno: string;
+
+    @Column({ type: 'date' })
+    fecha_nac: Date;
 
     @Column({ unique: true })
     email: string;
@@ -43,11 +46,11 @@ export class User {
     @Column({ type: 'enum', enum: Role, default: Role.GUEST })
     role: string;
 
-    @Column({ nullable: true, comment: 'Usuarios invitados o postulantes' })
-    idPersona?: number
+    // @Column({ nullable: true, comment: 'Usuarios invitados o postulantes' })
+    // idPersona?: number
 
-    @Column({ nullable: true, comment: 'Usuarios desde  base_upea' })
-    id_persona?: number
+    @Column({ unique: true, comment: 'Usuarios desde  base_upea' })
+    id_persona: number
 
     @Column({ nullable: true })
     id_carrera?: number

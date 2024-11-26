@@ -61,7 +61,10 @@ export class MailService {
 
   async renderMailFromNuxt(mailId: number): Promise<string> {
     const url = `${process.env.URL_FRONT_DEV}/mail?id=${mailId}`;
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      executablePath: '/usr/bin/chromium-browser',
+      headless: true
+    });
     const page = await browser.newPage();
 
     try {

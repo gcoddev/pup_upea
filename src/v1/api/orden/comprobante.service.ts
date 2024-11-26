@@ -5,7 +5,10 @@ import * as puppeteer from 'puppeteer';
 export class ComprobanteService {
     async generatePdf(templateUrl: string): Promise<Buffer> {
         // const browser = await puppeteer.launch({ headless: process.env.NEST_MODE == 'production' ? true : false });
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({
+            headless: true,
+            executablePath: '/usr/bin/chromium-browser'
+        });
         // Usa `launch({ headless: true })` en producción
         const page = await browser.newPage();
 

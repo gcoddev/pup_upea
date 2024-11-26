@@ -286,8 +286,13 @@ export class OrdenService {
         idOrden: 'DESC'
       }
     })
-    console.log(old[1]);
-    const codigoTransaccion = Number(old[1].codigoTransaccion) + 1
+    // console.log(old[1]);
+    let codigoTransaccion: number;
+    if (old[1]) {
+      codigoTransaccion = Number(old[1].codigoTransaccion) + 1
+    } else {
+      codigoTransaccion = 1
+    }
     this.ordenRepository.update(idOrden, {
       codigoTransaccion: codigoTransaccion.toString()
     })

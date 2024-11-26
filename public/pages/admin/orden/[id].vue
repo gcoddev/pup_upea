@@ -86,9 +86,11 @@
                                                     <tr>
                                                         <td colspan="2">
                                                             {{ seguimiento.conceptos[0].concepto.concepto }}
-                                                            ({{
-                                                                seguimiento.preinscripcion.convocatoria.carrera.nombre_completo
-                                                            }})
+                                                            <span v-if="seguimiento.preinscripcion">
+                                                                ({{
+                                                                    seguimiento.preinscripcion.convocatoria.carrera.nombre_completo
+                                                                }})
+                                                            </span>
                                                         </td>
                                                         <td class="">Bs. {{ seguimiento.conceptos[0].costo }}</td>
                                                     </tr>

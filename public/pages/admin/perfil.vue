@@ -160,7 +160,9 @@ watch(
             nombres.value = user.nombres
             paterno.value = user.paterno
             materno.value = user.materno
-            carrera.value = user.carrera.nombre_completo
+            if (user.carrera) {
+                carrera.value = user.carrera.nombre_completo
+            }
             email.value = user.email
         }, 500)
     },

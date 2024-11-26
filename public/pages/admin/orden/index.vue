@@ -332,8 +332,6 @@ const initializeTable = () => {
 
 onMounted(() => {
     setTimeout(() => {
-        console.log('get');
-
         getOrders()
         setTimeout(() => {
             initializeTable()

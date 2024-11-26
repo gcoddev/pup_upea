@@ -1,6 +1,9 @@
-import { IsNumber } from "class-validator";
+import { IsEmail, IsNumber } from "class-validator";
 
 export class GoogleDto {
     @IsNumber()
-    google_id: number
+    googleId: string
+
+    @IsEmail()
+    email: string
 }

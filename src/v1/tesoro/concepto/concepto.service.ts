@@ -21,6 +21,6 @@ export class ConceptoService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} concepto`;
+    return this.conceptoService.findOneBy({ id })
   }
 }

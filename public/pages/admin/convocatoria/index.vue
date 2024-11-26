@@ -75,7 +75,7 @@
                                                         class="w-3 h-3 d-inline-block" />
                                                 </th>
                                                 <th class="sorting">
-                                                    Modalidad
+                                                    Modalidades
                                                     <UIcon name="i-material-symbols-unfold-more"
                                                         class="w-3 h-3 d-inline-block" />
                                                 </th>
@@ -115,7 +115,12 @@
                                                     ${conv.gestion.gestion}` : '' }}
                                                 </td>
                                                 <td class="text-nowrap">
-                                                    {{ conv.modalidad ? conv.modalidad.modalidad : '' }}
+                                                    <ul class="list-disc">
+                                                        <li v-for="(mod, id_mod) of conv.modalidad" :key="id_mod"
+                                                            class="list-item">
+                                                            {{ mod.modalidad }}
+                                                        </li>
+                                                    </ul>
                                                 </td>
                                                 <td class="text-center">
                                                     {{ conv.cupos }}

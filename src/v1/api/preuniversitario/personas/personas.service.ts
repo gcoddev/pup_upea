@@ -4,6 +4,7 @@ import { UpdatePersonaDto } from './dto/update-persona.dto';
 import { Repository } from 'typeorm';
 import { Persona } from './entities/persona.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Expedido } from 'src/common/enums/expedido.enum';
 
 @Injectable()
 export class PersonasService {
@@ -20,12 +21,16 @@ export class PersonasService {
     return this.personasRepository.find();
   }
 
-  findOneByCI(ci: string) {
-    return this.personasRepository.findOneBy({ ci })
+  findOneByCI(ci: string, expedido: Expedido, fecha_nac: Date) {
+    return this.personasRepository.findOneBy({
+      ci,
+      expedido,
+      fecha_nac
+    })
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} persona`;
+    return this.personasRepository.findOneBy({ idPersona: id })
   }
 
   update(id: number, updatePersonaDto: UpdatePersonaDto) {
@@ -36,8 +41,12 @@ export class PersonasService {
     return `This action removes a #${id} persona`;
   }
 
-  findByCi(ci: string) {
-    return this.personasRepository.findOneBy({ ci });
+  findByCiExpNac(ci: string, expedido: Expedido, fecha_nac: Date) {
+    return this.personasRepository.findOneBy({
+      ci,
+      expedido,
+      fecha_nac
+    });
   }
 
   findByEmail(email: string) {

@@ -39,7 +39,7 @@ export class CreateUserDto {
 
     @IsNumber()
     @IsOptional()
-    google_id?: string
+    googleId?: string
 
     @IsEnum(Role)
     // @IsOptional()

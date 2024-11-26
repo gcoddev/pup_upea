@@ -3,7 +3,7 @@ import { VistaPersonaService } from './vista_persona.service';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
 import { Expedido } from 'src/common/enums/expedido.enum';
 
-@Controller('persona')
+@Controller('vista-persona')
 export class VistaPersonaController {
   constructor(private readonly vistaPersonaService: VistaPersonaService) { }
 

@@ -6,11 +6,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src/common/constants/jwt.constants';
 import { PersonasModule } from '../preuniversitario/personas/personas.module';
 import { VistaPersonaModule } from 'src/v1/base_upea/vista_persona/vista_persona.module';
+import { PassportModule } from '@nestjs/passport';
+import { GoogleStrategy } from './google.strategy';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, GoogleStrategy],
   imports: [
+    PassportModule.register({ defaultStrategy: 'google' }),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

@@ -9,7 +9,6 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-
 const route = useRoute()
 
 const currentLayout = computed(() => {

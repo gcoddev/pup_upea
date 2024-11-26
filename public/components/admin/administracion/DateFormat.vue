@@ -1,5 +1,5 @@
 <template>
-    <span>{{ formattedDate }}</span>
+    <span v-html="formattedDate"></span>
 </template>
 
 <script setup>
@@ -22,6 +22,6 @@ const formattedDate = computed(() => {
     const month = months[dateObj.getMonth()]
     const year = dateObj.getFullYear()
 
-    return `${day} de ${month} de ${year}`
+    return `${day} de ${month}<br>${year}`
 })
 </script>

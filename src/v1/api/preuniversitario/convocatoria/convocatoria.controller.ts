@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Version, Req, Put, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Version, Req, Put, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ConvocatoriaService } from './convocatoria.service';
 import { CreateConvocatoriaDto } from './dto/create-convocatoria.dto';
 import { UpdateConvocatoriaDto } from './dto/update-convocatoria.dto';
@@ -6,6 +6,7 @@ import { Request } from 'express'
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Role } from 'src/common/enums/auth/role.enum';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
+import { fileUploadInterceptor } from 'src/common/interceptors/file-upload.interceptor';
 
 @Controller('convocatoria')
 export class ConvocatoriaController {
@@ -14,8 +15,14 @@ export class ConvocatoriaController {
   @Post()
   @Version('1')
   @Auth(Role.TEC)
-  create(@Body() createConvocatoriaDto: CreateConvocatoriaDto, @Req() req: Request) {
-    return this.convocatoriaService.create(createConvocatoriaDto, req);
+  @UseInterceptors(fileUploadInterceptor('file', 'convocatorias'))
+  create(
+    @Body() createConvocatoriaDto: CreateConvocatoriaDto,
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: Request
+  ) {
+    const filePath = file ? `uploads/convocatorias/${file.filename}` : null;
+    return this.convocatoriaService.create(createConvocatoriaDto, filePath, req);
   }
 
   @Get()

@@ -32,7 +32,7 @@
             </div>
 
 
-            <div menuItemName="Actions" class="panel panel-sidebar">
+            <!-- <div menuItemName="Actions" class="panel panel-sidebar">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <i class="fas fa-plus"></i>&nbsp;
@@ -69,7 +69,7 @@
                     </a>
                 </div>
 
-            </div>
+            </div> -->
 
 
         </div>

@@ -8,4 +8,12 @@
 definePageMeta({
     layout: 'home'
 })
+
+// useHead({
+//     title: 'Preuniversitario'
+// })
+
+// onMounted(() => {
+
+// })
 </script>

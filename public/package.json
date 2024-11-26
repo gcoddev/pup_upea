@@ -17,7 +17,9 @@
     "js-cookie": "^3.0.5",
     "mitt": "^3.0.1",
     "nuxt": "^3.13.0",
+    "qrcode": "^1.5.4",
     "select2": "^4.1.0-rc.0",
+    "sweetalert2": "^11.14.4",
     "vue": "latest",
     "vue-router": "latest"
   },

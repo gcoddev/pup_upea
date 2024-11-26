@@ -41,7 +41,7 @@ export class User {
     password: string;
 
     @Column({ unique: true, nullable: true })
-    google_id?: string;
+    googleId?: string;
 
     @Column({ type: 'enum', enum: Role, default: Role.GUEST })
     role: string;

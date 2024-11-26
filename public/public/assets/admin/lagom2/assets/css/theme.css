@@ -3374,6 +3374,7 @@ screen and (-ms-high-contrast:active) {
     display: flex;
     flex-direction: column;
     margin-top: 150px;
+    z-index: 1000;
 }
 
 .app-main .main-body {

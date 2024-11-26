@@ -3,20 +3,22 @@
         <div class="main-banner banner-home banner-secondary">
             <div class="container">
                 <h1 class="banner-title">¡Inscribete ahora!</h1>
-                <form method="post" @submit.prevent="">
+                <div>
                     <div class="domain-search-input search-group search-group-combined">
                         <div class="search-field search-field-lg">
-                            <i class="search-field-icon lm lm-search"></i>
-                            <input class="form-control form-control-lg" type="text"
-                                placeholder="Introduzca una carrera o palabra clave" v-model="search">
+                            <UIcon name="i-heroicons-magnifying-glass" class="search-field-icon lm lm-search" />
+                            <input class="form-control form-control-lg" type="search"
+                                placeholder="Introduzca una carrera o palabra clave" v-model="search"
+                                @keyup="searchCarrera()">
                         </div>
                         <div class="search-group-btn">
-                            <button class="btn btn-lg btn-primary domain-check-availability" type="submit">
+                            <button class="btn btn-lg btn-primary domain-check-availability" type="button"
+                                @click="scrollSearch()">
                                 <span class="">Buscar</span>
                             </button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
             <div class="banner-background banner-bg">
                 <BannerSearch />
@@ -26,36 +28,52 @@
             <div class="container">
                 <div class="m-w-lg m-h-a">
                     <div class="section" id="DomainSearchResults">
-                        <div class="domain-checker-result-headline">
+                        <!-- <div class="domain-checker-result-headline">
                             <div class="" v-if="search">
                                 <div class="domain-available message message-lg message-success message-h"
-                                    v-if="searchValue">
+                                    v-if="filterConvocatorias.length > 0">
                                     <div class="message-content m-w-lg">
                                         <div class="message-icon">
                                             <i class="lm lm-check"></i>
                                         </div>
                                         <div class="message-body">
                                             <div class="message-title">
-                                                <strong class="word-break-all">gcoddev.com</strong> ¡está disponible!
+                                                <strong class="word-break-all">{{ search.toUpperCase() }}</strong> ¡está
+                                                disponible!
                                             </div>
+                                            <div class="text-lg">
+                                                {{ filterConvocatorias[0].carrera.nombre_completo }}
+                                            </div>
+                                            <span class="domain underline font-weight-bold">
+                                                <a href="$" data-bs-toggle="modal"
+                                                    :data-bs-target="`#convo_${filterConvocatorias[0].idConvocatoria}`">
+                                                    Ver convocatoria
+                                                </a>
+                                            </span>
                                             <div class="domain-price">
-                                                <div class="price price-sm price-left">$us. 15.00</div>
+                                                <div class="price price-sm price-left">
+                                                    Bs. {{ filterConvocatorias[0].costo.toFixed(2) }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="message-actions">
                                             <div class="btn-group btn-group-remove">
-                                                <button type="submit"
-                                                    class="btn btn-lg btn-primary-faded btn-add-to-cart" data-whois="0"
-                                                    data-domain="gcoddev.com">
+                                                <button type="button"
+                                                    class="btn btn-lg btn-primary-faded btn-add-to-cart" @click="addOrder({
+                                                        id: filterConvocatorias[0].id_concepto,
+                                                        id_carrera: filterConvocatorias[0].id_carrera,
+                                                        carrera: filterConvocatorias[0].carrera.nombre_completo,
+                                                        id_sede: filterConvocatorias[0].id_sede,
+                                                        sede: filterConvocatorias[0].sede.nombre,
+                                                        id_gestion: filterConvocatorias[0].id_gestion,
+                                                        periodo: filterConvocatorias[0].gestion.periodo,
+                                                        gestion: filterConvocatorias[0].gestion.gestion,
+                                                        concepto: filterConvocatorias[0].id_concepto,
+                                                        costo: filterConvocatorias[0].costo,
+                                                        comision: 1
+                                                    })">
                                                     <span class="to-add" style="display: block;">Añadir al
                                                         Carrito</span>
-                                                    <span class="added" style="display: none;"><i
-                                                            class="lm lm-check"></i>Agregado</span>
-                                                    <span class="unavailable" style="display: none;">Ocupado</span>
-                                                </button>
-                                                <button type="button"
-                                                    class="btn btn-lg btn-primary btn-remove-domain hidden">
-                                                    <i class="lm lm-trash"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -66,19 +84,20 @@
                                         <i class="lm lm-close"></i>
                                     </div>
                                     <div class="message-body">
-                                        <p class="message-title"><strong>:domain</strong> no está disponible</p>
+                                        <p class="message-title"><strong>{{ search }}</strong> no está disponible
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="section suggested-domains">
+                        </div> -->
+                        <div class="section suggested-domains" id="search">
                             <div class="section-header">
                                 <h2 class="section-title">Carreras disponibles</h2>
                             </div>
                             <ul class="domain-lookup-result list-group"
-                                v-if="convocatorias && convocatorias.length > 0">
+                                v-if="mostrarConvocatorias && mostrarConvocatorias.length > 0">
                                 <li class="domain-suggestion list-group-item clone"
-                                    v-for="(conv, id_conv) of convocatorias" :key="id_conv">
+                                    v-for="(conv, id_conv) of mostrarConvocatorias" :key="id_conv">
                                     <div>
                                         <div class="content">
                                             <span class="extension">
@@ -118,7 +137,8 @@
                                                     gestion: conv.gestion.gestion,
                                                     concepto: conv.id_concepto,
                                                     costo: conv.costo,
-                                                    comision: 1
+                                                    comision: 1,
+                                                    idConvocatoria: conv.idConvocatoria
                                                 })">
                                                 <span class="to-add">Inscribirme</span>
                                                 <!-- <span class="added"><i class="ls ls-check"></i>Agregado</span> -->
@@ -175,10 +195,14 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="font-weight-bold">
-                                                                            Modalidad:</td>
+                                                                            Modalidades:</td>
                                                                         <td>
-                                                                            {{ conv.modalidad ? conv.modalidad.modalidad
-                                                                                : '' }}
+                                                                            <ul class="list-disc ml-4">
+                                                                                <li v-for="(mod, id_mod) of conv.modalidad"
+                                                                                    :key="id_mod" class="list-item">
+                                                                                    {{ mod.modalidad }}
+                                                                                </li>
+                                                                            </ul>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -233,7 +257,8 @@
                                                             gestion: conv.gestion.gestion,
                                                             concepto: conv.id_concepto,
                                                             costo: conv.costo,
-                                                            comision: 1
+                                                            comision: 1,
+                                                            idConvocatoria: conv.idConvocatoria
                                                         })">
                                                         Inscribirme
                                                     </button>
@@ -251,7 +276,13 @@
                             <ul class="domain-lookup-result list-group" v-else>
                                 <li class="domain-suggestion list-group-item clone">
                                     <div class="content">
-                                        <span class="domain">No hay convocatorias vigentes</span>
+                                        <span class="domain" v-if="search">
+                                            No existen convocatorias para "{{
+                                                search.toUpperCase() }}"
+                                        </span>
+                                        <span class="domain" v-else>
+                                            No hay convocatorias vigentes
+                                        </span>
                                     </div>
                                 </li>
                             </ul>
@@ -279,15 +310,12 @@ import { useInsStore } from '~/stores/inscripcion'
 const cartStore = useInsStore()
 
 const search = ref('')
-const searchValue = ref('')
-
 const convocatorias = ref(null)
 const getConvocatorias = async () => {
     try {
         const data = await useApiFetch('/convocatoria/pre')
 
         convocatorias.value = data
-        console.log(data)
     } catch (e) {
         console.log(e.data)
     }
@@ -305,11 +333,34 @@ const addOrder = (ins) => {
         gestion: ins.gestion,
         concepto: ins.concepto,
         costo: ins.costo,
-        comision: ins.comision
+        comision: ins.comision,
+        idConvocatoria: ins.idConvocatoria
     })
-    // showButton()
     return navigateTo('/convocatoria/cart')
 }
+
+const filterConvocatorias = ref([])
+const searchCarrera = () => {
+    filterConvocatorias.value = convocatorias.value.filter(carrera =>
+        carrera.carrera.nombre_completo.toLowerCase().includes(search.value.toLowerCase())
+    )
+}
+const scrollSearch = () => {
+    searchCarrera()
+
+    const searchSection = document.getElementById('search')
+    if (searchSection) {
+        searchSection.scrollIntoView({ behavior: 'smooth' })
+    }
+}
+const mostrarConvocatorias = computed(() => {
+    if (search.value) {
+        return filterConvocatorias.value
+    } else {
+        return convocatorias.value
+    }
+    // return filterConvocatorias.value.length > 0 ? filterConvocatorias.value : convocatorias.value
+})
 
 watch(
     () => cartStore.data,
@@ -326,6 +377,15 @@ watch(
 onMounted(() => {
     setTimeout(() => {
         getConvocatorias()
+
+        setTimeout(() => {
+            const carrera = localStorage.getItem('carrera')
+            if (carrera) {
+                localStorage.removeItem('carrera')
+                search.value = carrera.toString()
+                scrollSearch()
+            }
+        }, 250)
     }, 250)
 })
 </script>

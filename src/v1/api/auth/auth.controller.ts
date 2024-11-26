@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Version, BadRequestException, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Version, BadRequestException, Req, UseGuards, Res, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { CreateUserDto } from './users/dto/create-user.dto';
@@ -6,12 +6,14 @@ import { UsersService } from './users/users.service';
 import { CreatePersonaDto } from '../preuniversitario/personas/dto/create-persona.dto';
 import { PersonasService } from '../preuniversitario/personas/personas.service';
 import { LoginDto } from './users/dto/login.dto';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Role } from 'src/common/enums/auth/role.enum';
 import { UserRole } from 'src/common/enums/auth/user-role.enum';
 import { User } from './users/entities/user.entity';
 import { AuthPersonaDto } from 'src/v1/base_upea/vista_persona/dto/auth-persona.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { UpdateUserDto } from './users/dto/update-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +22,35 @@ export class AuthController {
     private readonly usersService: UsersService,
     private readonly personasService: PersonasService
   ) { }
+
+  @Get('redirect')
+  @Version('1')
+  @UseGuards(AuthGuard('google'))
+  async googleAuth() { }
+
+
+  @Get('callback')
+  @Version('1')
+  @UseGuards(AuthGuard('google'))
+  async googleAuthCallback(@Req() req: any, @Res() res: Response) {
+    const data = req.user
+
+    if (data.op == '1') {
+      const user = await this.authService.loginGoogle(data)
+      return res.redirect(`${process.env.URL_FRONT_DEV}/login?success=${user.success}&login=${user.login}&message=${user.message}&accessToken=${user.token}`);
+    } else if (data.op == '2') {
+      const user = await this.authService.vinculateGoogle(data.idUser, data)
+      return res.redirect(`${process.env.URL_FRONT_DEV}/admin/security?success=${user.success}&vinculate=${user.vinculate}&message=${user.message}`);
+    }
+    // else {
+    //   throw new BadRequestException({
+    //     message: 'Opción de login o registro no válida',
+    //     error: 'Error al validar la opción de login o registro',
+    //     statusCode: 400
+    //   });
+    // }
+  }
+
 
   @Post('register')
   @Version('1')
@@ -156,11 +187,6 @@ export class AuthController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
   }
 
   @Delete(':id')

@@ -12,6 +12,7 @@ interface Inscripcion {
     concepto: string;
     costo: number;
     comision: number;
+    idConvocatoria: number
 }
 
 export const useInsStore = defineStore('inscripcion', {

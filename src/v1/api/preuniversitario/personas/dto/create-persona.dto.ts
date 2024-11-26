@@ -25,5 +25,6 @@ export class CreatePersonaDto {
     fecha_nac: Date
 
     @IsString()
-    email: string;
+    @IsOptional()
+    email?: string;
 }

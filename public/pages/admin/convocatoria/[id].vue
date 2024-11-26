@@ -98,6 +98,42 @@
                                                                     v-model="cupos" autocomplete="off" min="0">
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="inputModalidad" class="label-required">
+                                                                    Modalidad
+                                                                </label>
+                                                                <select name="modalidad" id="inputModalidad"
+                                                                    class="form-control inputModalidad"
+                                                                    v-model="modalidad" multiple>
+                                                                    <option v-for="(mod, id) of modalidades" :key="id"
+                                                                        :value="mod.id">
+                                                                        {{ mod.modalidad }}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group ">
+                                                                <label for="inputCosto" class="label-required">
+                                                                    Costo
+                                                                </label>
+                                                                <input type="number" name="costo" id="inputCosto"
+                                                                    class="form-control" placeholder="Costo"
+                                                                    v-model="costo" autocomplete="off" min="0">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group ">
+                                                                <label for="inputFile" class="label-required">
+                                                                    Convocatoria
+                                                                </label>
+                                                                <input type="file" name="costo" id="inputFile"
+                                                                    class="form-control"
+                                                                    accept="image/jpg,image/jpeg,image/png,image/gif,application/pdf"
+                                                                    @change="changeFile">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -197,6 +233,9 @@ const id_carrera = ref('')
 const id_sede = ref('')
 const id_gestion = ref('')
 const cupos = ref(null)
+const costo = ref('')
+const file = ref('')
+const modalidad = ref([])
 
 const carreraSedes = ref(null)
 const carreras = ref([])
@@ -276,6 +315,16 @@ const getGestiones = async () => {
         console.log(e)
     }
 }
+const modalidades = ref(null)
+const getModalidades = async () => {
+    try {
+        const data = await useApiFetch('/modalidad')
+
+        modalidades.value = data
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 const isNewConvocatoria = ref(false)
 const submitForm = () => {
@@ -288,6 +337,12 @@ const submitForm = () => {
 
 const postConvocatoria = async () => {
     errors.value = []
+    const modalidades = []
+    for (const mod of modalidad.value) {
+        modalidades.push({
+            id_modalidad: Number(mod)
+        })
+    }
 
     try {
         const data = await useApiFetch('/convocatoria', {
@@ -298,12 +353,15 @@ const postConvocatoria = async () => {
                 id_carrera: id_carrera.value,
                 id_sede: id_sede.value,
                 id_gestion: id_gestion.value,
-                cupos: cupos.value
+                cupos: cupos.value,
+                costo: costo.value,
+                modalidad: modalidades
             }
         })
 
         sessionStorage.setItem('loading', true)
-        sessionStorage.setItem('successMessage', data.message)
+        sessionStorage.setItem('message', data.message)
+        sessionStorage.setItem('status', 'success')
 
         return navigateTo('/admin/convocatoria')
     } catch (e) {
@@ -313,6 +371,9 @@ const postConvocatoria = async () => {
             console.log(e)
         }
     }
+}
+const changeFile = () => {
+    //
 }
 const putConvocatoria = async () => {
     errors.value = []
@@ -331,7 +392,8 @@ const putConvocatoria = async () => {
         })
 
         sessionStorage.setItem('loading', true)
-        sessionStorage.setItem('successMessage', data.message)
+        sessionStorage.setItem('message', data.message)
+        sessionStorage.setItem('status', 'success')
 
         return navigateTo('/admin/convocatoria')
     } catch (e) {
@@ -366,9 +428,24 @@ watch(
     (role) => {
         if (role) {
             getGestiones()
+            getModalidades()
             getCarreraSede();
         }
     },
     { immediate: true }
 )
+
+onMounted(() => {
+    $('.inputModalidad').select2()
+
+    $('.inputModalidad').on('change', (event) => {
+        modalidad.value = $(event.target).val() || []
+    })
+})
 </script>
+
+<style>
+.select2-container {
+    display: inline !important;
+}
+</style>

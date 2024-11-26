@@ -13,6 +13,7 @@ import { Carrera } from 'src/v1/base_upea/carrera/entities/carrera.entity';
 import { UsersService } from '../../auth/users/users.service';
 import { decrypt } from 'src/common/helpers/encryption.helper';
 import { ModalidadService } from 'src/v1/base_upea/modalidad/modalidad.service';
+import { ConvocatoriaModalidadService } from '../convocatoria-modalidad/convocatoria-modalidad.service';
 
 @Injectable()
 export class ConvocatoriaService {
@@ -24,17 +25,26 @@ export class ConvocatoriaService {
     private readonly gestionService: GestionService,
     private readonly modalidadService: ModalidadService,
     private readonly userService: UsersService,
+    private readonly convocatoriaModalidadService: ConvocatoriaModalidadService
   ) { }
 
-  async create(createConvocatoriaDto: CreateConvocatoriaDto, req: Request) {
+  async create(createConvocatoriaDto: CreateConvocatoriaDto, filePath: string, req: Request) {
     const ci = req['user']
     const user = await this.userService.findByCi(decrypt(ci['iss']))
 
     const convocatoria = await this.convocatoriaService.save({
       ...createConvocatoriaDto,
+      file: filePath,
       id_usuario: user.id,
       id_concepto: 1
     })
+
+    for (const cm of createConvocatoriaDto.modalidad) {
+      this.convocatoriaModalidadService.create({
+        ...cm,
+        convocatoria: convocatoria
+      })
+    }
 
     return {
       success: true,
@@ -69,7 +79,7 @@ export class ConvocatoriaService {
       const carrera = await this.carreraService.findOne(conv.id_carrera)
       const sede = await this.sedeService.findOne(conv.id_sede)
       const gestion = await this.gestionService.findOne(conv.id_gestion)
-      const modalidad = await this.modalidadService.findOne(conv.id_modalidad)
+      const modalidad = await this.convocatoriaModalidadService.findByConvocatoria(conv)
 
       convocatorias.push({
         ...conv,
@@ -95,7 +105,7 @@ export class ConvocatoriaService {
       const carrera = await this.carreraService.findOne(conv.id_carrera)
       const sede = await this.sedeService.findOne(conv.id_sede)
       const gestion = await this.gestionService.findOne(conv.id_gestion)
-      const modalidad = await this.modalidadService.findOne(conv.id_modalidad)
+      const modalidad = await this.convocatoriaModalidadService.findByConvocatoria(conv)
 
       convocatorias.push({
         ...conv,

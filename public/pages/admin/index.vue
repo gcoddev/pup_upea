@@ -25,13 +25,13 @@
                                         {{ user.data.email }}
                                         <br>
                                         {{ user.data.username }}
-
+                                        <br>
+                                        {{ user.data.carrera ? user.data.carrera.nombre_completo : '- Sin carrera -' }}
                                     </div>
                                     <div class="panel-footer clearfix">
                                         <NuxtLink to="/admin" class="btn btn-success btn-sm btn-block">
                                             <i class="fas fa-pencil-alt"></i>
                                             Perfil
-
                                         </NuxtLink>
                                         <!-- <a href="#" class="btn btn-outline btn-sm btn-block" @click="toast.add({
                                         title: '¿Esta seguro de cerrar sesión?',
@@ -115,43 +115,49 @@
                     <div class="main-content">
                         <div class="tiles swiper-container">
                             <div class="row swiper-wrapper">
-                                <div class="col-md-3 swiper-slide"
-                                    onclick="window.location='clientarea.php?action=services'">
+                                <div class="col-md-3 swiper-slide">
                                     <NuxtLink class="tile" to="/admin">
                                         <div class="tile-icon-absolute">
                                             <i class="ls ls-hosting"></i>
                                         </div>
-                                        <div class="tile-stat">3</div>
+                                        <div class="tile-stat">{{ ordenes.length }}</div>
                                         <div class="tile-title">Total</div>
                                     </NuxtLink>
                                 </div>
-                                <div class="col-md-3 swiper-slide"
-                                    onclick="window.location='clientarea.php?action=domains'">
+                                <div class="col-md-3 swiper-slide">
                                     <NuxtLink class="tile" to="/admin">
                                         <div class="tile-icon-absolute">
                                             <i class="ls ls-dns"></i>
                                         </div>
-                                        <div class="tile-stat">2</div>
+                                        <div class="tile-stat">{{ ordenProcesado }}</div>
                                         <div class="tile-title">Pagados</div>
                                     </NuxtLink>
                                 </div>
-                                <div class="col-md-3 swiper-slide"
-                                    onclick="window.location='clientarea.php?action=invoices'">
+                                <div class="col-md-3 swiper-slide">
                                     <NuxtLink class="tile" to="/admin">
                                         <div class="tile-icon-absolute">
                                             <i class="icon-alert ls ls-exclamation-circle text-danger"></i>
                                         </div>
-                                        <div class="tile-stat text-danger">3</div>
+                                        <div class="tile-stat text-danger">{{ ordenPendiente }}</div>
                                         <div class="tile-title">Pendiente</div>
                                     </NuxtLink>
                                 </div>
-                                <div class="col-md-3 swiper-slide" onclick="window.location='supporttickets.php'">
+                                <div class="col-md-3 swiper-slide" v-if="user.data.role == 'admin'">
                                     <NuxtLink class="tile" to="/admin">
                                         <div class="tile-icon-absolute">
                                             <i class="ls ls-ticket-tag"></i>
                                         </div>
                                         <div class="tile-stat">1</div>
-                                        <div class="tile-title">Tickets</div>
+                                        <div class="tile-title">Total sistema</div>
+                                    </NuxtLink>
+                                </div>
+                                <div class="col-md-3 swiper-slide" v-if="user.data.role == 'tec'">
+                                    <NuxtLink class="tile" to="/admin">
+                                        <div class="tile-icon-absolute">
+                                            <i class="ls ls-ticket-tag"></i>
+                                        </div>
+                                        <div class="tile-stat">7</div>
+                                        <div class="tile-title">Total carrera</div>
                                     </NuxtLink>
                                 </div>
                             </div>
@@ -165,26 +171,45 @@
                                     <div class="panel-heading">
                                         <h5 class="panel-title">
                                             <i class="ls ls-hosting"></i>
-                                            Your Active Products/Services
+                                            Sus ordenes activos
                                         </h5>
                                     </div>
-                                    <div class="list-group has-scrol">
-                                        <div class="list-group-item">
-                                            <div class="list-group-item-content" data-to="/admin">
+                                    <div class="list-group has-scroll" v-if="ordenes.length > 0">
+                                        <div class="list-group-item" v-for="(order, id_orden) of ordenes"
+                                            :key="id_orden">
+                                            <div class="list-group-item-content">
                                                 <div class="list-group-item-name">
                                                     <span>
-                                                        <b>Reseller Hosting</b>
-                                                        - Silver
+                                                        <b v-for="(con, id) of order.conceptos" :key="id">
+                                                            {{ con.concepto.concepto }} - Bs. {{ con.costo }}
+                                                        </b>
                                                     </span>
-                                                    <span class="text-domain">demo.com</span>
+                                                    <span class="text-domain" v-if="order.preinscripcion">
+                                                        {{ order.preinscripcion.convocatoria.carrera.nombre_completo }}
+                                                    </span>
                                                 </div>
                                                 <div class="list-group-item-status">
-                                                    <span class="label label-success" title="Active">Active
+                                                    <span class="label" :class="EstadoLabel[order.estadoPago]"
+                                                        :title="order.estadoPago">
+                                                        {{ EstadoPagoName[order.estadoPago] }}
                                                     </span>
                                                 </div>
                                                 <div class="list-group-item-actions">
-                                                    <button class="btn btn-default btn-sm btn-view-details">Manage
-                                                    </button>
+                                                    <NuxtLink :to="`/admin/orden/${order.idOrden}`"
+                                                        class="btn btn-default btn-sm btn-view-details">
+                                                        Ver detalle
+                                                    </NuxtLink>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group has-scroll" v-else>
+                                        <div class="list-group-item">
+                                            <div class="list-group-item-content">
+                                                <div class="list-group-item-name">
+                                                    <span>
+                                                        <b>No hay ordenes aun</b>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -310,6 +335,7 @@ import AdminTitle from '~/components/admin/AdminTitle.vue'
 import Cookies from 'js-cookie'
 import { useUserStore } from '~/stores/user'
 import { onMounted, computed } from 'vue'
+import { EstadoPago, EstadoPagoName, EstadoLabel } from '~/enums/EstadoPago.enum';
 
 const user = useUserStore()
 const toast = useToast()
@@ -326,24 +352,36 @@ const logout = () => {
     setTimeout(() => {
         Cookies.remove('token')
         sessionStorage.setItem('loading', true)
-        sessionStorage.setItem('successMessage', 'Sesión cerrada correctamente')
+        sessionStorage.setItem('message', 'Sesión cerrada correctamente')
+        sessionStorage.setItem('status', 'success')
 
         // return navigateTo('/login')
         location.reload()
     }, 250)
 }
 
-const actions = ref([{
-    label: 'Cerrar sesión',
-    class: 'bg-orange-500 text-black',
-    click: () => {
-        Cookies.remove('token')
-        sessionStorage.setItem('loading', true)
-        sessionStorage.setItem('successMessage', 'Sesión cerrada correctamente')
+const ordenes = ref([])
+const ordenProcesado = ref(0)
+const ordenPendiente = ref(0)
+const getOrders = async () => {
+    try {
+        const data = await useApiFetch('/orden')
+        console.log(data)
+        ordenes.value = data
 
-        return navigateTo('/login')
+        if (ordenes.value.length > 0) {
+            for (const o of ordenes.value) {
+                if (o.estadoPago == EstadoPago.PROCESADO) {
+                    ordenProcesado.value++
+                } else if (o.estadoPago == EstadoPago.EN_PROCESO) {
+                    ordenPendiente.value++
+                }
+            }
+        }
+    } catch (err) {
+        console.log(err)
     }
-}])
+}
 
 onMounted(() => {
     const logged = sessionStorage.getItem('logged')
@@ -357,6 +395,10 @@ onMounted(() => {
         })
         sessionStorage.removeItem('logged')
     }
+
+    setTimeout(() => {
+        getOrders()
+    }, 500)
 })
 
 const themeDark = computed(() => {

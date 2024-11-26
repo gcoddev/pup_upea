@@ -9,12 +9,15 @@ import { Request } from 'express'
 import { decrypt } from 'src/common/helpers/encryption.helper';
 import { Role } from 'src/common/enums/auth/role.enum';
 import { EditUserDto } from './dto/edit-user.dto';
+import { GoogleDto } from './dto/google.dto';
+import { CarreraService } from 'src/v1/base_upea/carrera/carrera.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly usersRepository: Repository<User>
+    private readonly usersRepository: Repository<User>,
+    private readonly carreraService: CarreraService
   ) { }
 
   async create(createUserDto: CreateUserDto) {
@@ -59,6 +62,51 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id })
   }
 
+  async findOneByEmailGoogle(googleDto: GoogleDto) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        email: googleDto.email,
+        googleId: googleDto.googleId
+      }
+    })
+
+    return user
+  }
+
+  async vinculateGoogle(idUser: number, user: any) {
+    const userGoogle: GoogleDto = {
+      googleId: user.googleId,
+      email: user.email
+    }
+
+    const usuario = await this.usersRepository.findOneBy({ id: idUser, email: userGoogle.email })
+    if (usuario) {
+      const userUpdate = await this.usersRepository.update(usuario.id, {
+        googleId: userGoogle.googleId
+      })
+
+      if (userUpdate.affected === 0) {
+        return {
+          success: false,
+          vinculate: false,
+          message: 'Error al vincular la cuenta.'
+        }
+      }
+
+      return {
+        success: true,
+        vinculate: true,
+        message: 'La cuenta ha sido vinculada con éxito, ya puede iniciar sesión con google desde esa cuenta.'
+      }
+    }
+
+    return {
+      success: false,
+      vinculate: false,
+      message: 'El correo electrónico actual no corresponde a la cuenta de google, modifique su correo primero.'
+    }
+  }
+
   async update(id: number, editUserDto: EditUserDto) {
     let errors = []
     const byCi = await this.findByCi(editUserDto.numeroDocumento, id)
@@ -98,6 +146,10 @@ export class UsersService {
     }
   }
 
+  async updateGoogle(id: number, updateUserDto: UpdateUserDto) {
+    return updateUserDto
+  }
+
   async updatePartial(id: number, updateUserDto: UpdateUserDto) {
     let user: any;
     if (updateUserDto.password) {
@@ -106,7 +158,17 @@ export class UsersService {
         password: await bcryptjs.hash(updateUserDto.password, 10)
       })
     } else {
-      user = await this.usersRepository.update(id, updateUserDto)
+      if (updateUserDto.email) {
+        const mail = await this.usersRepository.findOneBy({ email: updateUserDto.email })
+        if (mail) {
+          throw new BadRequestException({
+            success: false,
+            message: ['El correo electrónico ya se encuentra registrado con otro usuario'],
+            error: 'Bad request'
+          })
+        }
+        user = await this.usersRepository.update(id, updateUserDto)
+      }
     }
 
     if (user.affected === 0) {
@@ -196,10 +258,20 @@ export class UsersService {
       .getOne();
   }
 
-  getProfile(req: Request) {
+  async getProfile(req: Request) {
     const payload = req['user']
-    const iss = payload.iss
+    const iss = payload['iss']
 
-    return this.usersRepository.findOneBy({ numeroDocumento: decrypt(iss) })
+    const user = await this.usersRepository.findOneBy({ numeroDocumento: decrypt(iss) })
+    if (user.id_carrera) {
+      const carrera = await this.carreraService.findOne(user.id_carrera)
+
+      return {
+        ...user,
+        carrera
+      }
+    }
+
+    return user
   }
 }

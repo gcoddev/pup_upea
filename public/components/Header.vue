@@ -80,16 +80,16 @@
                         </NuxtLink>
                     </li>
                     <li menuItemName="Domains" class="dropdown  nav-item-text-only"
-                        :class="linkClass == 'preuniversitario' ? 'active' : ''" id="Primary_Navbar-Domains">
-                        <NuxtLink to="/preuniversitario" @click="setPanel('preuniversitario')">
+                        :class="linkClass == 'verificar' ? 'active' : ''">
+                        <NuxtLink to="/verificar" @click="setPanel('verificar')">
                             <span class="item-text">
-                                Preuniversitario
+                                Verificar
                             </span>
                             <!-- <b class="ls ls-caret"></b> -->
                         </NuxtLink>
                     </li>
                     <li menuItemName="Website & Security" class="dropdown  nav-item-text-only"
-                        :class="linkClass == 'info' ? 'active' : ''" id="Primary_Navbar-Website_&_Security">
+                        :class="linkClass == 'info' ? 'active' : ''">
                         <NuxtLink to="/info" @click="setPanel('info')">
                             <span class="item-text">
                                 Información
@@ -98,9 +98,9 @@
                         </NuxtLink>
                     </li>
                     <li menuItemName="Support" class="dropdown  nav-item-text-only"
-                        :class="linkClass == 'soporte' ? 'active' : ''" id="Primary_Navbar-Support">
-                        <NuxtLink class="dropdown-toggle" to="/soporte" data-toggle="dropdown"
-                            @click="setPanel('soporte')">
+                        :class="linkClass == 'soporte' ? 'active' : ''">
+                        <!-- <NuxtLink class="dropdown-toggle" to="/soporte" data-toggle="dropdown" -->
+                        <NuxtLink to="/soporte" @click="setPanel('soporte')">
                             <span class="item-text">
                                 Soporte
                             </span>
@@ -192,17 +192,10 @@ const getCookie = async () => {
     token.value = await Cookies.get('token')
 }
 
-// watch(
-//     () => route.path.split('/')[2],
-//     () => {
-//         linkClass.value = route.path.split('/')[2]
-//     }
-// )
-onMounted(() => {
-    currentTheme.value = localStorage.getItem('theme') || 'modern';
-    setTimeout(() => {
-        getCookie()
-        const ruta = route.path.split('/')
+watch(
+    () => route.path,
+    (newPath) => {
+        const ruta = newPath.split('/')
         if (ruta[1]) {
             if (ruta[2]) {
                 linkClass.value = ruta[2]
@@ -212,6 +205,24 @@ onMounted(() => {
         } else {
             linkClass.value = 'inicio'
         }
+    },
+    { immediate: true } // Para que se ejecute al cargarse la página inicialmente
+)
+
+onMounted(() => {
+    currentTheme.value = localStorage.getItem('theme') || 'modern';
+    setTimeout(() => {
+        getCookie()
+        // const ruta = route.path.split('/')
+        // if (ruta[1]) {
+        //     if (ruta[2]) {
+        //         linkClass.value = ruta[2]
+        //     } else {
+        //         linkClass.value = ruta[1]
+        //     }
+        // } else {
+        //     linkClass.value = 'inicio'
+        // }
     }, 250)
 })
 

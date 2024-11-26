@@ -14,6 +14,7 @@ export class ConceptoController {
   }
 
   @Get(':id')
+  @Version('1')
   findOne(@Param('id') id: number) {
     return this.conceptoService.findOne(id);
   }

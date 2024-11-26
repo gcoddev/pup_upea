@@ -34,14 +34,14 @@ export class UsersController {
 
   @Put(':id')
   @Version('1')
-  @Auth(Role.ADMIN)
+  @Auth(Role.GUEST)
   update(@Param('id') id: number, @Body() editUserDto: EditUserDto) {
     return this.usersService.update(id, editUserDto);
   }
 
   @Patch(':id')
   @Version('1')
-  @Auth(Role.ADMIN)
+  @Auth(Role.GUEST)
   updatePartial(@Param('id') id: number, @Body() UpdateUserDto: UpdateUserDto) {
     return this.usersService.updatePartial(id, UpdateUserDto);
   }

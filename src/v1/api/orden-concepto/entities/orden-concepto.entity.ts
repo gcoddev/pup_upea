@@ -1,25 +1,31 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 import { Orden } from "../../orden/entities/orden.entity";
-import { Concepto } from "src/v1/tesoro/concepto/entities/concepto.entity";
+import { IsNumber } from "class-validator";
 
 @Entity()
 export class OrdenConcepto {
     @PrimaryGeneratedColumn()
     idOrdenConcepto: number
 
-    @Column({ type: 'timestamp' })
-    fecha: Timestamp
-
     @ManyToOne(() => Orden)
     @JoinColumn({
-        name: 'idOrden',
+        name: 'orden',
         referencedColumnName: 'idOrden'
     })
-    idOrden: Orden
-
-    // @ManyToOne(() => Concepto)
-    // idConcepto: Concepto
+    orden: Orden
 
     @Column()
-    idConcepto: number
+    id_concepto: number
+
+    @Column()
+    id_tipo_medida: number
+
+    @Column()
+    cantidad: number
+
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    costo: number
+
+    @IsNumber()
+    id_moneda: number
 }

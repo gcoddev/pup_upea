@@ -4,13 +4,15 @@ import { UsersController } from './users.controller';
 import { PersonasModule } from '../../preuniversitario/personas/personas.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
+import { CarreraModule } from 'src/v1/base_upea/carrera/carrera.module';
 
 @Module({
   controllers: [UsersController],
   providers: [UsersService],
   imports: [
     TypeOrmModule.forFeature([User]),
-    PersonasModule
+    PersonasModule,
+    CarreraModule
   ],
   exports: [UsersService],
 })

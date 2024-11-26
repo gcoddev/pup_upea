@@ -26,6 +26,7 @@ import AdminHeader from '~/components/admin/AdminHeader.vue'
 import AdminFooter from '~/components/admin/AdminFooter.vue'
 import { ref, onMounted, provide } from 'vue'
 import { useUserStore } from '~/stores/user'
+import Cookies from 'js-cookie'
 
 const loading = ref(true)
 const titleFromHeader = ref('')
@@ -44,8 +45,21 @@ const getProfile = async () => {
     } catch (err) {
         errorMessage.value = 'Ha ocurrido un error'
         console.log(err)
+        logout()
     }
 }
+
+const logout = (() => {
+    setTimeout(() => {
+        Cookies.remove('token')
+        sessionStorage.setItem('loading', true)
+        sessionStorage.setItem('message', 'Sesión cerrada')
+        sessionStorage.setItem('status', 'warning')
+
+        return navigateTo('/login')
+        // location.reload()
+    }, 250)
+})
 
 
 onMounted(() => {

@@ -5,6 +5,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
         const token = Cookies.get('token')
 
         if (!token) {
+            sessionStorage.setItem('message', 'Sesión finalizada')
+            sessionStorage.setItem('status', 'warning')
             setTimeout(() => {
                 return navigateTo('/login')
             }, 250)

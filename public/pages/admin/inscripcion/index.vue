@@ -25,33 +25,41 @@
                                         </li>
                                         <li>
                                             <a href="#"
-                                                @click="filterByStatus(`${EstadoPago.COMPLETADO}`, `${Estado.COMPLETADO}`)">
-                                                <span class="status" :class="Estado.COMPLETADO">
-                                                    {{ EstadoPago.COMPLETADO }}
+                                                @click="filterByStatus(`${EstadoPagoName.PROCESADO}`, `${Estado.PROCESADO}`)">
+                                                <span class="status" :class="Estado.PROCESADO">
+                                                    {{ EstadoPagoName.PROCESADO }}
                                                 </span>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#"
-                                                @click="filterByStatus(`${EstadoPago.PENDIENTE}`, `${Estado.PENDIENTE}`)">
-                                                <span class="status" :class="Estado.PENDIENTE">
-                                                    {{ EstadoPago.PENDIENTE }}
+                                                @click="filterByStatus(`${EstadoPagoName.EN_PROCESO}`, `${Estado.EN_PROCESO}`)">
+                                                <span class="status" :class="Estado.EN_PROCESO">
+                                                    {{ EstadoPagoName.EN_PROCESO }}
                                                 </span>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#"
-                                                @click="filterByStatus(`${EstadoPago.ERRONEO}`, `${Estado.ERRONEO}`)">
-                                                <span class="status" :class="Estado.ERRONEO">
-                                                    {{ EstadoPago.ERRONEO }}
+                                                @click="filterByStatus(`${EstadoPagoName.EXPIRADO}`, `${Estado.EXPIRADO}`)">
+                                                <span class="status" :class="Estado.EXPIRADO">
+                                                    {{ EstadoPagoName.EXPIRADO }}
                                                 </span>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#"
-                                                @click="filterByStatus(`${EstadoPago.CANCELADO}`, `${Estado.CANCELADO}`)">
-                                                <span class="status" :class="Estado.CANCELADO">
-                                                    {{ EstadoPago.CANCELADO }}
+                                                @click="filterByStatus(`${EstadoPagoName.FALLIDO}`, `${Estado.FALLIDO}`)">
+                                                <span class="status" :class="Estado.FALLIDO">
+                                                    {{ EstadoPagoName.FALLIDO }}
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                                @click="filterByStatus(`${EstadoPagoName.ANULADO}`, `${Estado.ANULADO}`)">
+                                                <span class="status" :class="Estado.ANULADO">
+                                                    {{ EstadoPagoName.ANULADO }}
                                                 </span>
                                             </a>
                                         </li>
@@ -80,7 +88,7 @@
                                                     class="w-3 h-3 d-inline-block" />
                                             </th>
                                             <th class="sorting">
-                                                Concepto/Producto
+                                                Concepto
                                                 <UIcon name="i-material-symbols-unfold-more"
                                                     class="w-3 h-3 d-inline-block" />
                                             </th>
@@ -112,26 +120,36 @@
                                             </td>
                                             <td class="dtr-control">
                                                 <button type="button" class="btn-table-collapse"></button>
-                                                <b>{{ order.descripcion }}</b>
+                                                <b v-if="order.orden.persona">
+                                                    {{ order.orden.persona.nombres }}
+                                                    {{ order.orden.persona.paterno }}
+                                                    {{ order.orden.persona.materno }}
+                                                </b>
+                                                <b v-if="order.orden.user">
+                                                    {{ order.orden.user.nombres }}
+                                                    {{ order.orden.user.paterno }}
+                                                    {{ order.orden.user.materno }}
+                                                </b>
                                                 <br>
                                                 <div class="ssl-info">
-                                                    <img id="sslStatus1029"
+                                                    <!-- <img id="sslStatus1029"
                                                         src="/public/assets/admin/img/ssl-loading.gif"
                                                         data-toggle="tooltip" title="Cargando..." width="12px"
-                                                        class="ssl-statusssl-state ssl-active ssl-sync">
+                                                        class="ssl-statusssl-state ssl-active ssl-sync"> -->
+                                                    {{ order.convocatoria.carrera.nombre_completo }}
                                                 </div>
                                                 &nbsp;<span class="text-small">{{ order.codigoOrden }}</span>
                                             </td>
                                             <td class="text-nowrap">
-                                                Bs. {{ order.montoTotal.toFixed(2) }}<br>
-                                                <span class="small">Anual</span>
+                                                Bs. {{ order.orden.montoTotal }}<br>
+                                                <!-- <span class="small">Anual</span> -->
                                             </td>
                                             <td class="text-nowrap">
-                                                24/12/2024
+                                                {{ order.fecha.split('T')[0] }}
                                             </td>
                                             <td class="text-nowrap">
-                                                <span class="status" :class="Estado[order.estadoPago]">
-                                                    {{ EstadoPago[order.estadoPago] }}
+                                                <span class="status" :class="Estado[order.orden.estadoPago]">
+                                                    {{ EstadoPagoName[order.orden.estadoPago] }}
                                                 </span>
                                             </td>
                                             <td class="cell-action">
@@ -143,22 +161,21 @@
                                                     </a>
                                                     <ul class="dropdown-menu  pull-right" role="menu">
                                                         <li>
-                                                            <a href="#">
+                                                            <a :href="`${apiUrl}/comprobante/${order.orden.codigoTransaccion}`"
+                                                                target="_blank">
                                                                 <UIcon name="i-heroicons-list-bullet"
                                                                     class="w-5 h-5 mr-2" />
                                                                 Ver Detalle
                                                             </a>
                                                         </li>
-                                                        <li
-                                                            v-if="order.estadoPago === EstadoPago.PENDIENTE.toUpperCase()">
+                                                        <li v-if="order.orden.estadoPago === EstadoPago.EN_PROCESO">
                                                             <a href="#">
                                                                 <UIcon name="i-material-symbols-block"
                                                                     class="w-5 h-5 mr-2" />
                                                                 Cancelar pedido
                                                             </a>
                                                         </li>
-                                                        <li
-                                                            v-if="order.estadoPago === EstadoPago.COMPLETADO.toUpperCase()">
+                                                        <li v-if="order.orden.estadoPago === EstadoPago.COMPLETADO">
                                                             <a href="#">
                                                                 <UIcon name="i-heroicons-ticket-solid"
                                                                     class="w-5 h-5 mr-2" />
@@ -222,38 +239,27 @@ useHead({
 })
 
 import SidebarUsuario from '~/components/admin/administracion/Sidebar'
-import { EstadoPago, Estado } from '~/enums/EstadoPago.enum';
+import { EstadoPagoName, EstadoPago, Estado } from '~/enums/EstadoPago.enum';
 import 'datatables.net';
-import { useApiFetch } from '~/composables/useApiFetch'
+import { useUserStore } from '~/stores/user';
+const user = useUserStore()
+const config = useRuntimeConfig();
+const apiUrl = ref(config.public.apiBaseUrl)
 
-const orders = ref(null)
+const orders = ref([])
 const getOrders = async () => {
     try {
-        const { data, error } = await useApiFetch('/orden')
+        const data = await useApiFetch('/preinscripcion/carrera')
 
-        orders.value = data.value
-        console.log(data.value);
-
-        orders.value = [
-            {
-                "idOrden": 1,
-                "descripcion": "Compra de materiales",
-                "codigoOrden": 12345,
-                "cantidad": 1,
-                "estadoPago": EstadoPago.PENDIENTE.toUpperCase(),
-                "montoTotal": 22.00,
-                "idUser": 7
-            },
-            {
-                "idOrden": 2,
-                "descripcion": "Compra de ",
-                "codigoOrden": 12345,
-                "cantidad": 1,
-                "estadoPago": EstadoPago.CANCELADO.toUpperCase(),
-                "montoTotal": 25.00,
-                "idUser": 7
-            },
-        ]
+        // for (const o of data) {
+        //     if (o.convocatoria.id_carrera == user.data.id_carrera) {
+        //         orders.value.push(o)
+        //     }
+        // }
+        console.log(data)
+        orders.value = data
+        // console.log(orders.value);
+        // console.log(user.data);
     } catch (err) {
         console.log(err);
     }

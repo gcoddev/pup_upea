@@ -30,7 +30,7 @@
                                             <div class="prod-name col-6">
                                                 <div class="cart-item-title">
                                                     <span class="cart-item-title-main">{{ orden.carrera }}</span>
-                                                    <span class="cart-item-title-small">Estudiante</span>
+                                                    <span class="cart-item-title-small">{{ concepto.concepto }}</span>
                                                 </div>
                                             </div>
                                             <div class="prod-price col" data-content="Precio">
@@ -56,7 +56,7 @@
                                                     </a> -->
                                                     <button type="button" class="btn btn-icon" data-toggle="tooltip"
                                                         data-html="true" data-original-title=" Eliminar"
-                                                        @click="removeOrden(orden.id)">
+                                                        @click="vaciarCarrito(orden.id)">
                                                         <UIcon name="i-material-symbols-delete-sweep" class="w-5 h-5" />
                                                     </button>
                                                 </div>
@@ -72,7 +72,7 @@
                                         </div>
                                         <div class="content">
                                             <button type="button" class="btn btn-default btn-sm"
-                                                @click="removeOrden(0)">
+                                                @click="vaciarCarrito(0)">
                                                 <UIcon name="i-material-symbols-shopping-cart-off" class="w-4 h-4" />
                                                 &nbsp; Vaciar Carrito
                                             </button>
@@ -110,7 +110,8 @@
                                                                 Expedición
                                                             </label>
                                                             <select name="country" id="inputExpedido"
-                                                                class="form-control" v-model="expedido">
+                                                                class="form-control" v-model="expedido"
+                                                                @change="searchCI">
                                                                 <option value="">
                                                                     -
                                                                 </option>
@@ -159,7 +160,8 @@
                                                                 Fecha de nacimiento
                                                             </label>
                                                             <input type="date" name="fecha_nac" id="inputFecha_nac"
-                                                                class="form-control" v-model="fecha_nac">
+                                                                class="form-control" v-model="fecha_nac"
+                                                                @change="searchCI">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -169,7 +171,7 @@
                                                             </label>
                                                             <input type="text" name="nombres" id="inputNombres"
                                                                 class="form-control" placeholder="Nombres"
-                                                                v-model="nombres" autocomplete="off">
+                                                                v-model="nombres" autocomplete="off" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -179,7 +181,7 @@
                                                             </label>
                                                             <input type="text" name="paterno" id="inputPaterno"
                                                                 class="form-control" placeholder="Apellido paterno"
-                                                                v-model="paterno">
+                                                                v-model="paterno" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -189,7 +191,7 @@
                                                             </label>
                                                             <input type="text" name="materno" id="inputMaterno"
                                                                 class="form-control" placeholder="Apellido materno"
-                                                                v-model="materno">
+                                                                v-model="materno" disabled>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -382,7 +384,7 @@ c0-0.1-0.1-0.3-0.1-0.4L21.4,21.1z"></path>
                                         <li class="list-item faded">Conceptos</li>
                                         <li class="list-item" id="recurringMonthly"
                                             v-for="(orden, id_orden) of cartStore.data" :key="id_orden">
-                                            <span class="item-name mt-2">{{ orden.concepto }}</span>
+                                            <span class="item-name mt-2">{{ concepto.concepto }}</span>
                                             <span class="item-value">Bs. {{ orden.costo.toFixed(2) }}</span>
                                         </li>
                                     </ul>
@@ -417,7 +419,7 @@ c0-0.1-0.1-0.3-0.1-0.4L21.4,21.1z"></path>
                                 </div>
                                 <div class="summary-actions">
                                     <button type="button" class="btn btn-lg btn-primary btn-checkout" data-btn-loader=""
-                                        v-if="cartStore.data.length > 0 && confirmOrder">
+                                        v-if="cartStore.data.length > 0 && confirmOrder" @click="submitOrder()">
                                         <span>
                                             <UIcon name="i-mdi-share" class="w-5 h-5" />
                                             Realizar pedido
@@ -446,7 +448,8 @@ c0-0.1-0.1-0.3-0.1-0.4L21.4,21.1z"></path>
                             <div class="checkbox m-t-0 m-b-1x">
                                 <label class="form-check-label">
                                     <div class="checkbox-styled" :class="confirm_check ? 'checked' : ''">
-                                        <input class="form-check-input" type="checkbox" v-model="confirm_check">
+                                        <input class="form-check-input" type="checkbox" v-model="confirm_check"
+                                            id="checkConfirm">
                                     </div>
                                     <span>Estoy seguro/a de realizar el pedido</span>
                                 </label>
@@ -455,6 +458,14 @@ c0-0.1-0.1-0.3-0.1-0.4L21.4,21.1z"></path>
                                 <div class="alert-body">
                                     Debe confirmar su pedido
                                 </div>
+                            </div>
+                            <div class="alert alert-lago alert-danger text-center gateway-errors m-t-5x"
+                                v-if="alertInscripcion">
+                                Aun tiene una preinscripción pendiente.<br>
+                                Inscrito el
+                                <DateFormat :date="alertInscripcion" />
+                                <br>
+                                Debe anularse o proceder antes de continuar
                             </div>
                         </div>
                     </div>
@@ -476,25 +487,6 @@ c0-0.1-0.1-0.3-0.1-0.4L21.4,21.1z"></path>
                 </button>
             </div>
         </div>
-
-        <UModal v-model="showVaciar">
-            <UCard :ui="{ background: themeDark ? 'bg-black' : '' }">
-                <div class="space-y-2 text-center">
-                    <h2 class="text-xl font-weight-bolder">
-                        {{ idOrden == 0 ?
-                            '¿ Seguro que quiere vaciar el carrito ?' :
-                            '¿ Seguro que quiere eliminar el concepto ? ' }}
-                    </h2>
-                    <UIcon name="i-heroicons-question-mark-circle" class="w-24 h-24 text-yellow-500" />
-                    <div class="p-1">
-                        <button class="btn btn-info mr-3" @click="vaciarCarrito()">
-                            {{ idOrden == 0 ? 'Vaciar' : 'Eliminar' }}
-                        </button>
-                        <button class="btn btn-danger" @click="showVaciar = false">Cancelar</button>
-                    </div>
-                </div>
-            </UCard>
-        </UModal>
     </div>
 </template>
 
@@ -510,6 +502,10 @@ useHead({
 
 import { useInsStore } from '~/stores/inscripcion'
 import { computed, onMounted, ref } from 'vue'
+import DateFormat from '~/components/admin/administracion/DateFormat.vue';
+const { $swal } = useNuxtApp()
+
+
 const cartStore = useInsStore()
 const comision = ref(1)
 
@@ -522,19 +518,38 @@ const total = computed(() => {
 });
 
 const confirm_check = ref(false)
-const showVaciar = ref(false)
-const idOrden = ref(0)
-const removeOrden = (id) => {
-    idOrden.value = id
-    showVaciar.value = true
-}
-const vaciarCarrito = () => {
-    if (idOrden.value == 0) {
-        cartStore.reset()
+const vaciarCarrito = (idOrden) => {
+    if (idOrden == 0) {
+        $swal({
+            title: '¿Estás seguro de vaciar?',
+            text: 'Esta acción eliminará todos los pedidos',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, vaciar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cartStore.reset()
+            }
+        })
     } else {
-        cartStore.remove(idOrden.value)
+        $swal({
+            title: '¿Estás seguro de eliminar el pedido?',
+            text: 'Esta acción eliminará el pedido',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cartStore.remove(idOrden)
+            }
+        })
     }
-    showVaciar.value = false
 }
 
 const setMethod = (method) => {
@@ -581,33 +596,72 @@ const paterno = ref('')
 const materno = ref('')
 const idPersona = ref('')
 const info_nota = ref('')
+const id_concepto = ref(3)
+const concepto = ref({})
 const searchCI = async () => {
-    try {
-        const data = await useApiFetch(`/persona/${numeroDocumento.value}`)
-        if (data) {
-            expedido.value = data.expedido
-            fecha_nac.value = data.fecha_nac
-            nombres.value = data.nombres
-            paterno.value = data.paterno
-            materno.value = data.materno
-            idPersona.value = data.idPersona
+    if (numeroDocumento.value && expedido.value && fecha_nac.value) {
+        try {
+            const data = await useApiFetch(`/persona/${numeroDocumento.value}/${expedido.value}/${fecha_nac.value}`)
 
-            confirm_check.value = false
-        } else {
-            expedido.value = ''
-            fecha_nac.value = ''
+            if (data) {
+                nombres.value = data.nombres
+                paterno.value = data.paterno
+                materno.value = data.materno
+                idPersona.value = data.idPersona
+
+                confirm_check.value = false
+
+                $('#inputNombres').attr('disabled', 'disabled')
+                $('#inputPaterno').attr('disabled', 'disabled')
+                $('#inputMaterno').attr('disabled', 'disabled')
+
+                verifyInscripcion()
+            } else {
+                nombres.value = ''
+                paterno.value = ''
+                materno.value = ''
+                idPersona.value = ''
+
+                confirm_check.value = false
+
+                $('#inputNombres').removeAttr('disabled')
+                $('#inputPaterno').removeAttr('disabled')
+                $('#inputMaterno').removeAttr('disabled')
+
+                verifyInscripcion()
+            }
+        } catch (e) {
             nombres.value = ''
             paterno.value = ''
             materno.value = ''
             idPersona.value = ''
 
             confirm_check.value = false
+            // console.log(e)
+            $('#inputNombres').removeAttr('disabled')
+            $('#inputPaterno').removeAttr('disabled')
+            $('#inputMaterno').removeAttr('disabled')
         }
-    } catch (e) {
-        confirm_check.value = false
-        console.log(e)
     }
 }
+const alertInscripcion = ref('')
+const verifyInscripcion = async () => {
+    try {
+        const data = await useApiFetch(`/preinscripcion/persona/${idPersona.value}`)
+
+        if (data) {
+            alertInscripcion.value = data.fecha
+            $('#checkConfirm').attr('disabled', 'disabled')
+        } else {
+            alertInscripcion.value = ''
+            $('#checkConfirm').removeAttr('disabled')
+        }
+    } catch (e) {
+        alertInscripcion.value = ''
+        $('#checkConfirm').removeAttr('disabled')
+    }
+}
+
 
 const nro_deposito = ref('')
 const uninet = ref('')
@@ -652,12 +706,85 @@ const getIp = async () => {
         console.log('Error obteniendo la IP:', e);
     }
 }
+const getConcepto = async () => {
+    try {
+        const data = await useApiFetch(`/concepto/${id_concepto.value}`)
+        concepto.value = data
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 const buy_method = ref('qr')
+
+const submitOrder = () => {
+    $swal({
+        title: '¿Esta seguro/a de realizar el pedido?',
+        text: 'Esta acción no se puede deshacer',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, ordenar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            postOrder()
+        }
+    })
+}
+const postOrder = async () => {
+    try {
+        const data = await useApiFetch('/orden', {
+            method: 'POST',
+            body: {
+                descripcion: `CTA ${nombres.value} ${paterno.value} ${materno.value}`,
+                // fecha: new Date().toISOString().split('T')[0],
+                subTotal: subTotal.value.toFixed(2),
+                comision: comision.value.toFixed(2),
+                montoTotal: total.value.toFixed(2),
+                id_moneda: 1,
+                ip: ip.value,
+                ordenConcepto: [
+                    {
+                        id_concepto: id_concepto.value,
+                        cantidad: 1,
+                        id_tipo_medida: 1,
+                        costo: subTotal.value.toFixed(2),
+                        id_moneda: 1
+                    }
+                ],
+                persona: {
+                    ci: numeroDocumento.value,
+                    expedido: expedido.value,
+                    nombres: nombres.value,
+                    paterno: paterno.value,
+                    materno: materno.value,
+                    fecha_nac: fecha_nac.value
+                },
+                idConvocatoria: cartStore.data.idConvocatoria
+            }
+        })
+
+        $swal({
+            title: data.message,
+            text: 'Redirigiendo a la pagina del pago',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 2500
+        }).then(() => {
+            cartStore.reset()
+            navigateTo('/preuniversitario')
+        })
+    } catch (e) {
+        console.log(e.data);
+    }
+}
 
 onMounted(() => {
     setTimeout(() => {
         getIp()
+        getConcepto()
     }, 250)
 })
 </script>

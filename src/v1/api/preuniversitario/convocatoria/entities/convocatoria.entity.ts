@@ -1,6 +1,8 @@
 import { Estado } from "src/common/enums/estado.enum"
 import { User } from "src/v1/api/auth/users/entities/user.entity"
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { ConvocatoriaModalidad } from "../../convocatoria-modalidad/entities/convocatoria-modalidad.entity"
+import { Modalidad } from "src/v1/base_upea/modalidad/entities/modalidad.entity"
 
 @Entity('convocatoria')
 export class Convocatoria {
@@ -29,18 +31,21 @@ export class Convocatoria {
     @Column()
     id_concepto: number
 
-    @Column()
-    id_modalidad: number
+    // @Column()
+    // id_modalidad: number
 
     @Column()
     cupos: number
 
     @Column({ nullable: true, default: null })
-    imagen: string
+    file: string
 
     @Column({ type: 'float', precision: 5, scale: 2 })
     costo: number
 
     @Column({ type: 'enum', enum: Estado, default: Estado.ACTIVO })
     estado: Estado
+
+    // @OneToMany(() => ConvocatoriaModalidad, (convocatoriaModalidad) => convocatoriaModalidad.convocatoria)
+    // modalidad: Modalidad[]
 }

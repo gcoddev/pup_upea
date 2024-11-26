@@ -346,7 +346,8 @@ const postRegister = async () => {
         })
 
         sessionStorage.setItem('loading', true)
-        sessionStorage.setItem('successMessage', data.message)
+        sessionStorage.setItem('message', data.message)
+        sessionStorage.setItem('status', 'success')
 
         return navigateTo('/login')
     } catch (e) {
@@ -361,7 +362,7 @@ const postRegister = async () => {
 const searchPersona = async () => {
     if (numeroDocumento.value && expedido.value && fecha_nac.value) {
         try {
-            const data = await useApiFetch(`/persona/${numeroDocumento.value}/${expedido.value}/${fecha_nac.value}`)
+            const data = await useApiFetch(`/vista-persona/${numeroDocumento.value}/${expedido.value}/${fecha_nac.value}`)
             id_persona.value = data.id
             nombres.value = data.nombre
             paterno.value = data.paterno

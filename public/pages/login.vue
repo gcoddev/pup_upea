@@ -50,16 +50,17 @@
                                                     Acceder con
                                                 </label>
                                                 <br>
+                                                <br>
                                                 <div>
-                                                    <a href="#" class="ml-1 connect-icon">
+                                                    <a :href="`${apiUrl}/auth/redirect?op=1`" class="ml-1 connect-icon">
                                                         <img src="~/public/icons/google-icon.png" alt="">
                                                     </a>
-                                                    <a href="#" class="ml-3 connect-icon">
+                                                    <!-- <a href="#" class="ml-3 connect-icon">
                                                         <img src="~/public/icons/facebook-icon.png" alt="">
-                                                    </a>
-                                                    <a href="#" class="ml-3 connect-icon">
+                                                    </a> -->
+                                                    <!-- <a href="#" class="ml-3 connect-icon">
                                                         <img src="~/public/icons/github-icon.png" alt="">
-                                                    </a>
+                                                    </a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -93,6 +94,8 @@ useHead({
 import { ref, onMounted } from 'vue'
 import Cookies from 'js-cookie'
 import Message from '~/components/Message.vue';
+const config = useRuntimeConfig();
+const apiUrl = ref(config.public.apiBaseUrl)
 
 const messageAlert = ref('');
 const statusAlert = ref('');
@@ -127,10 +130,11 @@ const postLogin = async () => {
         Cookies.set('token', data.token, { expires: 2 / 24 })
         sessionStorage.setItem('logged', true)
 
-        // return navigateTo('/admin')
-        location.reload()
+        return navigateTo('/admin')
+        // location.reload()
         // }
     } catch (e) {
+        console.log(e)
         if (!e.data.success) {
             messageAlert.value = e.data.message
             statusAlert.value = 'danger'
@@ -140,13 +144,33 @@ const postLogin = async () => {
     }
 }
 
-onMounted(() => {
-    const successMessage = sessionStorage.getItem('successMessage')
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
-    if (successMessage) {
-        messageAlert.value = successMessage
+onMounted(() => {
+    const login = route.query
+    if (login.success == 'true') {
+        messageAlert.value = route.query.message
         statusAlert.value = 'success'
-        sessionStorage.removeItem('successMessage')
+
+        const token = route.query.accessToken
+        Cookies.set('token', token, { expires: 2 / 24 })
+        sessionStorage.setItem('logged', true)
+
+        navigateTo('/admin')
+        // location.reload()
+    } else {
+        messageAlert.value = login.message
+        statusAlert.value = 'danger'
+    }
+
+    const message = sessionStorage.getItem('message')
+    const status = sessionStorage.getItem('status')
+
+    if (message && status) {
+        messageAlert.value = message
+        statusAlert.value = status
+        sessionStorage.removeItem('message')
     }
 })
 </script>

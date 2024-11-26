@@ -28,7 +28,7 @@
                                                                 </label>
                                                                 <input type="text" id="numeroDocumento"
                                                                     class="form-control" placeholder="CI"
-                                                                    v-model="numeroDocumento" @keyup="searchPersona">
+                                                                    v-model="numeroDocumento" @keyup="searchPersona()">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-2">
@@ -38,7 +38,7 @@
                                                                 </label>
                                                                 <select name="inputExpedido" id="inputExpedido"
                                                                     class="form-control" v-model="expedido"
-                                                                    @change="searchPersona">
+                                                                    @change="searchPersona()">
                                                                     <option value="">
                                                                         -
                                                                     </option>
@@ -88,7 +88,7 @@
                                                                 </label>
                                                                 <input type="date" name="fecha_nac" id="inputFecha_nac"
                                                                     class="form-control" v-model="fecha_nac"
-                                                                    @change="searchPersona">
+                                                                    @change="searchPersona()">
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
@@ -374,7 +374,8 @@ const postUsuario = async () => {
         })
 
         sessionStorage.setItem('loading', true)
-        sessionStorage.setItem('successMessage', data.value.message)
+        sessionStorage.setItem('message', data.message)
+        sessionStorage.setItem('status', 'success')
 
         return navigateTo('/admin/usuario')
     } catch (e) {
@@ -407,7 +408,8 @@ const putUsuario = async () => {
         })
 
         sessionStorage.setItem('loading', true)
-        sessionStorage.setItem('successMessage', data.message)
+        sessionStorage.setItem('message', data.message)
+        sessionStorage.setItem('status', 'success')
 
         return navigateTo('/admin/usuario')
     } catch (e) {
@@ -442,7 +444,7 @@ const getUsuario = async (id) => {
 const searchPersona = async () => {
     if (numeroDocumento.value && expedido.value && fecha_nac.value) {
         try {
-            const data = await useApiFetch(`/persona/${numeroDocumento.value}/${expedido.value}/${fecha_nac.value}`, {
+            const data = await useApiFetch(`/vista-persona/${numeroDocumento.value}/${expedido.value}/${fecha_nac.value}`, {
                 method: 'GET'
             })
 
@@ -453,7 +455,9 @@ const searchPersona = async () => {
             paterno.value = data.paterno
             materno.value = data.materno
             email.value = data.email
-            username.value = data.email.split('@')[0]
+            if (data.email) {
+                username.value = data.email.split('@')[0]
+            }
 
             $('#btnRegister').removeAttr('disabled')
 

@@ -27,33 +27,41 @@
                                             </li>
                                             <li>
                                                 <a href="#"
-                                                    @click="filterByStatus(`${EstadoPago.COMPLETADO}`, `${Estado.COMPLETADO}`)">
-                                                    <span class="status" :class="Estado.COMPLETADO">
-                                                        {{ EstadoPago.COMPLETADO }}
+                                                    @click="filterByStatus(`${EstadoPagoName.PROCESADO}`, `${Estado.PROCESADO}`)">
+                                                    <span class="status" :class="Estado.PROCESADO">
+                                                        {{ EstadoPagoName.PROCESADO }}
                                                     </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#"
-                                                    @click="filterByStatus(`${EstadoPago.PENDIENTE}`, `${Estado.PENDIENTE}`)">
-                                                    <span class="status" :class="Estado.PENDIENTE">
-                                                        {{ EstadoPago.PENDIENTE }}
+                                                    @click="filterByStatus(`${EstadoPagoName.EN_PROCESO}`, `${Estado.EN_PROCESO}`)">
+                                                    <span class="status" :class="Estado.EN_PROCESO">
+                                                        {{ EstadoPagoName.EN_PROCESO }}
                                                     </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#"
-                                                    @click="filterByStatus(`${EstadoPago.ERRONEO}`, `${Estado.ERRONEO}`)">
-                                                    <span class="status" :class="Estado.ERRONEO">
-                                                        {{ EstadoPago.ERRONEO }}
+                                                    @click="filterByStatus(`${EstadoPagoName.EXPIRADO}`, `${Estado.EXPIRADO}`)">
+                                                    <span class="status" :class="Estado.EXPIRADO">
+                                                        {{ EstadoPagoName.EXPIRADO }}
                                                     </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#"
-                                                    @click="filterByStatus(`${EstadoPago.CANCELADO}`, `${Estado.CANCELADO}`)">
-                                                    <span class="status" :class="Estado.CANCELADO">
-                                                        {{ EstadoPago.CANCELADO }}
+                                                    @click="filterByStatus(`${EstadoPagoName.FALLIDO}`, `${Estado.FALLIDO}`)">
+                                                    <span class="status" :class="Estado.FALLIDO">
+                                                        {{ EstadoPagoName.FALLIDO }}
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#"
+                                                    @click="filterByStatus(`${EstadoPagoName.ANULADO}`, `${Estado.ANULADO}`)">
+                                                    <span class="status" :class="Estado.ANULADO">
+                                                        {{ EstadoPagoName.ANULADO }}
                                                     </span>
                                                 </a>
                                             </li>
@@ -92,11 +100,21 @@
                                                         class="w-3 h-3 d-inline-block" />
                                                 </th>
                                                 <th class="sorting">
-                                                    Fecha de pedido
+                                                    Sub total
                                                     <UIcon name="i-material-symbols-unfold-more"
                                                         class="w-3 h-3 d-inline-block" />
                                                 </th>
                                                 <th class="sorting">
+                                                    Monto total
+                                                    <UIcon name="i-material-symbols-unfold-more"
+                                                        class="w-3 h-3 d-inline-block" />
+                                                </th>
+                                                <th class="sorting text-center">
+                                                    Fecha de pedido
+                                                    <UIcon name="i-material-symbols-unfold-more"
+                                                        class="w-3 h-3 d-inline-block" />
+                                                </th>
+                                                <th class="sorting text-center">
                                                     Estado
                                                     <UIcon name="i-material-symbols-unfold-more"
                                                         class="w-3 h-3 d-inline-block" />
@@ -113,7 +131,6 @@
                                                     {{ id_order + 1 }}
                                                 </td>
                                                 <td class="dtr-control">
-                                                    <button type="button" class="btn-table-collapse"></button>
                                                     <b>{{ order.descripcion }}</b>
                                                     <br>
                                                     <div class="ssl-info">
@@ -122,18 +139,33 @@
                                                             data-toggle="tooltip" title="Cargando..." width="12px"
                                                             class="ssl-statusssl-state ssl-active ssl-sync">
                                                     </div>
-                                                    &nbsp;<span class="text-small">{{ order.codigoOrden }}</span>
+                                                    &nbsp;<span class="text-small">{{ order.user ?
+                                                        `${order.user.numeroDocumento} ${order.user.nombres}` :
+                                                        `${order.persona.ci} ${order.persona.nombres}` }}</span>
                                                 </td>
                                                 <td class="text-nowrap">
-                                                    Bs. {{ order.montoTotal.toFixed(2) }}<br>
-                                                    <span class="small">Anual</span>
+                                                    <ul class="list-disc">
+                                                        <li v-for="(oc, id_oc) of order.ordenConcepto" :key="id_oc"
+                                                            class="list-item">
+                                                            Bs. {{ oc.costo }}<br>
+                                                            <span class="small">{{ oc.concepto.concepto }}</span>
+                                                        </li>
+                                                    </ul>
                                                 </td>
                                                 <td class="text-nowrap">
-                                                    24/12/2024
+                                                    Bs. {{ order.subTotal }}<br>
+                                                    <span class="small">Bs. {{ order.comision }} comisión</span>
+                                                </td>
+                                                <td class="text-nowrap">
+                                                    Bs. {{ order.montoTotal }}<br>
+                                                    <!-- <span class="small">Bs. {{ order.comision }} comisión</span> -->
+                                                </td>
+                                                <td class="text-nowrap text-center">
+                                                    <DateFormat :date="order.creadoEl" />
                                                 </td>
                                                 <td class="text-nowrap">
                                                     <span class="status" :class="Estado[order.estadoPago]">
-                                                        {{ EstadoPago[order.estadoPago] }}
+                                                        {{ EstadoPagoName[order.estadoPago] }}
                                                     </span>
                                                 </td>
                                                 <td class="cell-action">
@@ -145,22 +177,20 @@
                                                         </a>
                                                         <ul class="dropdown-menu  pull-right" role="menu">
                                                             <li>
-                                                                <a href="#">
+                                                                <NuxtLink :to="`/admin/orden/${order.idOrden}`">
                                                                     <UIcon name="i-heroicons-list-bullet"
                                                                         class="w-5 h-5 mr-2" />
                                                                     Ver Detalle
-                                                                </a>
+                                                                </NuxtLink>
                                                             </li>
-                                                            <li
-                                                                v-if="order.estadoPago === EstadoPago.PENDIENTE.toUpperCase()">
+                                                            <li v-if="order.estadoPago === EstadoPago.EN_PROCESO">
                                                                 <a href="#">
                                                                     <UIcon name="i-material-symbols-block"
                                                                         class="w-5 h-5 mr-2" />
                                                                     Cancelar pedido
                                                                 </a>
                                                             </li>
-                                                            <li
-                                                                v-if="order.estadoPago === EstadoPago.COMPLETADO.toUpperCase()">
+                                                            <li v-if="order.estadoPago === EstadoPago.PROCESADO">
                                                                 <a href="#">
                                                                     <UIcon name="i-heroicons-ticket-solid"
                                                                         class="w-5 h-5 mr-2" />
@@ -224,40 +254,28 @@ useHead({
     title: 'Orden | Admin'
 })
 
+import { useUserStore } from '~/stores/user'
+const user = useUserStore()
+
 import AdminTitle from '~/components/admin/AdminTitle.vue';
 import OrdenAcciones from '~/components/admin/orden/Acciones.vue'
-import { EstadoPago, Estado } from '~/enums/EstadoPago.enum';
+import { EstadoPago, Estado, EstadoPagoName } from '~/enums/EstadoPago.enum';
 import 'datatables.net';
 import { useApiFetch } from '~/composables/useApiFetch'
+import DateFormat from '~/components/admin/administracion/DateFormat.vue';
 
-const orders = ref(null)
+const orders = ref([])
 const getOrders = async () => {
     try {
         const data = await useApiFetch('/orden')
 
         orders.value = data
-        console.log(orders.value);
-
-        orders.value = [
-            {
-                "idOrden": 1,
-                "descripcion": "Compra de materiales",
-                "codigoOrden": 12345,
-                "cantidad": 1,
-                "estadoPago": EstadoPago.PENDIENTE.toUpperCase(),
-                "montoTotal": 22.00,
-                "idUser": 7
-            },
-            {
-                "idOrden": 2,
-                "descripcion": "Compra de ",
-                "codigoOrden": 12345,
-                "cantidad": 1,
-                "estadoPago": EstadoPago.CANCELADO.toUpperCase(),
-                "montoTotal": 25.00,
-                "idUser": 7
-            },
-        ]
+        // console.log(orders.value);
+        // for (const order of data) {
+        //     if (order.user && order.user.id == user.data.id) {
+        //         orders.value.push(order)
+        //     }
+        // }
     } catch (err) {
         console.log(err);
     }
@@ -269,7 +287,7 @@ const filterByStatus = (statusValue, stat) => {
     selectedStatusLabel.value = statusValue ? statusValue : 'Todas las entradas';
     status.value = stat;
     const table = $('#tablaPedidos').DataTable();
-    table.column(4).search(statusValue).draw();
+    table.column(5).search(statusValue).draw();
 };
 
 const initializeTable = () => {
@@ -314,6 +332,8 @@ const initializeTable = () => {
 
 onMounted(() => {
     setTimeout(() => {
+        console.log('get');
+
         getOrders()
         setTimeout(() => {
             initializeTable()
@@ -321,7 +341,3 @@ onMounted(() => {
     }, 250)
 })
 </script>
-
-<style>
-/* @import 'datatables.net-dt/css/dataTables.dataTables.min.css'; */
-</style>

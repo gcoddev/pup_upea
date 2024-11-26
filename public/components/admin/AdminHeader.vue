@@ -120,23 +120,34 @@
                                 id="Secondary_Navbar-Account-Divider-491">
                                 -----
                             </li>
-                            <li menuItemName="Logout" class="" id="Secondary_Navbar-Account-Logout">
-                                <a href="#">
+                            <li class="" id="">
+                                <NuxtLink to="/admin/perfil">
                                     <UIcon name="i-heroicons-user-solid" class="w-4 h-4 mr-2 bg-gray-400" />
                                     <span class="menu-item-content">Tu perfil</span>
-                                </a>
+                                </NuxtLink>
                             </li>
-                            <li menuItemName="Logout" class="" id="Secondary_Navbar-Account-Logout">
-                                <a href="#">
+                            <li class="" id="">
+                                <NuxtLink to="/admin/password">
+                                    <UIcon name="i-heroicons-lock-closed-solid" class="w-4 h-4 mr-2 bg-gray-400" />
+                                    <span class="menu-item-content">Cambiar contraseña</span>
+                                </NuxtLink>
+                            </li>
+                            <li class="" id="">
+                                <NuxtLink to="/admin/security">
+                                    <UIcon name="i-heroicons-shield-check-solid" class="w-4 h-4 mr-2 bg-gray-400" />
+                                    <span class="menu-item-content">Ajustes de seguridad</span>
+                                </NuxtLink>
+                            </li>
+                            <li class="" id="">
+                                <NuxtLink to="/admin/emails">
                                     <UIcon name="i-heroicons-envelope-solid" class="w-4 h-4 mr-2 bg-gray-400" />
                                     <span class="menu-item-content">E-mails recibidos</span>
-                                </a>
+                                </NuxtLink>
                             </li>
-                            <li menuItemName="Divider-491" class="nav-divider "
-                                id="Secondary_Navbar-Account-Divider-491">
+                            <li menuItemName="Divider-491" class="nav-divider " id="">
                                 -----
                             </li>
-                            <li menuItemName="Logout" class="" id="Secondary_Navbar-Account-Logout">
+                            <li class="" id="Secondary_Navbar-Account-Logout">
                                 <a href="#" @click="showLogout = true">
                                     <UIcon name="i-heroicons-arrow-left-end-on-rectangle-solid"
                                         class="w-4 h-4 mr-2 bg-gray-400" />
@@ -452,8 +463,9 @@
 
 <script setup>
 import Cookies from 'js-cookie'
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useUserStore } from '~/stores/user'
+const user = useUserStore()
 import { useRoute } from 'vue-router'
 
 const toast = useToast()
@@ -466,7 +478,8 @@ const actions = ref([{
     click: () => {
         Cookies.remove('token')
         sessionStorage.setItem('loading', true)
-        sessionStorage.setItem('successMessage', 'Sesión cerrada correctamente')
+        sessionStorage.setItem('message', 'Sesión cerrada correctamente')
+        sessionStorage.setItem('status', 'success')
 
         return navigateTo('/login')
     }
@@ -481,7 +494,8 @@ const logout = (() => {
     setTimeout(() => {
         Cookies.remove('token')
         sessionStorage.setItem('loading', true)
-        sessionStorage.setItem('successMessage', 'Sesión cerrada correctamente')
+        sessionStorage.setItem('message', 'Sesión cerrada correctamente')
+        sessionStorage.setItem('status', 'success')
 
         // return navigateTo('/login')
         location.reload()
@@ -515,7 +529,6 @@ const showHideMenu = () => {
     }
 }
 
-const user = useUserStore()
 const Role = ref({
     'admin': 'ADMINISTRADOR',
     'tec': 'TECNICO',
@@ -562,13 +575,13 @@ const isAdmin = computed(() => user.data.role === 'admin');
 const isTec = computed(() => user.data.role === 'tec' || user.data.role === 'admin');
 
 const route = useRoute()
-onMounted(() => {
-    currentTheme.value = localStorage.getItem('theme') || 'modern';
-    setTimeout(() => {
-        const ruta = route.path.split('/')
+watch(
+    () => route.path,
+    (newPath) => {
+        const ruta = newPath.split('/')
 
         if (ruta[2]) {
-            if (ruta[2] == 'usuario' || ruta[2] == 'convocatoria' || ruta[2] == 'inscripcion') {
+            if (['usuario', 'convocatoria', 'inscripcion'].includes(ruta[2])) {
                 linkClass.value = 'admin'
             } else {
                 linkClass.value = ruta[2]
@@ -576,6 +589,23 @@ onMounted(() => {
         } else {
             linkClass.value = 'panel'
         }
+    },
+    { immediate: true } // Para ejecutar el watch al cargarse la página
+)
+onMounted(() => {
+    currentTheme.value = localStorage.getItem('theme') || 'modern';
+    setTimeout(() => {
+        // const ruta = route.path.split('/')
+
+        // if (ruta[2]) {
+        //     if (ruta[2] == 'usuario' || ruta[2] == 'convocatoria' || ruta[2] == 'inscripcion') {
+        //         linkClass.value = 'admin'
+        //     } else {
+        //         linkClass.value = ruta[2]
+        //     }
+        // } else {
+        //     linkClass.value = 'panel'
+        // }
     }, 250)
 });
 </script>

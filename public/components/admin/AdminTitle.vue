@@ -23,6 +23,13 @@
                 <NuxtLink to="/admin/convocatoria/nuevo" class="btn btn-info" v-if="keyTitle == 'convocatoria'">
                     Nueva convocatoria
                 </NuxtLink>
+                <div class="search-group" v-if="keyTitle == 'emails'">
+                    <div class="search-field">
+                        <i class="search-field-icon lm lm-search"></i>
+                        <input type="text" id="table-search" class="form-control" placeholder="Buscar...">
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

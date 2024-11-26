@@ -1,0 +1,13 @@
+/* Tema claro */
+.swal2-light-theme {
+    --swal2-bg-color: #ffffff;
+    --swal2-title-color: #333;
+    --swal2-text-color: #555;
+}
+
+/* Tema oscuro */
+.swal2-dark-theme {
+    --swal2-bg-color: #333;
+    --swal2-title-color: #eee;
+    --swal2-text-color: #ddd;
+}

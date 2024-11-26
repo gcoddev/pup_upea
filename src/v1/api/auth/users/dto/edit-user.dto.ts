@@ -35,7 +35,7 @@ export class EditUserDto {
 
     @IsNumber()
     @IsOptional()
-    google_id?: string
+    googleId?: string
 
     @IsEnum(Role)
     // @IsOptional()

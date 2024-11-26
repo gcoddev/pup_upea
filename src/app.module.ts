@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { V1Module } from './v1/api/v1.module';
@@ -20,6 +20,14 @@ import { SedeModule } from './v1/base_upea/sede/sede.module';
 import { TipoConceptoModule } from './v1/tesoro/tipo-concepto/tipo-concepto.module';
 import { CarreraSedeModule } from './v1/base_upea/carrera-sede/carrera-sede.module';
 import { GestionModule } from './v1/base_upea/gestion/gestion.module';
+import { PpeController } from './ppe/ppe.controller';
+import { PpeModule } from './ppe/ppe.module';
+import { PpeService } from './ppe/ppe.service';
+import { OrdenModule } from './v1/api/orden/orden.module';
+import { CodigoSeguimientoMiddleware } from './codigo-seguimiento.middleware';
+import { MailModule } from './v1/api/mail/mail.module';
+import { UsersModule } from './v1/api/auth/users/users.module';
+import { PersonasModule } from './v1/api/preuniversitario/personas/personas.module';
 
 @Module({
   imports: [
@@ -35,9 +43,17 @@ import { GestionModule } from './v1/base_upea/gestion/gestion.module';
     BaseUpeaModule, // Base de tatos 'Base UPEA'
 
     // Módulos de versión
-    V1Module, VistaPersonaModule, ConceptoModule, UnidadMovimientoModule, TipoMedidaModule, MetodoPagoModule, MonedaModule, DepartamentoModule, AreaModule, CarreraModule, ModalidadModule, SedeModule, TipoConceptoModule, CarreraSedeModule, GestionModule, // api/v1
+    V1Module, VistaPersonaModule, ConceptoModule, UnidadMovimientoModule, TipoMedidaModule, MetodoPagoModule, MonedaModule, DepartamentoModule, AreaModule, CarreraModule, ModalidadModule, SedeModule, TipoConceptoModule, CarreraSedeModule, GestionModule, PpeModule, // api/v1
+
+    OrdenModule, MailModule, UsersModule, PersonasModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, PpeController],
+  providers: [AppService, PpeService],
 })
-export class AppModule { }
+export class AppModule {
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer
+  //     .apply(CodigoSeguimientoMiddleware)
+  //     .forRoutes({ path: '/:codigoSeguimiento', method: RequestMethod.POST });
+  // }
+}

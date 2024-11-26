@@ -17,6 +17,6 @@ export class MonedaService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} moneda`;
+    return this.monedaRepository.findOneBy({ id_moneda: id })
   }
 }

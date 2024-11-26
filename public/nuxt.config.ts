@@ -4,8 +4,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.API_BASE_URL,
-      apiKeyValue: process.env.API_KEY_VALUE
+      apiBaseUrl: process.env.NUXT_API_BASE_URL,
+      apiKeyValue: process.env.NUXT_API_KEY_VALUE,
+      baseUrl: process.env.NUXT_BASE_URL
     }
   },
   app: {
@@ -38,6 +39,10 @@ export default defineNuxtConfig({
         {
           rel: 'stylesheet',
           href: '/assets/admin/lagom2/assets/css/site.css'
+        },
+        {
+          rel: 'stylesheet',
+          href: '/assets/admin/css/aero.css'
         },
         // {
         //   rel: 'stylesheet',
@@ -130,6 +135,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt'
   ],
   plugins: [
-    // '~/plugins/select2.js'
+    '~/plugins/select2.js'
   ]
 })

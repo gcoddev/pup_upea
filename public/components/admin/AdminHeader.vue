@@ -85,7 +85,7 @@
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <div class="client-avatar client-avatar-sm">
                                 <img class=""
-                                    src="~/public/assets/admin/lagom2/assets/img/logo/eb76e3210778a71baad903fcff70c215.jpg"
+                                    src="~/public/images/upea.png"
                                     alt="Avatar">
                             </div>
                             <div class="active-client">
@@ -168,7 +168,7 @@
                 <ul class="menu menu-primary" data-nav>
                     <li menuItemName="Dashboard" class="dropdown-mega nav-item-text-only"
                         :class="linkClass == 'panel' ? 'active' : ''">
-                        <NuxtLink to="/admin" @click="linkClass = 'panel'">
+                        <NuxtLink to="/admin" @click="showHideMenu('panel')">
                             <span class="item-text">
                                 Panel principal
                             </span>
@@ -208,61 +208,26 @@
                             </li>
                         </ul>
                     </li>
-                    <li menuItemName="Pedidos" class="  nav-item-text-only"
-                        :class="linkClass == 'orden' ? 'active' : ''">
-                        <NuxtLink to="/admin/orden" @click="linkClass = 'orden'">
+                    <li menuItemName="Pedidos" class="nav-item-text-only" :class="linkClass == 'orden' ? 'active' : ''">
+                        <NuxtLink to="/admin/orden" @click="showHideMenu('orden')">
                             <span class="item-text">Pedidos</span>
                         </NuxtLink>
                     </li>
-                    <li menuItemName="Support" class="dropdown  nav-item-text-only">
+                    <!-- <li menuItemName="Support" class="dropdown nav-item-text-only">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <span class="item-text">Support
                             </span>
                             <b class="ls ls-caret"></b>
                         </a>
-                        <ul class="dropdown-menu dropdown-lazy has-scroll  ">
-                            <li menuItemName="Tickets" class=" ">
-                                <a href="#">
-                                    <i class="fas fa-test ls ls-envelope"></i>
-                                    <span class="menu-item-content">Tickets</span>
-                                    <span class='badge badge-info badge-right'>1</span>
-                                </a>
-                            </li>
-                            <li menuItemName="Announcements" class=" ">
-                                <a href="#">
-                                    <i class="fas fa-test ls ls-text-cloud"></i>
-                                    <span class="menu-item-content">Announcements</span>
-                                </a>
-                            </li>
-                            <li menuItemName="Knowledgebase" class=" ">
-                                <a href="#">
-                                    <i class="fas fa-test ls ls-document-info"></i>
-                                    <span class="menu-item-content">Knowledgebase</span>
-                                </a>
-                            </li>
-                            <li menuItemName="Downloads" class=" ">
-                                <a href="#">
-                                    <i class="fas fa-test ls ls-download-square"></i>
-                                    <span class="menu-item-content">Downloads</span>
-                                </a>
-                            </li>
-                            <li menuItemName="Network Status" class=" ">
-                                <a href="#">
-                                    <i class="fas fa-test ls ls-range"></i>
-                                    <span class="menu-item-content">Network Status</span>
-                                </a>
-                            </li>
-                            <li menuItemName="Divider-537" class="nav-divider ">
-                                -----
-                            </li>
+                        <ul class="dropdown-menu dropdown-lazy has-scroll">
                             <li menuItemName="Open Ticket" class=" ">
-                                <NuxtLink to="/admin/orden/nuevo" @click="linkClass = 'orden'">
+                                <NuxtLink to="/admin/orden/nuevo" @click="showHideMenu()">
                                     <i class="fas fa-test ls ls-new-window"></i>
                                     <span class="menu-item-content">Nuevo pedido</span>
                                 </NuxtLink>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li menuItemName="Store" class="dropdown is-right  dropdown-mega nav-item-text-only"
                         id="Primary_Navbar-Store">
                         <a href="#" @click="goHome" id="go-home">
@@ -439,7 +404,7 @@
                         </div>
                     </li>
                     <li menuItemName="Open Ticket" class=" nav-item-btn is-right" id="Primary_Navbar-Open_Ticket">
-                        <nuxtLink class="btn btn-primary" to="/admin/orden/nuevo" @click="linkClass = 'orden'">
+                        <nuxtLink class="btn btn-primary" to="/admin/orden/nuevo" @click="showHideMenu()">
                             <span>Nuevo pedido</span>
                         </nuxtLink>
                     </li>
@@ -486,7 +451,7 @@ const actions = ref([{
 }])
 
 const clickMenu = () => {
-    linkClass.value = 'admin'
+    showHideMenu('admin')
     $('.menu-admin').removeClass('show')
 }
 
@@ -520,12 +485,16 @@ const goHome = () => {
     }, 250)
 }
 
-const showHideMenu = () => {
+const showHideMenu = (opt = null) => {
+    linkClass.value = opt
+
     const menu = $('#layout-main')
     if ($(menu).hasClass('menu-open')) {
         $(menu).removeClass('menu-open')
+        $('body').removeClass('menu-open')
     } else {
         $(menu).addClass('menu-open')
+        $('body').addClass('menu-open')
     }
 }
 

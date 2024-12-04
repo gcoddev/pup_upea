@@ -49,7 +49,7 @@
                                     <input type="hidden" v-model="id_persona">
                                     <div class="section-body" id="personalInformacion">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 col-12">
                                                 <div class="form-group ">
                                                     <label for="numeroDocumento" class="label-required">
                                                         Cédula de identidad
@@ -59,7 +59,17 @@
                                                         @keyup="searchPersona">
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-5 col-12">
+                                                <div class="form-group ">
+                                                    <label for="inputFecha_nac" class="label-required">
+                                                        Fecha de nacimiento
+                                                    </label>
+                                                    <input type="date" name="fecha_nac" id="inputFecha_nac"
+                                                        class="form-control" v-model="fecha_nac"
+                                                        @change="searchPersona">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group ">
                                                     <label for="inputExpedido" class="label-required">
                                                         Expedición
@@ -108,16 +118,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group ">
-                                                    <label for="inputFecha_nac" class="label-required">
-                                                        Fecha de nacimiento
-                                                    </label>
-                                                    <input type="date" name="fecha_nac" id="inputFecha_nac"
-                                                        class="form-control" v-model="fecha_nac"
-                                                        @change="searchPersona">
-                                                </div>
-                                            </div>
                                             <div class="col-12">
                                                 <div class="form-group ">
                                                     <label for="inputNombres" class="label-required">
@@ -155,7 +155,7 @@
                             <div class="section section-sm">
                                 <h5 class="section-title">Cuenta de usuario</h5>
                                 <div id="containerPassword" class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-12">
                                         <div class="form-group ">
                                             <label for="inputUsername" class="label-required">
                                                 Nombre de usuario
@@ -164,16 +164,18 @@
                                                 placeholder="Username" v-model="username" autocomplete="off">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-12">
                                         <div class="form-group ">
                                             <label for="inputEmail" class="label-required">
                                                 Correo electrónico
                                             </label>
                                             <input type="email" name="email" id="inputEmail" class="form-control"
                                                 placeholder="Email" v-model="email" autocomplete="on">
+                                            <span class="text-muted" style="font-size: 0.85em;">Correo para recibir
+                                                emails</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-12">
                                         <div class="form-group has-feedback">
                                             <div class="password-content password-content-top password-content-group">
                                                 <label for="inputPassword" class="label-required">
@@ -184,13 +186,13 @@
                                                 </span>
                                             </div>
                                             <div class="input-password-strenght">
-                                                <input type="password" name="password" id="inputPassword"
+                                                <input type="text" name="password" id="inputPassword"
                                                     class="form-control" placeholder="Contraseña" v-model="password"
                                                     autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-12">
                                         <div class="form-group has-feedback">
                                             <label for="inputConfirmPassword" class="label-required">
                                                 Confirmar contraseña
@@ -198,6 +200,7 @@
                                             <input type="password" name="confirm_password" id="inputConfirmPassword"
                                                 class="form-control" placeholder="Confirmar contraseña"
                                                 autocomplete="off" v-model="confirm_password">
+                                            <span class="text-muted">Vuelve a ingresar la contraseña para confirmar</span>
                                         </div>
                                     </div>
                                 </div>
@@ -207,10 +210,10 @@
                                 <div class="section-body">
                                     <div class="checkbox">
                                         <label>
-                                            <input class="icheck-control accepttos" type="checkbox" name="accepttos">
-                                            <span class="label-required">I have read and agree to the <a href="#"
-                                                    target="_blank">Terms of
-                                                    Service</a></span>
+                                            <input class="icheck-control" type="checkbox">
+                                            <span class="label-required">I have read and agree to the
+                                                <a href="#" target="_blank">Terms of Service</a>
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
@@ -340,7 +343,7 @@ const postRegister = async () => {
                 fecha_nac: fecha_nac.value,
                 email: email.value,
                 username: username.value,
-                password: password.value,
+                password: confirm_password.value,
                 role: Role.USER
             }
         })
@@ -350,11 +353,11 @@ const postRegister = async () => {
         sessionStorage.setItem('status', 'success')
 
         return navigateTo('/login')
-    } catch (e) {
-        if (e.data) {
-            errors.value = e.data
+    } catch (err) {
+        if (err.data) {
+            errors.value = err.data
         } else {
-            console.log(e);
+            console.log(err);
         }
     }
 }
@@ -368,7 +371,8 @@ const searchPersona = async () => {
             paterno.value = data.paterno
             materno.value = data.materno
             email.value = data.email
-            username.value = data.email.split('@')[0]
+            username.value = data.ci
+            password.value = `${data.nombre.split(' ')[0].toUpperCase()}_${data.ci}`
 
             // $('#inputNombres').attr('disabled', 'disabled')
             // $('#inputPaterno').attr('disabled', 'disabled')
@@ -382,8 +386,8 @@ const searchPersona = async () => {
 
             messageAlert.value = ''
             statusAlert.value = ''
-        } catch (e) {
-            if (e.data) {
+        } catch (err) {
+            if (err.data) {
                 id_persona.value = 0
                 nombres.value = ''
                 paterno.value = ''
@@ -401,10 +405,10 @@ const searchPersona = async () => {
 
                 $('#btnRegister').attr('disabled', 'disabled')
 
-                messageAlert.value = `${e.data.message}. Verifique sus datos.`
+                messageAlert.value = `${err.data.message}. Verifique sus datos.`
                 statusAlert.value = 'danger'
             } else {
-                console.log(e)
+                console.log(err)
             }
         }
     }

@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Role } from 'src/common/enums/auth/role.enum';
-import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
+import { ApiKeyGuard } from 'src/v1/api/auth/guard/api-key.guard';
 import { EditUserDto } from './dto/edit-user.dto';
 
 @Controller('usuario')
@@ -47,6 +47,8 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @Version('1')
+  @Auth(Role.ADMIN)
   remove(@Param('id') id: number) {
     return this.usersService.remove(id);
   }

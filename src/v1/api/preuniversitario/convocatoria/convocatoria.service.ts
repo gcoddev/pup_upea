@@ -123,8 +123,14 @@ export class ConvocatoriaService {
     return this.convocatoriaService.findBy({ id_usuario })
   }
 
-  findOne(id: number) {
-    return this.convocatoriaService.findOneBy({ idConvocatoria: id })
+  async findOne(id: number) {
+    const convocatoria = await this.convocatoriaService.findOneBy({ idConvocatoria: id })
+    const modalidades = await this.convocatoriaModalidadService.findByConvocatoria(convocatoria)
+
+    return {
+      ...convocatoria,
+      modalidades
+    }
   }
 
   async update(id: number, createConvocatoriaDto: CreateConvocatoriaDto) {
@@ -157,9 +163,5 @@ export class ConvocatoriaService {
       success: true,
       message: 'Convocatoría actualizada correctamente',
     }
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} convocatoria`;
   }
 }

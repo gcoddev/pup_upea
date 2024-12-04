@@ -252,11 +252,9 @@ const getConvocatoria = async () => {
     try {
         const data = await useApiFetch('/convocatoria')
 
-        console.log(data);
-
         convocatorias.value = data
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -275,8 +273,8 @@ const updateEstado = async (id, estado) => {
         setTimeout(() => {
             getConvocatoria()
         }, 250)
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -286,8 +284,8 @@ const getCarreras = async () => {
         const data = await useApiFetch('/carrera')
 
         carreras.value = data
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        console.log(err);
     }
 }
 const selectedCarreraLabel = ref('Todas las carreras');

@@ -5,7 +5,7 @@ import { UpdateConvocatoriaDto } from './dto/update-convocatoria.dto';
 import { Request } from 'express'
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Role } from 'src/common/enums/auth/role.enum';
-import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
+import { ApiKeyGuard } from 'src/v1/api/auth/guard/api-key.guard';
 import { fileUploadInterceptor } from 'src/common/interceptors/file-upload.interceptor';
 
 @Controller('convocatoria')
@@ -57,10 +57,5 @@ export class ConvocatoriaController {
   @Auth(Role.TEC)
   updatePartial(@Param('id') id: number, @Body() updateConvocatoriaDto: UpdateConvocatoriaDto) {
     return this.convocatoriaService.updatePartial(id, updateConvocatoriaDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.convocatoriaService.remove(id);
   }
 }

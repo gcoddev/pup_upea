@@ -630,14 +630,13 @@ const searchCI = async () => {
 
                 verifyInscripcion()
             }
-        } catch (e) {
+        } catch (err) {
             nombres.value = ''
             paterno.value = ''
             materno.value = ''
             idPersona.value = ''
 
             confirm_check.value = false
-            // console.log(e)
             $('#inputNombres').removeAttr('disabled')
             $('#inputPaterno').removeAttr('disabled')
             $('#inputMaterno').removeAttr('disabled')
@@ -710,8 +709,8 @@ const getConcepto = async () => {
     try {
         const data = await useApiFetch(`/concepto/${id_concepto.value}`)
         concepto.value = data
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
     }
 }
 
@@ -776,8 +775,8 @@ const postOrder = async () => {
             cartStore.reset()
             navigateTo('/preuniversitario')
         })
-    } catch (e) {
-        console.log(e.data);
+    } catch (err) {
+        console.log(err);
     }
 }
 

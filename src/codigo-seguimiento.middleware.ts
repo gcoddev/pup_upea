@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from 'express';
 export class CodigoSeguimientoMiddleware implements NestMiddleware {
     use(req: Request, res: Response, next: NextFunction) {
         if (req.method === 'POST' && req.path === `/${req.params.codigoSeguimiento}`) {
-            console.log('Petición recibida para código de seguimiento:', req.params.codigoSeguimiento);
+            // console.log('Petición recibida para código de seguimiento:', req.params.codigoSeguimiento);
 
             return res.status(200).json({ message: 'Procesado correctamente' });
         }

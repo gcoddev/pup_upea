@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Version, UseGuards, 
 import { MailService } from './mail.service';
 import { CreateMailDto } from './dto/create-mail.dto';
 import { UpdateMailDto } from './dto/update-mail.dto';
-import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
+import { ApiKeyGuard } from 'src/v1/api/auth/guard/api-key.guard';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Role } from 'src/common/enums/auth/role.enum';
 import { Request } from 'express';

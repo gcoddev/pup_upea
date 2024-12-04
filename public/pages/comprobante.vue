@@ -180,10 +180,8 @@ const errorSeguimiento = ref(null)
 const qrcode = ref('')
 onMounted(async () => {
     const codigoSeguimiento = route.query.cod;
-    console.log(codigoSeguimiento);
 
     verificarOrden(codigoSeguimiento)
-    console.log(qrcode.value)
 });
 
 
@@ -191,7 +189,6 @@ const verificarOrden = async (codigoSeguimiento) => {
     if (codigoSeguimiento) {
         try {
             const data = await useApiFetch(`/orden/codigo/${codigoSeguimiento}`)
-            console.log(data)
 
             seguimiento.value = data
             qrcode.value = await QRCode.toDataURL(`${apiUrl.value}/comprobante/${seguimiento.value.codigoTransaccion}`, {

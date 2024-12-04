@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { join } from 'path'
 import * as express from 'express'
 import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -53,6 +54,20 @@ async function bootstrap() {
       disableErrorMessages: false
     })
   )
+
+  const config = new DocumentBuilder()
+    .setTitle('Servicio API "Plataforma Universitaria de Pagos"')
+    .setDescription('Documentación de la API del sistema de integración de la Pasarela de Pagos del Estado de AGETIC')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config, {
+    include: [
+      AppModule
+    ]
+  });
+  SwaggerModule.setup('api/docs', app, document);
 
   await app.listen(3000);
 }

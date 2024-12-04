@@ -38,14 +38,4 @@ export class PreinscripcionController {
   findByPersona(@Param('idPersona') idPersona: number) {
     return this.preinscripcionService.findByPersona(idPersona);
   }
-
-  @Patch(':id')
-  update(@Param('id') id: number, @Body() updatePreinscripcionDto: UpdatePreinscripcionDto) {
-    return this.preinscripcionService.update(id, updatePreinscripcionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.preinscripcionService.remove(id);
-  }
 }

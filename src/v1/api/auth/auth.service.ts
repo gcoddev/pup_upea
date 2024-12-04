@@ -160,7 +160,7 @@ export class AuthService {
     return {
       success: false,
       login: false,
-      message: 'Cuenta no vinculada a ninguna cuenta',
+      message: 'La cuenta no esta vinculada con ningún usuario',
       user
     }
   }
@@ -181,25 +181,5 @@ export class AuthService {
 
     const userUpdate = await this.usersService.vinculateGoogle(idUser, userGoogle)
     return userUpdate
-  }
-
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
-  }
-
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
   }
 }

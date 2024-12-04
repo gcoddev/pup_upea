@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Version, UseGuards } from '@nestjs/common';
 import { VistaPersonaService } from './vista_persona.service';
-import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
+import { ApiKeyGuard } from 'src/v1/api/auth/guard/api-key.guard';
 import { Expedido } from 'src/common/enums/expedido.enum';
 
 @Controller('vista-persona')

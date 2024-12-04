@@ -30,7 +30,7 @@
                                             <div class="prod-name col-6">
                                                 <div class="cart-item-title">
                                                     <span class="cart-item-title-main">{{ orden.concepto }}</span>
-                                                    <span class="cart-item-title-small">{{ orden.concepto }}</span>
+                                                    <span class="cart-item-title-small">{{ orden.categoria }}</span>
                                                 </div>
                                             </div>
                                             <div class="prod-price col" data-content="Precio">
@@ -328,7 +328,7 @@ c0-0.1-0.1-0.3-0.1-0.4L21.4,21.1z"></path>
                                 </div>
                             </div>
                         </div>
-                        <div class="section">
+                        <!-- <div class="section">
                             <div class="section-header">
                                 <h2 class="section-title">Notas Adicionales</h2>
                             </div>
@@ -337,7 +337,7 @@ c0-0.1-0.1-0.3-0.1-0.4L21.4,21.1z"></path>
                                     placeholder="Puede introducir aquí cualquier nota o información adicional que desee incluir en su pedido..."
                                     v-model="info_nota"></textarea>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="main-content  main-content-m-w" v-else>
@@ -418,21 +418,12 @@ c0-0.1-0.1-0.3-0.1-0.4L21.4,21.1z"></path>
                                     </div>
                                 </div>
                                 <div class="summary-actions">
-                                    <button type="button" class="btn btn-lg btn-primary btn-checkout" data-btn-loader=""
+                                    <button type="button" class="btn btn-lg btn-primary btn-checkout"
                                         v-if="cartStore.data.length > 0 && confirmOrder" @click="submitOrder()">
                                         <span>
                                             <UIcon name="i-mdi-share" class="w-5 h-5" />
                                             Realizar pedido
                                         </span>
-                                        <div class="loader loader-button hidden">
-                                            <div class="spinner spinner-sm">
-                                                <div class="rect1"></div>
-                                                <div class="rect2"></div>
-                                                <div class="rect3"></div>
-                                                <div class="rect4"></div>
-                                                <div class="rect5"></div>
-                                            </div>
-                                        </div>
                                     </button>
                                     <button type="button" class="btn btn-lg btn-primary btn-checkout disabled" disabled
                                         v-else>
@@ -648,7 +639,6 @@ const submitOrder = () => {
     })
 }
 const postOrder = async () => {
-    console.log(user.data)
     try {
         const data = await useApiFetch('/orden', {
             method: 'POST',
@@ -673,8 +663,6 @@ const postOrder = async () => {
             }
         })
 
-        console.log(data)
-
         $swal({
             title: data.message,
             text: 'Redirigiendo a la pagina del pago',
@@ -694,6 +682,7 @@ const postOrder = async () => {
 onMounted(() => {
     setTimeout(() => {
         getIp()
+        console.log(cartStore.data);
     }, 250)
 })
 </script>

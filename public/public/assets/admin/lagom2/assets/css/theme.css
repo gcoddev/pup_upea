@@ -9171,7 +9171,7 @@ table th[class*=col-] {
     .table-responsive>.table>tfoot>tr>th,
     .table-responsive>.table>thead>tr>td,
     .table-responsive>.table>thead>tr>th {
-        white-space: nowrap
+        white-space: wrap;
     }
 
     .table-responsive>.table-bordered {

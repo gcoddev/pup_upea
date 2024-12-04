@@ -34,16 +34,4 @@ export class ConvocatoriaModalidadService {
     }
     return modalidades
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} convocatoriaModalidad`;
-  }
-
-  update(id: number, updateConvocatoriaModalidadDto: UpdateConvocatoriaModalidadDto) {
-    return `This action updates a #${id} convocatoriaModalidad`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} convocatoriaModalidad`;
-  }
 }

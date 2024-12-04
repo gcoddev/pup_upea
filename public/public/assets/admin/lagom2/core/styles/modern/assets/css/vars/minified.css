@@ -99,6 +99,7 @@
     --svg-banner-shape-right: var(--brand-primary-lighter);
     --body-bg: #fff;
     -futuristic-bg: #022062;
+    --tooltip-title-bg: #fcfcfc;
 }
 
 :root {

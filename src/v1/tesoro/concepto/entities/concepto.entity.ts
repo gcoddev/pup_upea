@@ -20,10 +20,11 @@ export class Concepto {
     estadoConcepto: EstadoTesoro;
 
     @Column()
-    id_unidadMovimiento: number;
+    // id_unidadMovimiento: number;
+    unidadMovimiento_id: number;
 
-    @Column({ type: 'timestamp' })
-    fechaCreacion: Timestamp;
+    // @Column({ type: 'timestamp' })
+    // fechaCreacion: Timestamp;
 
     @Column()
     id_usuario: number;

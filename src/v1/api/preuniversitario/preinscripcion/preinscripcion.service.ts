@@ -118,12 +118,4 @@ export class PreinscripcionService {
     }
     return null
   }
-
-  update(id: number, updatePreinscripcionDto: UpdatePreinscripcionDto) {
-    return `This action updates a #${id} preinscripcion`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} preinscripcion`;
-  }
 }

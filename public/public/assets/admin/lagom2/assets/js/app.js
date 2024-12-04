@@ -22,4 +22,11 @@ $(document).ready(function () {
     timeout = setTimeout(function () {
         $btn.addClass('hidden');
     }, 500);
+
+    // Al hacer click en algun elemento .nav-item-text-only quitar la clase .menu-open de #layout-main
+    $('.nav-item-toggle').on('click', function () {
+        console.log('remove menu-open');
+
+        $('#layout-main').removeClass('menu-open');
+    });
 });

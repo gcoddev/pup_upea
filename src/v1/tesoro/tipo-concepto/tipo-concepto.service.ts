@@ -21,14 +21,14 @@ export class TipoConceptoService {
     const tiposConcepto = []
 
     for (const element of tipos) {
-      const conceptosAll = await this.conceptoService.findAllByOne(element.id_tipoConcepto);
+      const conceptosAll = await this.conceptoService.findAllByOne(element.id);
       const conceptos = []
       for (const concepto of conceptosAll) {
-        const unidad = await this.unidadMovimientoService.findOne(concepto.id_unidadMovimiento)
+        // const unidad = await this.unidadMovimientoService.findOne(concepto.unidadMovimiento_id)
 
         conceptos.push({
           ...concepto,
-          unidad
+          // unidad
         })
       }
       tiposConcepto.push({

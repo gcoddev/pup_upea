@@ -146,10 +146,6 @@ export class UsersService {
     }
   }
 
-  async updateGoogle(id: number, updateUserDto: UpdateUserDto) {
-    return updateUserDto
-  }
-
   async updatePartial(id: number, updateUserDto: UpdateUserDto) {
     let user: any;
     if (updateUserDto.password) {
@@ -168,6 +164,8 @@ export class UsersService {
           })
         }
         user = await this.usersRepository.update(id, updateUserDto)
+      } else {
+        user = await this.usersRepository.update(id, updateUserDto)
       }
     }
 
@@ -185,7 +183,7 @@ export class UsersService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.usersRepository.softDelete(id);
   }
 
   findByCi(ci: string, id: number = null) {

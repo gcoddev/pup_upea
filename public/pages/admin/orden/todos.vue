@@ -148,7 +148,9 @@
                                                         <li v-for="(oc, id_oc) of order.ordenConcepto" :key="id_oc"
                                                             class="list-item">
                                                             Bs. {{ oc.costo }}<br>
-                                                            <span class="small">{{ oc.concepto.concepto }}</span>
+                                                            <span class="small text-concepto">
+                                                                {{ truncateText(oc.concepto.concepto, 3) }}
+                                                            </span>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -267,7 +269,6 @@ const getOrders = async () => {
         const data = await useApiFetch('/orden/all')
 
         orders.value = data
-        console.log(orders.value);
 
         // orders.value = [
         //     {
@@ -351,8 +352,22 @@ onMounted(() => {
         }, 250)
     }, 250)
 })
+
+const truncateText = (text, wordLimit) => {
+    if (!text) return ""; // Maneja casos donde el texto sea nulo o vacío
+    const words = text.split(" ");
+    return words.length > wordLimit
+        ? words.slice(0, wordLimit).join(" ") + "..."
+        : text;
+};
 </script>
 
 <style>
-/* @import 'datatables.net-dt/css/dataTables.dataTables.min.css'; */
+td.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* max-width: 200px; */
+    /* Cambia el valor según sea necesario */
+}
 </style>

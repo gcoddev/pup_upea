@@ -7,7 +7,11 @@ import { Moneda } from './entities/moneda.entity';
 @Module({
   controllers: [MonedaController],
   providers: [MonedaService],
-  imports: [TypeOrmModule.forFeature([Moneda], 'tesoro')],
-  exports: [MonedaService]
+  imports: [
+    // TypeOrmModule.forFeature([Moneda], 'tesoro')
+  ],
+  exports: [
+    // MonedaService
+  ]
 })
 export class MonedaModule { }

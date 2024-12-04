@@ -316,8 +316,8 @@ const getConvocatorias = async () => {
         const data = await useApiFetch('/convocatoria/pre')
 
         convocatorias.value = data
-    } catch (e) {
-        console.log(e.data)
+    } catch (err) {
+        console.log(err)
     }
 }
 

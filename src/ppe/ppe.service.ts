@@ -31,7 +31,7 @@ export class PpeService {
         const mail = {
           to: user.email,
           fecha: new Date(),
-          subject: 'Pago procesado con exito',
+          subject: 'Estado de pago',
           content: `${res['mensaje']}. ${res['detalle']['mensajeRespuesta']}`,
           leido: false,
           fechaLeido: null,
@@ -47,7 +47,7 @@ export class PpeService {
         const mail = {
           to: persona.email,
           fecha: new Date(),
-          subject: 'Pago procesado con exito',
+          subject: 'Estado de pago',
           content: `${res['mensaje']}\n${res['detalle']['mensajeRespuesta']}`,
           leido: false,
           fechaLeido: null,

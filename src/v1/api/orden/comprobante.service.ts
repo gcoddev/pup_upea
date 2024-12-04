@@ -7,7 +7,6 @@ export class ComprobanteService {
         // const browser = await puppeteer.launch({ headless: process.env.NEST_MODE == 'production' ? true : false });
         const browser = await puppeteer.launch({
             headless: true,
-            executablePath: '/usr/bin/chromium-browser'
         });
         // Usa `launch({ headless: true })` en producción
         const page = await browser.newPage();

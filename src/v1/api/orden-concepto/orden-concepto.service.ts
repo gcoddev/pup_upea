@@ -34,26 +34,4 @@ export class OrdenConceptoService {
 
     return ordenConcepto
   }
-
-  async findAllConceptos(orden: Orden) {
-    console.log(orden)
-
-    return 0
-  }
-
-  findAll() {
-    return `This action returns all ordenConcepto`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} ordenConcepto`;
-  }
-
-  update(id: number, updateOrdenConceptoDto: UpdateOrdenConceptoDto) {
-    return `This action updates a #${id} ordenConcepto`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} ordenConcepto`;
-  }
 }

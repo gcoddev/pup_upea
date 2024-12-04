@@ -5,7 +5,7 @@ import { UpdateOrdenDto } from './dto/update-orden.dto';
 import { Request } from 'express'
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Role } from 'src/common/enums/auth/role.enum';
-import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
+import { ApiKeyGuard } from 'src/v1/api/auth/guard/api-key.guard';
 
 @Controller('orden')
 export class OrdenController {
@@ -62,10 +62,5 @@ export class OrdenController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrdenDto: UpdateOrdenDto) {
     return this.ordenService.update(+id, updateOrdenDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ordenService.remove(+id);
   }
 }

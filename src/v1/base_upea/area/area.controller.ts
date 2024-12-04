@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Version, UseGuards }
 import { AreaService } from './area.service';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
-import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
+import { ApiKeyGuard } from 'src/v1/api/auth/guard/api-key.guard';
 
 @Controller('area')
 export class AreaController {

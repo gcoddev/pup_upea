@@ -33,14 +33,6 @@ export class PersonasService {
     return this.personasRepository.findOneBy({ idPersona: id })
   }
 
-  update(id: number, updatePersonaDto: UpdatePersonaDto) {
-    return `This action updates a #${id} persona`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} persona`;
-  }
-
   findByCiExpNac(ci: string, expedido: Expedido, fecha_nac: Date) {
     return this.personasRepository.findOneBy({
       ci,

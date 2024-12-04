@@ -120,7 +120,8 @@
                                                                 </label>
                                                                 <input type="number" name="costo" id="inputCosto"
                                                                     class="form-control" placeholder="Costo"
-                                                                    v-model="costo" autocomplete="off" min="0">
+                                                                    v-model="costo" autocomplete="off" min="0"
+                                                                    step="0.10">
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
@@ -214,7 +215,7 @@ useHead({
 })
 
 
-import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useApiFetch } from '~/composables/useApiFetch'
 import SidebarUsuario from '~/components/admin/administracion/Sidebar.vue'
 import { Role, RoleName } from '~/enums/Role.enum'
@@ -263,8 +264,8 @@ const getCarreraSede = async () => {
                 getConvocatoria(id)
                 isNewConvocatoria.value = false
             }
-        } catch (e) {
-            console.log(e)
+        } catch (err) {
+            console.log(err)
         }
     } else {
         try {
@@ -290,8 +291,8 @@ const getCarreraSede = async () => {
             }
 
             selectCarrera()
-        } catch (e) {
-            console.log(e)
+        } catch (err) {
+            console.log(err)
         }
     }
 }
@@ -311,8 +312,8 @@ const getGestiones = async () => {
         const data = await useApiFetch('/gestion')
 
         gestiones.value = data
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
     }
 }
 const modalidades = ref(null)
@@ -321,8 +322,8 @@ const getModalidades = async () => {
         const data = await useApiFetch('/modalidad')
 
         modalidades.value = data
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
     }
 }
 
@@ -364,11 +365,11 @@ const postConvocatoria = async () => {
         sessionStorage.setItem('status', 'success')
 
         return navigateTo('/admin/convocatoria')
-    } catch (e) {
+    } catch (err) {
         if (e.data) {
             errors.value = e.data
         } else {
-            console.log(e)
+            console.log(err)
         }
     }
 }
@@ -396,11 +397,11 @@ const putConvocatoria = async () => {
         sessionStorage.setItem('status', 'success')
 
         return navigateTo('/admin/convocatoria')
-    } catch (e) {
+    } catch (err) {
         if (e.data) {
             errors.value = e.data
         } else {
-            console.log(e)
+            console.log(err)
         }
     }
 }
@@ -408,7 +409,7 @@ const putConvocatoria = async () => {
 const getConvocatoria = async (id) => {
     try {
         const data = await useApiFetch('/convocatoria/' + id)
-
+        console.log(data)
         fecha_ini.value = data.fecha_ini
         fecha_fin.value = data.fecha_fin
         id_carrera.value = data.id_carrera
@@ -418,8 +419,13 @@ const getConvocatoria = async (id) => {
         id_sede.value = data.id_sede
         id_gestion.value = data.id_gestion
         cupos.value = data.cupos
-    } catch (e) {
-        console.log(e)
+        costo.value = data.costo
+
+        modalidad.value = data.modalidades.map((element) => element.id)
+
+        $('.inputModalidad').val(modalidad.value).trigger('change');
+    } catch (err) {
+        console.log(err)
     }
 }
 

@@ -85,7 +85,9 @@
                                                 <tbody>
                                                     <tr>
                                                         <td colspan="2">
-                                                            {{ seguimiento.conceptos[0].concepto.concepto }}
+                                                            <span class="concepto">
+                                                                {{ seguimiento.conceptos[0].concepto.concepto }}
+                                                            </span>
                                                             <span v-if="seguimiento.preinscripcion">
                                                                 ({{
                                                                     seguimiento.preinscripcion.convocatoria.carrera.nombre_completo
@@ -238,7 +240,6 @@ const verificarOrden = async () => {
         const data = await useApiFetch(`/orden/${id_orden.value}`)
         seguimiento.value = data
         errorSeguimiento.value = null
-        console.log(seguimiento.value)
     } catch (err) {
         seguimiento.value = null
         if (!err.data.success) {
@@ -259,4 +260,14 @@ onMounted(() => {
 
 <style>
 /* @import 'datatables.net-dt/css/dataTables.dataTables.min.css'; */
+/* .concepto {
+    min-width: 200px;
+    max-width: 500px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+} */
 </style>

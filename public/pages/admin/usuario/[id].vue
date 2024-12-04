@@ -302,8 +302,8 @@ const getCarreras = async () => {
         const data = await useApiFetch('/carrera')
 
         carreras.value = data
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
     }
 }
 
@@ -378,11 +378,11 @@ const postUsuario = async () => {
         sessionStorage.setItem('status', 'success')
 
         return navigateTo('/admin/usuario')
-    } catch (e) {
+    } catch (err) {
         if (e.data) {
             errors.value = e.data
         } else {
-            console.log(e)
+            console.log(err)
         }
     }
 }
@@ -412,11 +412,11 @@ const putUsuario = async () => {
         sessionStorage.setItem('status', 'success')
 
         return navigateTo('/admin/usuario')
-    } catch (e) {
+    } catch (err) {
         if (e.data) {
             errors.value = e.data
         } else {
-            console.log(e);
+            console.log(err);
         }
     }
 }
@@ -437,8 +437,8 @@ const getUsuario = async (id) => {
         id_carrera.value = data.id_carrera
         username.value = data.username
         email.value = data.email
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
     }
 }
 const searchPersona = async () => {
@@ -447,8 +447,6 @@ const searchPersona = async () => {
             const data = await useApiFetch(`/vista-persona/${numeroDocumento.value}/${expedido.value}/${fecha_nac.value}`, {
                 method: 'GET'
             })
-
-            console.log(data)
 
             id_persona.value = data.id
             nombres.value = data.nombre
@@ -462,12 +460,12 @@ const searchPersona = async () => {
             $('#btnRegister').removeAttr('disabled')
 
             clearMessage()
-        } catch (e) {
+        } catch (err) {
             if (e.data) {
                 messageAlert.value = e.data.message
                 statusAlert.value = 'danger'
             } else {
-                console.log(e)
+                console.log(err)
             }
         }
     }

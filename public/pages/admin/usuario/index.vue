@@ -304,12 +304,12 @@ const getUsuarios = async () => {
     try {
         const data = await useApiFetch('/usuario')
         users.value = data
-    } catch (e) {
-        if (!e.data) {
-            messageAlert = e.data.message
+    } catch (err) {
+        if (err.data) {
+            messageAlert = err.data.message
             statusAlert = 'danger'
         } else {
-            console.log(e.data)
+            console.log(err)
         }
     }
 }
@@ -329,12 +329,12 @@ const updateEstado = async (id_user, estado) => {
         setTimeout(() => {
             getUsuarios()
         }, 250)
-    } catch (e) {
-        if (!e.data) {
-            messageAlert = e.message
+    } catch (err) {
+        if (err.data) {
+            messageAlert = err.data.message
             statusAlert = 'danger'
         } else {
-            console.log(e);
+            console.log(err);
         }
     }
 }
@@ -365,12 +365,12 @@ const changePassword = async () => {
                 confirm_password.value = null
                 errorMessageModal.value = null
                 id_us.value = null
-            } catch (e) {
-                if (!e.data) {
-                    messageAlert = e.message
+            } catch (err) {
+                if (err.data) {
+                    messageAlert = err.data.message
                     statusAlert = 'danger'
                 } else {
-                    console.log(e);
+                    console.log(err);
                 }
             }
         } else {

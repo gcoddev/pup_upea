@@ -12,7 +12,7 @@ import { PersonasService } from '../preuniversitario/personas/personas.service';
 import { Persona } from '../preuniversitario/personas/entities/persona.entity';
 import { ConvocatoriaService } from '../preuniversitario/convocatoria/convocatoria.service';
 import { PreinscripcionService } from '../preuniversitario/preinscripcion/preinscripcion.service';
-import { MonedaService } from 'src/v1/tesoro/moneda/moneda.service';
+// import { MonedaService } from 'src/v1/tesoro/moneda/moneda.service';
 import axios from 'axios'
 import { HttpService } from '@nestjs/axios';
 import { Concepto } from 'src/v1/tesoro/concepto/entities/concepto.entity';
@@ -29,7 +29,7 @@ export class OrdenService {
     private readonly personasService: PersonasService,
     private readonly convocatoriaService: ConvocatoriaService,
     private readonly preinscripcionService: PreinscripcionService,
-    private readonly monedaService: MonedaService,
+    // private readonly monedaService: MonedaService,
     private readonly httpService: HttpService
   ) { }
 
@@ -307,10 +307,6 @@ export class OrdenService {
     }
   }
 
-  async createWithPersona() {
-
-  }
-
   async findAll() {
     const orders = await this.ordenRepository.find({
       order: {
@@ -402,14 +398,14 @@ export class OrdenService {
       })
     }
 
-    const moneda = await this.monedaService.findOne(orden.id_moneda);
+    // const moneda = await this.monedaService.findOne(orden.id_moneda);
     const conceptos = await this.ordenConceptoservice.findAllWithConceptos(orden);
     const preinscripcion = await this.preinscripcionService.findByOrden(orden)
 
     return {
       ...orden,
       conceptos,
-      moneda,
+      // moneda,
       preinscripcion
     }
   }
@@ -425,23 +421,19 @@ export class OrdenService {
       })
     }
 
-    const moneda = await this.monedaService.findOne(orden.id_moneda);
+    // const moneda = await this.monedaService.findOne(orden.id_moneda);
     const conceptos = await this.ordenConceptoservice.findAllWithConceptos(orden);
     const preinscripcion = await this.preinscripcionService.findByOrden(orden)
 
     return {
       ...orden,
       conceptos,
-      moneda,
+      // moneda,
       preinscripcion
     }
   }
 
   update(id: number, updateOrdenDto: UpdateOrdenDto) {
     return this.ordenRepository.update(id, updateOrdenDto)
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} orden`;
   }
 }

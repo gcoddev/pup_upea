@@ -8,13 +8,12 @@
                     <div class="main-sidebar ">
                         <div class="sidebar-sticky" data-sidebar-sticky>
                             <div class="sidebar sidebar-primary">
-                                <div menuItemName="Client Details"
-                                    class="panel panel-sidebar panel-sidebar-primary panel-client-details">
+                                <div class="panel panel-sidebar panel-sidebar-primary panel-client-details">
                                     <div class="panel-heading"></div>
                                     <div class="panel-body">
                                         <div class="client-avatar">
-                                            <img src="https://www.gravatar.com/avatar/eb76e3210778a71baad903fcff70c215"
-                                                alt="Avatar">
+                                            <img src="~/public/images/upea.png"
+                                                alt="Avatar" width="10">
                                         </div>
                                         <strong>{{ Role[user.data.role] }}</strong>
                                         <br>
@@ -29,7 +28,7 @@
                                         {{ user.data.carrera ? user.data.carrera.nombre_completo : '- Sin carrera -' }}
                                     </div>
                                     <div class="panel-footer clearfix">
-                                        <NuxtLink to="/admin" class="btn btn-success btn-sm btn-block">
+                                        <NuxtLink to="/admin/perfil" class="btn btn-success btn-sm btn-block">
                                             <i class="fas fa-pencil-alt"></i>
                                             Perfil
                                         </NuxtLink>
@@ -366,7 +365,6 @@ const ordenPendiente = ref(0)
 const getOrders = async () => {
     try {
         const data = await useApiFetch('/orden')
-        console.log(data)
         ordenes.value = data
 
         if (ordenes.value.length > 0) {

@@ -100,9 +100,8 @@ const getMails = async () => {
     try {
         const data = await useApiFetch('/mail')
         mails.value = data
-        console.log(mails.value)
     } catch (err) {
-        console.log(err.data)
+        console.log(err)
     }
 }
 

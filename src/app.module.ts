@@ -11,7 +11,7 @@ import { ConceptoModule } from './v1/tesoro/concepto/concepto.module';
 import { UnidadMovimientoModule } from './v1/tesoro/unidad-movimiento/unidad-movimiento.module';
 import { TipoMedidaModule } from './v1/tesoro/tipo-medida/tipo-medida.module';
 import { MetodoPagoModule } from './v1/tesoro/metodo-pago/metodo-pago.module';
-import { MonedaModule } from './v1/tesoro/moneda/moneda.module';
+// import { MonedaModule } from './v1/tesoro/moneda/moneda.module';
 import { DepartamentoModule } from './v1/tesoro/departamento/departamento.module';
 import { AreaModule } from './v1/base_upea/area/area.module';
 import { CarreraModule } from './v1/base_upea/carrera/carrera.module';
@@ -43,7 +43,8 @@ import { PersonasModule } from './v1/api/preuniversitario/personas/personas.modu
     BaseUpeaModule, // Base de tatos 'Base UPEA'
 
     // Módulos de versión
-    V1Module, VistaPersonaModule, ConceptoModule, UnidadMovimientoModule, TipoMedidaModule, MetodoPagoModule, MonedaModule, DepartamentoModule, AreaModule, CarreraModule, ModalidadModule, SedeModule, TipoConceptoModule, CarreraSedeModule, GestionModule, PpeModule, // api/v1
+    V1Module, VistaPersonaModule, ConceptoModule, UnidadMovimientoModule, TipoMedidaModule, MetodoPagoModule, DepartamentoModule, AreaModule, CarreraModule, ModalidadModule, SedeModule, TipoConceptoModule, CarreraSedeModule, GestionModule, PpeModule, // api/v1
+    // MonedaModule,
 
     OrdenModule, MailModule, UsersModule, PersonasModule
   ],

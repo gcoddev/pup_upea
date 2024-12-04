@@ -1,7 +1,7 @@
 import { EstadoTesoro } from "src/common/enums/estado-tesoro.enum";
 import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('moneda')
+// @Entity('moneda')
 export class Moneda {
     @PrimaryGeneratedColumn()
     id_moneda: number;

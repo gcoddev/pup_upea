@@ -145,10 +145,12 @@
                                                 </td>
                                                 <td class="text-nowrap">
                                                     <ul class="list-disc">
-                                                        <li v-for="(oc, id_oc) of order.ordenConcepto" :key="id_oc"
+                                                        <li v-for="(oc, id_oc) of order.conceptos" :key="id_oc"
                                                             class="list-item">
                                                             Bs. {{ oc.costo }}<br>
-                                                            <span class="small">{{ oc.concepto.concepto }}</span>
+                                                            <span class="small">
+                                                                {{ truncateText(oc.concepto.concepto, 3) }}
+                                                            </span>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -270,12 +272,8 @@ const getOrders = async () => {
         const data = await useApiFetch('/orden')
 
         orders.value = data
-        // console.log(orders.value);
-        // for (const order of data) {
-        //     if (order.user && order.user.id == user.data.id) {
-        //         orders.value.push(order)
-        //     }
-        // }
+        console.log(data);
+
     } catch (err) {
         console.log(err);
     }
@@ -338,4 +336,12 @@ onMounted(() => {
         }, 250)
     }, 250)
 })
+
+const truncateText = (text, wordLimit) => {
+    if (!text) return ""; // Maneja casos donde el texto sea nulo o vacío
+    const words = text.split(" ");
+    return words.length > wordLimit
+        ? words.slice(0, wordLimit).join(" ") + "..."
+        : text;
+};
 </script>

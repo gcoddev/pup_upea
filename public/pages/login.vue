@@ -102,6 +102,8 @@ const statusAlert = ref('');
 const clearMessage = () => {
     messageAlert.value = '';
     statusAlert.value = '';
+
+    navigateTo('/login')
 };
 /*
 <Message :message="messageAlert" :status="statusAlert" @close="clearMessage" />
@@ -133,13 +135,17 @@ const postLogin = async () => {
         return navigateTo('/admin')
         // location.reload()
         // }
-    } catch (e) {
-        console.log(e)
-        if (!e.data.success) {
-            messageAlert.value = e.data.message
-            statusAlert.value = 'danger'
+    } catch (err) {
+        if (err.data) {
+            if (!err.data.success) {
+                messageAlert.value = err.data.message
+                statusAlert.value = 'danger'
+            } else {
+                console.log(err.data)
+            }
         } else {
-            console.log(e.data)
+            messageAlert.value = 'Error en la conexión, vuelve a intentarlo mas tarde.'
+            statusAlert.value = 'danger'
         }
     }
 }
@@ -162,6 +168,8 @@ onMounted(() => {
     } else {
         messageAlert.value = login.message
         statusAlert.value = 'danger'
+
+        // navigateTo('/admin')
     }
 
     const message = sessionStorage.getItem('message')

@@ -256,10 +256,7 @@ const getOrders = async () => {
         //         orders.value.push(o)
         //     }
         // }
-        console.log(data)
         orders.value = data
-        // console.log(orders.value);
-        // console.log(user.data);
     } catch (err) {
         console.log(err);
     }

@@ -60,29 +60,21 @@
                         </div>
                         <div class="section">
                             <h3 class="section-title d-flex align-center">
-                                Cambiar Correo Electrónico
+                                Cambiar Nombre de usuario
                             </h3>
                             <Message :message="messageAlert" :status="statusAlert" @close="clearMessage" />
                             <div class="section-body">
-                                <form method="post" @submit.prevent="updateEmail()">
+                                <form method="post" @submit.prevent="updateUsername()">
                                     <div class="panel panel-default panel-form">
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="inputEmail" class="control-label">
-                                                            Dirección de correo
+                                                        <label for="inputUsername" class="control-label">
+                                                            Nombre de usuario
                                                         </label>
-                                                        <input type="email" name="email" id="inputEmail" v-model="email"
-                                                            class="form-control">
-                                                    </div>
-                                                    <div class="alert alert-primary">
-                                                        El email actual sera donde recibirá los estados de sus
-                                                        pagos, asegúrese de ser un correo que use actualmente.
-                                                    </div>
-                                                    <div class="alert alert-warning" v-if="user.data.googleId">
-                                                        Su email esta vinculado con Google, si lo modifica se quitara la
-                                                        vinculación.
+                                                        <input type="text" name="username" id="inputUsername"
+                                                            v-model="username" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -130,21 +122,21 @@ const nombres = ref('')
 const paterno = ref('')
 const materno = ref('')
 const carrera = ref('')
-const email = ref('')
+const username = ref('')
 
-const updateEmail = async () => {
+const updateUsername = async () => {
     try {
         const data = await useApiFetch(`/usuario/${idUser.value}`, {
             method: 'PATCH',
             body: {
-                email: email.value,
-                googleId: null
+                username: username.value
             }
         })
-        console.log(data)
         messageAlert.value = data.message
         statusAlert.value = 'success'
-        location.reload()
+        setTimeout(() => {
+            location.reload()
+        }, 250)
     } catch (err) {
         console.log(err)
         messageAlert.value = err.data.message[0]
@@ -163,7 +155,7 @@ watch(
             if (user.carrera) {
                 carrera.value = user.carrera.nombre_completo
             }
-            email.value = user.email
+            username.value = user.username
         }, 500)
     },
     { immediate: true }

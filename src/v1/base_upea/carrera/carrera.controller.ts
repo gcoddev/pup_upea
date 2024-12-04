@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Version, UseGuards }
 import { CarreraService } from './carrera.service';
 import { CreateCarreraDto } from './dto/create-carrera.dto';
 import { UpdateCarreraDto } from './dto/update-carrera.dto';
-import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
+import { ApiKeyGuard } from 'src/v1/api/auth/guard/api-key.guard';
 
 @Controller('carrera')
 export class CarreraController {

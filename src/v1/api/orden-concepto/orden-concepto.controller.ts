@@ -11,24 +11,4 @@ export class OrdenConceptoController {
   create(@Body() createOrdenConceptoDto: CreateOrdenConceptoDto) {
     return this.ordenConceptoService.create(createOrdenConceptoDto);
   }
-
-  @Get()
-  findAll() {
-    return this.ordenConceptoService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ordenConceptoService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrdenConceptoDto: UpdateOrdenConceptoDto) {
-    return this.ordenConceptoService.update(+id, updateOrdenConceptoDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ordenConceptoService.remove(+id);
-  }
 }

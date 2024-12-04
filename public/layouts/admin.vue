@@ -63,8 +63,8 @@ const logout = (() => {
 
 
 onMounted(() => {
+    getProfile()
     setTimeout(() => {
-        getProfile()
         loading.value = false
     }, 500)
 })

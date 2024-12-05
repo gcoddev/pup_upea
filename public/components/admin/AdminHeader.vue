@@ -236,7 +236,7 @@
                             </span>
                             <!-- <b class="ls ls-caret"></b> -->
                         </a>
-                        <div class="dropdown-menu dropdown-lazy has-scroll  ">
+                        <!-- <div class="dropdown-menu dropdown-lazy has-scroll  ">
                             <div class="dropdown-menu-body">
                                 <div class="dropdown-menu-content">
                                     <div class="dropdown-menu-parent">
@@ -401,7 +401,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </li>
                     <li menuItemName="Open Ticket" class=" nav-item-btn is-right" id="Primary_Navbar-Open_Ticket">
                         <nuxtLink class="btn btn-primary" to="/admin/orden/nuevo" @click="showHideMenu()">

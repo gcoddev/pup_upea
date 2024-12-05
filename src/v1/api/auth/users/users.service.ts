@@ -50,7 +50,8 @@ export class UsersService {
 
     return this.usersRepository.save({
       ...createUserDto,
-      password: await bcryptjs.hash(createUserDto.password, 10)
+      password: await bcryptjs.hash(createUserDto.password, 10),
+      id_carrera: 51
     })
   }
 

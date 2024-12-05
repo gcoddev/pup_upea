@@ -294,7 +294,11 @@ export class OrdenService {
       codigoTransaccion = 1
     }
     this.ordenRepository.update(idOrden, {
-      codigoTransaccion: codigoTransaccion.toString()
+      codigoTransaccion: codigoTransaccion.toString(),
+      metodoPago: 'QR',
+      idQr: '12345678',
+      finVigencia: '2025-01-01',
+      urlRedireccion: "http://<url-front-ppe>/transaccion?id=" + codigoTransaccion
     })
 
     return {
@@ -302,7 +306,7 @@ export class OrdenService {
       mensaje: "Registro creado con exito!",
       datos: {
         codigoTransaccion: codigoTransaccion,
-        urlRedireccion: "http://<url-front-ppe>/transaccion/?id=" + codigoTransaccion
+        urlRedireccion: "http://<url-front-ppe>/transaccion?id=" + codigoTransaccion
       }
     }
   }

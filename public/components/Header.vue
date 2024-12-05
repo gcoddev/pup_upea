@@ -88,25 +88,25 @@
                             <!-- <b class="ls ls-caret"></b> -->
                         </NuxtLink>
                     </li>
-                    <li menuItemName="Website & Security" class="dropdown  nav-item-text-only"
+                    <!-- <li menuItemName="Website & Security" class="dropdown  nav-item-text-only"
                         :class="linkClass == 'info' ? 'active' : ''">
                         <NuxtLink to="/info" @click="setPanel('info')">
                             <span class="item-text">
                                 Información
                             </span>
-                            <!-- <b class="ls ls-caret"></b> -->
+                            <b class="ls ls-caret"></b>
                         </NuxtLink>
-                    </li>
-                    <li menuItemName="Support" class="dropdown  nav-item-text-only"
+                    </li> -->
+                    <!-- <li menuItemName="Support" class="dropdown  nav-item-text-only"
                         :class="linkClass == 'soporte' ? 'active' : ''">
-                        <!-- <NuxtLink class="dropdown-toggle" to="/soporte" data-toggle="dropdown" -->
+                        <NuxtLink class="dropdown-toggle" to="/soporte" data-toggle="dropdown"
                         <NuxtLink to="/soporte" @click="setPanel('soporte')">
                             <span class="item-text">
                                 Soporte
                             </span>
-                            <!-- <b class="ls ls-caret"></b> -->
+                            <b class="ls ls-caret"></b>
                         </NuxtLink>
-                        <!-- <ul class="dropdown-menu dropdown-lazy has-scroll  ">
+                        <ul class="dropdown-menu dropdown-lazy has-scroll  ">
                             <li menuItemName="Contact Us" class=" " id="Primary_Navbar-Support-Contact_Us">
                                 <a href="#">
                                     <i class="fas fa-test ls ls-chat-clouds"></i>
@@ -139,8 +139,8 @@
                                 </a>
                             </li>
 
-                        </ul> -->
-                    </li>
+                        </ul>
+                    </li> -->
                     <li class=" nav-item-btn is-right" id="Primary_Navbar-Register" v-if="!token">
                         <NuxtLink class="btn btn-outline btn-default" to="/register">
                             <span>Registrarse</span>

@@ -22,6 +22,9 @@ export class Orden {
     @Column({ type: 'date', nullable: true })
     finVigencia: Date
 
+    @Column({ nullable: true })
+    urlRedireccion: string
+
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     creadoEl: Date
 

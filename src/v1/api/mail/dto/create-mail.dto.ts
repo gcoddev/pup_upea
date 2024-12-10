@@ -20,6 +20,10 @@ export class CreateMailDto {
     @IsOptional()
     leido?: boolean;
 
+    @IsBoolean()
+    @IsOptional()
+    enviado?: boolean;
+
     @IsDateFormat()
     @IsOptional()
     fechaLeido: Date;

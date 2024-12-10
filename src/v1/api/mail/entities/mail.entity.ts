@@ -22,6 +22,9 @@ export class Mail {
     @Column({ type: 'boolean', default: false })
     leido: boolean
 
+    @Column({ type: 'boolean', default: false })
+    enviado: boolean
+
     @Column({ type: 'timestamp', nullable: true })
     fechaLeido: Date
 

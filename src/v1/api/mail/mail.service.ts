@@ -95,16 +95,32 @@ export class MailService {
     })
     const htmlTemplate = await this.renderMailFromNuxt(mail.idMail)
 
-    await this.mailerService.sendMail({
-      to: mail.to,
-      subject: mail.subject,
-      html: htmlTemplate
-    });
+    try {
+      await this.mailerService.sendMail({
+        to: mail.to,
+        subject: mail.subject,
+        html: htmlTemplate
+      });
 
-    return {
-      success: true,
-      message: 'Correo enviado correctamente',
-      mail
+      this.mailRepository.update(mail.idMail, {
+        enviado: true
+      })
+
+      console.log('Correo enviado correctamente');
+
+      return {
+        success: true,
+        message: 'Correo enviado correctamente',
+        mail
+      }
+    } catch (err) {
+      console.log('Error: Correo no enviado')
+
+      return {
+        success: false,
+        message: 'Correo no enviado',
+        mail
+      }
     }
   }
 }

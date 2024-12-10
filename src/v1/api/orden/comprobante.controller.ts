@@ -10,6 +10,8 @@ export class ComprobanteController {
     @Version('1')
     async generate(@Param('cod') cod: string, @Res() res: Response) {
         const templateUrl = `${process.env.URL_FRONT_DEV}/comprobante?cod=${cod}`;
+        console.log(templateUrl);
+
         const pdfBuffer = await this.comprobanteService.generatePdf(templateUrl);
 
         res.set({

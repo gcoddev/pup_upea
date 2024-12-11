@@ -179,11 +179,11 @@
                                                         </a>
                                                         <ul class="dropdown-menu  pull-right" role="menu">
                                                             <li>
-                                                                <a href="#">
+                                                                <NuxtLink :to="`/admin/orden/${order.idOrden}`">
                                                                     <UIcon name="i-heroicons-list-bullet"
                                                                         class="w-5 h-5 mr-2" />
                                                                     Ver Detalle
-                                                                </a>
+                                                                </NuxtLink>
                                                             </li>
                                                             <li v-if="order.estadoPago === EstadoPago.EN_PROCESO">
                                                                 <a href="#">
@@ -354,7 +354,7 @@ onMounted(() => {
 })
 
 const truncateText = (text, wordLimit) => {
-    if (!text) return ""; // Maneja casos donde el texto sea nulo o vacío
+    if (!text) return "";
     const words = text.split(" ");
     return words.length > wordLimit
         ? words.slice(0, wordLimit).join(" ") + "..."

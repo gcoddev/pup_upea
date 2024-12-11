@@ -11,6 +11,13 @@ import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PpeModule } from './ppe/ppe.module';
 import { UsersModule } from './v1/api/auth/users/users.module';
+import { AuthModule } from './v1/api/auth/auth.module';
+import { OrdenModule } from './v1/api/orden/orden.module';
+import { OrdenConceptoModule } from './v1/api/orden-concepto/orden-concepto.module';
+import { MailModule } from './v1/api/mail/mail.module';
+import { PreinscripcionModule } from './v1/api/preuniversitario/preinscripcion/preinscripcion.module';
+import { ConvocatoriaModule } from './v1/api/preuniversitario/convocatoria/convocatoria.module';
+import { CreateUserDto } from './v1/api/auth/users/dto/create-user.dto';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -71,7 +78,14 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config, {
     include: [
-      AppModule, PpeModule, UsersModule
+      AppModule,
+      PpeModule,
+      UsersModule, CreateUserDto,
+      OrdenModule,
+      OrdenConceptoModule,
+      MailModule,
+      PreinscripcionModule,
+      ConvocatoriaModule
     ]
   });
   SwaggerModule.setup('api/docs', app, document);

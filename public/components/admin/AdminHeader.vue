@@ -554,7 +554,6 @@ watch(
 const mailsFilter = ref([])
 const getMails = async () => {
     try {
-        navigateTo('/admin/emails')
         mailsFilter.value = []
         const data = await useApiFetch('/mail')
         data.forEach(mail => {

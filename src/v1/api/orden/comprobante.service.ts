@@ -3,7 +3,7 @@ import * as puppeteer from 'puppeteer';
 // import * as PDFDocument from 'pdfkit';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { OrdenService } from './orden.service';
-import { EstadoPago } from 'src/common/enums/estado-pago.enum';
+import { EstadoPago, EstadoText } from 'src/common/enums/estado-pago.enum';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as QRCode from 'qrcode';
@@ -101,7 +101,7 @@ export class ComprobanteService {
             color: rgb(1, 1, 1),
         });
 
-        page.drawText(orden.estadoPago, {
+        page.drawText(EstadoText[orden.estadoPago], {
             x: width - 200,
             y: cursorY - 12,
             size: fontSize,

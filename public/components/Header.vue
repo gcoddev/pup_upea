@@ -88,15 +88,15 @@
                             <!-- <b class="ls ls-caret"></b> -->
                         </NuxtLink>
                     </li>
-                    <!-- <li menuItemName="Website & Security" class="dropdown  nav-item-text-only"
+                    <li menuItemName="Website & Security" class="dropdown  nav-item-text-only"
                         :class="linkClass == 'info' ? 'active' : ''">
                         <NuxtLink to="/info" @click="setPanel('info')">
                             <span class="item-text">
-                                Información
+                                Acerca de
                             </span>
                             <b class="ls ls-caret"></b>
                         </NuxtLink>
-                    </li> -->
+                    </li>
                     <!-- <li menuItemName="Support" class="dropdown  nav-item-text-only"
                         :class="linkClass == 'soporte' ? 'active' : ''">
                         <NuxtLink class="dropdown-toggle" to="/soporte" data-toggle="dropdown"

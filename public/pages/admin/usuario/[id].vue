@@ -21,7 +21,7 @@
                                                 <input type="hidden" v-model="id_persona">
                                                 <div class="section-body" id="personalInformacion">
                                                     <div class="row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-4 col-12">
                                                             <div class="form-group ">
                                                                 <label for="numeroDocumento" class="label-required">
                                                                     Cédula de identidad
@@ -31,7 +31,17 @@
                                                                     v-model="numeroDocumento" @keyup="searchPersona()">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-5 col-12">
+                                                            <div class="form-group ">
+                                                                <label for="inputFecha_nac" class="label-required">
+                                                                    Fecha de nacimiento
+                                                                </label>
+                                                                <input type="date" name="fecha_nac" id="inputFecha_nac"
+                                                                    class="form-control" v-model="fecha_nac"
+                                                                    @change="searchPersona()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-12">
                                                             <div class="form-group">
                                                                 <label for="inputExpedido" class="label-required">
                                                                     Expedición
@@ -79,16 +89,6 @@
                                                                         Otro
                                                                     </option>
                                                                 </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group ">
-                                                                <label for="inputFecha_nac" class="label-required">
-                                                                    Fecha de nacimiento
-                                                                </label>
-                                                                <input type="date" name="fecha_nac" id="inputFecha_nac"
-                                                                    class="form-control" v-model="fecha_nac"
-                                                                    @change="searchPersona()">
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
@@ -184,7 +184,7 @@
                                                         <label for="inputPassword" class="label-required">
                                                             Contraseña
                                                         </label>
-                                                        <input type="password" name="password" id="inputPassword"
+                                                        <input type="text" name="password" id="inputPassword"
                                                             class="form-control" placeholder="Contraseña"
                                                             v-model="password" autocomplete="off">
                                                     </div>
@@ -453,6 +453,7 @@ const searchPersona = async () => {
             paterno.value = data.paterno
             materno.value = data.materno
             email.value = data.email
+            password.value = `${data.nombre.split(' ')[0].toUpperCase()}_${data.ci}`
             if (data.email) {
                 username.value = data.email.split('@')[0]
             }

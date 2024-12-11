@@ -94,7 +94,7 @@
                                             <div class="panel-body social-wide">
                                                 <h2>Información Personal</h2>
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-4 col-12">
                                                         <div class="form-group ">
                                                             <label for="numeroDocumento" class="label-required">
                                                                 Cédula de identidad
@@ -104,7 +104,17 @@
                                                                 @keyup="searchCI">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-5 col-12">
+                                                        <div class="form-group ">
+                                                            <label for="inputFecha_nac" class="label-required">
+                                                                Fecha de nacimiento
+                                                            </label>
+                                                            <input type="date" name="fecha_nac" id="inputFecha_nac"
+                                                                class="form-control" v-model="fecha_nac"
+                                                                @change="searchCI">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-12">
                                                         <div class="form-group ">
                                                             <label for="inputExpedido" class="label-required">
                                                                 Expedición
@@ -152,16 +162,6 @@
                                                                     Otro
                                                                 </option>
                                                             </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group ">
-                                                            <label for="inputFecha_nac" class="label-required">
-                                                                Fecha de nacimiento
-                                                            </label>
-                                                            <input type="date" name="fecha_nac" id="inputFecha_nac"
-                                                                class="form-control" v-model="fecha_nac"
-                                                                @change="searchCI">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -596,7 +596,7 @@ const paterno = ref('')
 const materno = ref('')
 const idPersona = ref('')
 const info_nota = ref('')
-const id_concepto = ref(3)
+const id_concepto = ref(36)
 const concepto = ref({})
 const searchCI = async () => {
     if (numeroDocumento.value && expedido.value && fecha_nac.value) {
@@ -773,7 +773,7 @@ const postOrder = async () => {
             timer: 2500
         }).then(() => {
             cartStore.reset()
-            navigateTo('/preuniversitario')
+            navigateTo('/verificar')
         })
     } catch (err) {
         console.log(err);

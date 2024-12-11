@@ -17,7 +17,7 @@ export enum Estado {
 export enum EstadoLabel {
     PROCESADO = 'label-success',
     EN_PROCESO = 'label-warning',
-    EXPIRADO = 'label-dark',
+    EXPIRADO = 'status-dead',
     FALLIDO = 'label-danger',
     ANULADO = 'label-default'
 }

@@ -104,7 +104,13 @@ export class PreinscripcionService {
   }
 
   async findByOrden(orden: Orden) {
-    const preins = await this.preinscripcionRepository.findOneBy({ orden })
+    const preins = await this.preinscripcionRepository.findOne({
+      where: {
+        orden: orden,
+        user: null
+      }
+    })
+
     if (preins) {
       const carrera = await this.carreraService.findOne(preins.convocatoria.id_carrera)
 

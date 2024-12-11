@@ -200,7 +200,8 @@
                                             <input type="password" name="confirm_password" id="inputConfirmPassword"
                                                 class="form-control" placeholder="Confirmar contraseña"
                                                 autocomplete="off" v-model="confirm_password">
-                                            <span class="text-muted">Vuelve a ingresar la contraseña para confirmar</span>
+                                            <span class="text-muted">Vuelve a ingresar la contraseña para
+                                                confirmar</span>
                                         </div>
                                     </div>
                                 </div>

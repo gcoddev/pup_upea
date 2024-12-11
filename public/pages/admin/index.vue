@@ -12,8 +12,7 @@
                                     <div class="panel-heading"></div>
                                     <div class="panel-body">
                                         <div class="client-avatar">
-                                            <img src="~/public/images/upea.png"
-                                                alt="Avatar" width="10">
+                                            <img src="~/public/images/upea.png" alt="Avatar" width="10">
                                         </div>
                                         <strong>{{ Role[user.data.role] }}</strong>
                                         <br>
@@ -115,7 +114,7 @@
                         <div class="tiles swiper-container">
                             <div class="row swiper-wrapper">
                                 <div class="col-md-3 swiper-slide">
-                                    <NuxtLink class="tile" to="/admin">
+                                    <NuxtLink class="tile" to="/admin/orden">
                                         <div class="tile-icon-absolute">
                                             <i class="ls ls-hosting"></i>
                                         </div>
@@ -124,7 +123,7 @@
                                     </NuxtLink>
                                 </div>
                                 <div class="col-md-3 swiper-slide">
-                                    <NuxtLink class="tile" to="/admin">
+                                    <NuxtLink class="tile" to="/admin/orden">
                                         <div class="tile-icon-absolute">
                                             <i class="ls ls-dns"></i>
                                         </div>
@@ -133,15 +132,24 @@
                                     </NuxtLink>
                                 </div>
                                 <div class="col-md-3 swiper-slide">
-                                    <NuxtLink class="tile" to="/admin">
+                                    <NuxtLink class="tile" to="/admin/orden">
                                         <div class="tile-icon-absolute">
                                             <i class="icon-alert ls ls-exclamation-circle text-danger"></i>
                                         </div>
-                                        <div class="tile-stat text-danger">{{ ordenPendiente }}</div>
-                                        <div class="tile-title">Pendiente</div>
+                                        <div class="tile-stat text-danger">{{ ordenFallido }}</div>
+                                        <div class="tile-title">Fallidos</div>
                                     </NuxtLink>
                                 </div>
-                                <div class="col-md-3 swiper-slide" v-if="user.data.role == 'admin'">
+                                <div class="col-md-3 swiper-slide">
+                                    <NuxtLink class="tile" to="/admin/orden">
+                                        <div class="tile-icon-absolute">
+                                            <i class="icon-alert ls ls-exclamation-circle text-danger"></i>
+                                        </div>
+                                        <div class="tile-stat">{{ ordenPendiente }}</div>
+                                        <div class="tile-title">Pendientes</div>
+                                    </NuxtLink>
+                                </div>
+                                <!-- <div class="col-md-3 swiper-slide" v-if="user.data.role == 'admin'">
                                     <NuxtLink class="tile" to="/admin">
                                         <div class="tile-icon-absolute">
                                             <i class="ls ls-ticket-tag"></i>
@@ -149,8 +157,8 @@
                                         <div class="tile-stat">1</div>
                                         <div class="tile-title">Total sistema</div>
                                     </NuxtLink>
-                                </div>
-                                <div class="col-md-3 swiper-slide" v-if="user.data.role == 'tec'">
+                                </div> -->
+                                <!-- <div class="col-md-3 swiper-slide" v-if="user.data.role == 'tec'">
                                     <NuxtLink class="tile" to="/admin">
                                         <div class="tile-icon-absolute">
                                             <i class="ls ls-ticket-tag"></i>
@@ -158,7 +166,7 @@
                                         <div class="tile-stat">7</div>
                                         <div class="tile-title">Total carrera</div>
                                     </NuxtLink>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>
@@ -362,6 +370,7 @@ const logout = () => {
 const ordenes = ref([])
 const ordenProcesado = ref(0)
 const ordenPendiente = ref(0)
+const ordenFallido = ref(0)
 const getOrders = async () => {
     try {
         const data = await useApiFetch('/orden')
@@ -373,6 +382,8 @@ const getOrders = async () => {
                     ordenProcesado.value++
                 } else if (o.estadoPago == EstadoPago.EN_PROCESO) {
                     ordenPendiente.value++
+                } else {
+                    ordenFallido.value++
                 }
             }
         }

@@ -21,7 +21,7 @@ export class ComprobanteService {
                 estado = rgb(0.098, 0.529, 0.329); // #198754
                 break;
             case EstadoPago.EN_PROCESO:
-                estado = rgb(1.000, 0.757, 0.027); // #ffc107
+                estado = rgb(0.941, 0.502, 0.0); // #F08000
                 break;
             case EstadoPago.EXPIRADO:
                 estado = rgb(0.424, 0.459, 0.490); // #6c757d

@@ -272,7 +272,6 @@ const getOrders = async () => {
         const data = await useApiFetch('/orden')
 
         orders.value = data
-        console.log(data);
 
     } catch (err) {
         console.log(err);

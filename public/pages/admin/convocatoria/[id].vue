@@ -409,7 +409,6 @@ const putConvocatoria = async () => {
 const getConvocatoria = async (id) => {
     try {
         const data = await useApiFetch('/convocatoria/' + id)
-        console.log(data)
         fecha_ini.value = data.fecha_ini
         fecha_fin.value = data.fecha_fin
         id_carrera.value = data.id_carrera

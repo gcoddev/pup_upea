@@ -226,16 +226,16 @@ export class OrdenService {
         // metaDatosTransaccion: {},
         codigoOrden: `${newOrden.idOrden}-${gestion}`,
         datosPago: {
-          nombresCliente: newOrden.user.nombres ?? newOrden.persona.nombres,
-          apellidosCliente: `${newOrden.user.paterno ?? newOrden.persona.paterno} ${newOrden.user.materno ?? newOrden.persona.materno}`,
+          nombresCliente: newOrden.persona ? newOrden.persona.nombres : newOrden.user.nombres,
+          apellidosCliente: newOrden.persona ? `${newOrden.persona.paterno} ${newOrden.persona.materno}` : `${newOrden.user.paterno} ${newOrden.user.materno}`,
           tipoDocumentoCliente: 1,
-          numeroDocumentoCliente: newOrden.user.numeroDocumento ?? newOrden.persona.ci,
-          fechaNacimientoCliente: newOrden.user.fecha_nac ?? newOrden.persona.fecha_nac,
+          numeroDocumentoCliente: newOrden.persona ? newOrden.persona.ci : newOrden.user.numeroDocumento,
+          fechaNacimientoCliente: newOrden.persona ? newOrden.persona.fecha_nac : newOrden.user.fecha_nac,
           // cuentaBancaria: "",
           montoTotal: newOrden.montoTotal,
           moneda: "BOB",
           tipoCambioMoneda: 1,
-          correo: newOrden.user.email ?? newOrden.persona.email
+          correo: newOrden.persona ? newOrden.persona.email : newOrden.user.email
         },
         productos
       });

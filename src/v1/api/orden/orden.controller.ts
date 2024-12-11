@@ -15,7 +15,7 @@ export class OrdenController {
 
   @Post()
   @Version('1')
-  @Auth(Role.GUEST)
+  // @Auth(Role.GUEST)
   @UseGuards(ApiKeyGuard)
   create(@Body() createOrdenDto: CreateOrdenDto, @Req() req: Request) {
     return this.ordenService.create(createOrdenDto, req);
@@ -48,7 +48,7 @@ export class OrdenController {
 
   @Get('codigo/:codigo')
   @Version('1')
-  // @UseGuards(ApiKeyGuard)
+  @UseGuards(ApiKeyGuard)
   findOneByCodigo(@Param('codigo') codigo: string) {
     return this.ordenService.findCodigoSeguimiento(codigo);
   }

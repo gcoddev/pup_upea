@@ -61,7 +61,6 @@ const logout = (() => {
     }, 250)
 })
 
-
 onMounted(() => {
     getProfile()
     setTimeout(() => {

@@ -42,6 +42,7 @@ export class MailService {
         user
       },
       order: {
+        // leido: 'ASC',
         idMail: 'DESC'
       }
     })
@@ -67,36 +68,74 @@ export class MailService {
       ...createMailDto,
       orden
     })
-    // const htmlTemplate = await this.renderMailFromNuxt(mail.idMail)
-    const htmlTemplate = await this.renderMail({
-      ...mail,
-      orden
+    if (orden.user) {
+      const user = await this.userService.findOne(orden.user.id)
+      if (user.receiveEmails) {
+        // const htmlTemplate = await this.renderMailFromNuxt(mail.idMail)
+        const htmlTemplate = await this.renderMail({
+          ...mail,
+          orden
+        })
+
+        try {
+          await this.mailerService.sendMail({
+            to: mail.to,
+            subject: mail.subject,
+            html: htmlTemplate
+          });
+
+          this.mailRepository.update(mail.idMail, {
+            enviado: true
+          })
+
+          console.log('-- Correo enviado correctamente --');
+
+          return {
+            success: true,
+            message: 'Correo enviado correctamente',
+            mail
+          }
+        } catch (err) {
+          console.log('-- Error: Correo no enviado --')
+
+          return {
+            success: false,
+            message: 'Correo no enviado',
+            mail
+          }
+        }
+      } else {
+        return {
+          success: false,
+          message: 'Correo no enviado',
+          mail
+        }
+      }
+    }
+
+    return {
+      success: false,
+      message: 'Correo no enviado',
+      mail
+    }
+  }
+
+  async updateMail(id: number) {
+    const mail = await this.mailRepository.update(id, {
+      leido: true,
+      fechaLeido: new Date()
     })
 
-    try {
-      await this.mailerService.sendMail({
-        to: mail.to,
-        subject: mail.subject,
-        html: htmlTemplate
-      });
-
-      this.mailRepository.update(mail.idMail, {
-        enviado: true
-      })
-
-      console.log('-- Correo enviado correctamente --');
-
+    if (mail.affected == 1) {
       return {
         success: true,
-        message: 'Correo enviado correctamente',
+        message: 'Correo marcado como leído correctamente',
         mail
       }
-    } catch (err) {
-      console.log('-- Error: Correo no enviado --')
-
+    } else {
       return {
         success: false,
-        message: 'Correo no enviado',
+        message: 'Correo no modificado',
         mail
       }
     }
@@ -135,19 +174,19 @@ export class MailService {
     let color;
     switch (mail.orden.estadoPago) {
       case 'PROCESADO':
-        color = '#198754';
+        color = '#4ADE80';
         break;
       case 'EN_PROCESO':
-        color = '#ffc107';
+        color = '#FB923C';
         break;
       case 'EXPIRADO':
-        color = '#6c757d';
+        color = '#6B7280';
         break;
       case 'FALLIDO':
-        color = '#dc3545';
+        color = '#EF4444';
         break;
       case 'ANULADO':
-        color = '#6c757d';
+        color = '#9CA3AF';
         break;
       default:
         color = '#ccc';

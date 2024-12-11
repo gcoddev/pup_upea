@@ -30,4 +30,10 @@ export class MailController {
   findOne(@Param('id') id: number) {
     return this.mailService.findOne(id);
   }
+
+  @Patch(':id')
+  @Version('1')
+  updateMail(@Param('id') id: number) {
+    return this.mailService.updateMail(id);
+  }
 }

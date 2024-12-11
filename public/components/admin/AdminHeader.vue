@@ -47,35 +47,25 @@
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <div class="notification-icon-container">
                                 <UIcon name="i-heroicons-bell-solid" class="w-4 h-4 bg-gray-400" />
-                                <!-- <span class="nav-badge badge badge-primary badge-dot badge-icon">
+                                <span class="nav-badge badge badge-primary badge-dot badge-icon"
+                                    v-if="mailsFilter.length > 0">
                                     <span>NEW</span>
-                                </span> -->
+                                </span>
                             </div>
                         </a>
-                        <ul class="dropdown-menu dropdown-lazy has-scroll client-alerts">
-                            <li menuItemName="Alert_0" class="" id="Secondary_Navbar-Notifications-Alert_0">
-                                <a href="#" class="client-alerts-header">
-                                    Notificaciones
+                        <ul class="dropdown-menu dropdown-lazy has-scroll client-alerts" v-if="mailsFilter.length > 0">
+                            <li class="" v-for="(mail, idMail) of mailsFilter" :key="idMail">
+                                <a href="#" @click="openInNewTab(mail.idMail)">
+                                    <i class="fas fa-ticket lm lm-info" :class="EstadoText[mail.orden.estadoPago]"></i>
+                                    <div class="font-weight-bold">Orden #{{ mail.idMail }} - {{ mail.subject }}</div>
                                 </a>
                             </li>
-                            <li menuItemName="Alert_1" class="" id="Secondary_Navbar-Notifications-Alert_1">
-                                <a href="#">
-                                    <i class="fas fa-ticket lm lm-info text-danger"></i>
-                                    <div>You have 1 domain(s) expiring within the next 7 days.</div>
-                                </a>
-                            </li>
-                            <li menuItemName="Alert_2" class="" id="Secondary_Navbar-Notifications-Alert_2">
+                        </ul>
+                        <ul class="dropdown-menu dropdown-lazy has-scroll client-alerts" v-if="mailsFilter.length == 0">
+                            <li class="">
                                 <a href="#">
                                     <i class="fas fa-ticket lm lm-info text-info"></i>
-                                    <div>You have 4 unpaid invoice(s). Pay them early for peace of mind.</div>
-                                </a>
-                            </li>
-                            <li menuItemName="Alert_3" class="" id="Secondary_Navbar-Notifications-Alert_3">
-                                <a href="#">
-                                    <i class="fas fa-ticket lm lm-info text-warning"></i>
-                                    <div>You have 4 overdue invoice(s) with a total balance due of $170.95 . Pay them
-                                        now to
-                                        avoid any interruptions in service.</div>
+                                    <div class="">No hay mensajes nuevos</div>
                                 </a>
                             </li>
                         </ul>
@@ -84,9 +74,7 @@
                     <li menuItemName="Account" class="dropdown my-account" id="Secondary_Navbar-Account">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <div class="client-avatar client-avatar-sm">
-                                <img class=""
-                                    src="~/public/images/upea.png"
-                                    alt="Avatar">
+                                <img class="" src="~/public/images/upea.png" alt="Avatar">
                             </div>
                             <div class="active-client">
                                 <span class="item-text">
@@ -432,6 +420,7 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useUserStore } from '~/stores/user'
 const user = useUserStore()
 import { useRoute } from 'vue-router'
+import { EstadoText } from '~/enums/EstadoPago.enum'
 
 const toast = useToast()
 const showLogout = ref(false)
@@ -561,6 +550,47 @@ watch(
     },
     { immediate: true } // Para ejecutar el watch al cargarse la página
 )
+
+const mailsFilter = ref([])
+const getMails = async () => {
+    try {
+        navigateTo('/admin/emails')
+        mailsFilter.value = []
+        const data = await useApiFetch('/mail')
+        data.forEach(mail => {
+            if (!mail.leido) {
+                mailsFilter.value.push(mail)
+            }
+        });
+
+        console.log(mailsFilter.value);
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+function openInNewTab(idMail) {
+    updateMail(idMail)
+    if (typeof window !== 'undefined') {
+        window.open(
+            `/mail?id=${idMail}`,
+            'MailDetail',
+            'width=800,height=600,scrollbars=yes,resizable=yes'
+        );
+    }
+    getMails()
+}
+
+const updateMail = async (id) => {
+    try {
+        await useApiFetch('/mail/' + id, {
+            method: 'PATCH'
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 onMounted(() => {
     currentTheme.value = localStorage.getItem('theme') || 'modern';
     setTimeout(() => {
@@ -575,6 +605,7 @@ onMounted(() => {
         // } else {
         //     linkClass.value = 'panel'
         // }
+        getMails()
     }, 250)
 });
 </script>

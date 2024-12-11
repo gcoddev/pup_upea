@@ -116,21 +116,32 @@
                                     <!-- <Message :message="messageAlert" :status="statusAlert" @close="clearMessage" /> -->
                                     <form method="post" @submit.prevent="confirmEmail()">
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="inputEmail" class="control-label">
                                                         Dirección de correo
                                                     </label>
-                                                    <input type="email" name="email" id="inputEmail" v-model="email"
-                                                        class="form-control">
+                                                    <div class="row">
+                                                        <input type="email" name="email" id="inputEmail" v-model="email"
+                                                            class="form-control col-md-8 col-12">
+                                                        <div class="col-md-4 col-12 d-flex align-items-center">
+                                                            <!-- Ajustar la columna -->
+                                                            <label class="toggle">
+                                                                <input type="checkbox" id="receiveEmails"
+                                                                    v-model="receiveEmails"
+                                                                    @change="confirmReceiveEmails()">
+                                                                <span class="slider"></span>
+                                                                <span class="text">Recibir correos electrónicos</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="alert alert-primary">
-                                                    El email actual sera donde recibirá los estados de sus
-                                                    pagos, asegúrese de ser un correo que use actualmente.
+                                                    El email actual será donde recibirá los estados de sus pagos,
+                                                    asegúrese de ser un correo que use actualmente.
                                                 </div>
                                                 <div class="alert alert-warning" v-if="user.data.googleId">
-                                                    Su email esta vinculado con Google, si lo modifica se
-                                                    quitara la
+                                                    Su email está vinculado con Google, si lo modifica se quitará la
                                                     vinculación.
                                                 </div>
                                             </div>
@@ -175,14 +186,15 @@ const { $swal } = useNuxtApp()
 
 const email = ref('')
 const googleId = ref('')
-
+const receiveEmails = ref(true)
 watch(
     () => user.data,
     (user) => {
         setTimeout(() => {
             email.value = user.email
             googleId.value = user.googleId
-        }, 500)
+            receiveEmails.value = user.receiveEmails
+        }, 1000)
     },
     { immediate: true }
 )
@@ -202,7 +214,7 @@ const route = useRoute()
 const confirmEmail = () => {
     $swal({
         title: '¿Estás seguro de actualizar el email?',
-        text: 'Se eliminara su vinculación actual',
+        text: 'Se eliminara su vinculación de google',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sí, actualizar',
@@ -221,12 +233,64 @@ const updateEmail = async () => {
             method: 'PATCH',
             body: {
                 email: email.value,
-                googleId: null
+                googleId: null,
             }
         })
-        messageAlert.value = data.message
+        messageAlert.value = data.message + '. La pagina se recargara en unos instantes.'
         statusAlert.value = 'success'
-        location.reload()
+        setTimeout(() => {
+            location.reload()
+        }, 1000)
+    } catch (err) {
+        messageAlert.value = err.data.message[0]
+        statusAlert.value = 'danger'
+
+        email.value = user.data.email
+    }
+}
+const confirmReceiveEmails = () => {
+    let titulo = ''
+    let texto = ''
+    let boton = ''
+    if (receiveEmails.value) {
+        titulo = '¿Esta seguro que quiere recibir emails?'
+        texto = 'Recibirás estados de sus pagos por correo electrónico'
+        boton = 'Si, recibir'
+    } else {
+        titulo = '¿Esta seguro que quiere dejar de recibir emails?'
+        texto = 'No recibirás estados de sus pagos por correo electrónico'
+        boton = 'Si, dejar de recibir'
+    }
+    $swal({
+        title: titulo,
+        text: texto,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: boton,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateReceiveEmails()
+        } else {
+            receiveEmails.value = user.data.receiveEmails
+        }
+    })
+}
+const updateReceiveEmails = async () => {
+    try {
+        const data = await useApiFetch(`/usuario/${user.data.id}`, {
+            method: 'PATCH',
+            body: {
+                receiveEmails: receiveEmails.value
+            }
+        })
+        messageAlert.value = data.message + '. La pagina se recargara en unos instantes.'
+        statusAlert.value = 'success'
+        setTimeout(() => {
+            location.reload()
+        }, 1000)
     } catch (err) {
         messageAlert.value = err.data.message[0]
         statusAlert.value = 'danger'
@@ -259,9 +323,11 @@ const desvincular = async () => {
                 googleId: null
             }
         })
-        messageAlert.value = data.message
+        messageAlert.value = data.message + '. La pagina se recargara en unos instantes.'
         statusAlert.value = 'success'
-        location.reload()
+        setTimeout(() => {
+            location.reload()
+        }, 1000)
     } catch (err) {
         messageAlert.value = err.data.message[0]
         statusAlert.value = 'danger'
@@ -297,3 +363,60 @@ onMounted(() => {
     }
 })
 </script>
+
+<style scoped>
+.toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 50px;
+    height: 25px;
+}
+
+.toggle input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 25px;
+    transition: 0.4s;
+}
+
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 2.5px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+.toggle input:checked+.slider {
+    background-color: #4ade80;
+}
+
+.toggle input:checked+.slider::before {
+    transform: translateX(24px);
+}
+
+.text {
+    margin-left: 60px;
+    font-size: 14px;
+    color: #333;
+    transition: color 0.4s;
+}
+
+.toggle input:checked+.slider+.text {
+    color: #4ade80;
+}
+</style>

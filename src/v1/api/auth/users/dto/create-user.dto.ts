@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsNumber, IsOptional, IsString, MinLength } from "class-validator"
+import { IsBoolean, IsEmail, IsEnum, IsNumber, IsOptional, IsString, MinLength } from "class-validator"
 import { IsDateFormat } from "src/common/decorators/is-date-format.decorator"
 import { Estado } from "src/common/enums/estado.enum"
 import { Expedido } from "src/common/enums/expedido.enum"
@@ -28,6 +28,10 @@ export class CreateUserDto {
 
     @IsEmail()
     email: string
+
+    @IsBoolean()
+    @IsOptional()
+    receiveEmails: boolean
 
     @IsString()
     @MinLength(4)

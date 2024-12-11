@@ -15,28 +15,28 @@ export class ComprobanteService {
     ) { }
     async generatePdf(cod: string): Promise<Buffer> {
         const orden = await this.ordenService.findCodigoSeguimiento(cod)
+
         let estado: any = ''
         switch (orden.estadoPago) {
             case EstadoPago.PROCESADO:
-                estado = rgb(0.098, 0.529, 0.329); // #198754
+                estado = rgb(0.29, 0.87, 0.50); // #4ADE80
                 break;
             case EstadoPago.EN_PROCESO:
-                estado = rgb(0.941, 0.502, 0.0); // #F08000
+                estado = rgb(0.984, 0.573, 0.235); // #FB923C
                 break;
             case EstadoPago.EXPIRADO:
-                estado = rgb(0.424, 0.459, 0.490); // #6c757d
+                estado = rgb(0.42, 0.447, 0.502); // #6B7280
                 break;
             case EstadoPago.FALLIDO:
-                estado = rgb(0.863, 0.208, 0.271); // #dc3545
+                estado = rgb(0.937, 0.267, 0.267); // #EF4444
                 break;
             case EstadoPago.ANULADO:
-                estado = rgb(0.424, 0.459, 0.490); // #6c757d
+                estado = rgb(0.612, 0.639, 0.686); // #9CA3AF
                 break;
             default:
                 estado = rgb(0.8, 0.8, 0.8); // #ccc
                 break;
         }
-        console.log(orden);
 
         const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage([612, 792]);
@@ -113,7 +113,7 @@ export class ComprobanteService {
 
         const paymentInfo = [
             ['Fecha del pago:', orden.creadoEl.toDateString()],
-            ['Método de pago:', orden.metodoPago]
+            ['Método de pago:', orden.metodoPago ?? '']
         ];
 
         paymentInfo.forEach(([label, value]) => {
@@ -175,6 +175,7 @@ export class ComprobanteService {
             ['', 'Total', `Bs. ${orden.montoTotal}`])
 
         const conceptColumnWidths = [70, 15, 15];
+
         cursorY = this.drawTable(page, concepts, 50, cursorY, width - 100, font, boldFont, conceptColumnWidths, fontSize, estado) - 30;
 
         const transactions = [
@@ -194,7 +195,7 @@ export class ComprobanteService {
             ['', '', '', `Bs. ${orden.comision}`],
             ['', '', 'Balance', `Bs. ${balance.toFixed(2)}`]
         )
-        estado = balance == 0 ? rgb(0.098, 0.529, 0.329) : rgb(0.863, 0.208, 0.271);
+        estado = balance == 0 ? rgb(0.29, 0.87, 0.50) : rgb(0.863, 0.208, 0.271);
 
         const transactionColumnWidths = [40, 20, 20, 20];
         page.drawText('Transacciones', {
@@ -217,10 +218,17 @@ export class ComprobanteService {
         const padding = 7;
         let cursorY = y;
 
-        const wrapText = (text: string, maxWidth: number, font: any, fontSize: number): string[] => {
+        const wrapText = (
+            text: string,
+            maxWidth: number,
+            font: any,
+            fontSize: number
+        ): string[] => {
             const lines: string[] = [];
             let currentLine = '';
-            const words = text.split(' ');
+
+            const sanitizedText = (text || '').replace(/\r?\n/g, ' ');
+            const words = sanitizedText.split(' ');
 
             for (const word of words) {
                 const testLine = currentLine ? `${currentLine} ${word}` : word;
@@ -242,6 +250,7 @@ export class ComprobanteService {
 
             return lines;
         };
+
 
         data.forEach((row, rowIndex) => {
             let cursorX = x;

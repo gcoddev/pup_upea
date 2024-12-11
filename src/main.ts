@@ -9,6 +9,8 @@ import { join } from 'path'
 import * as express from 'express'
 import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { PpeModule } from './ppe/ppe.module';
+import { UsersModule } from './v1/api/auth/users/users.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -69,7 +71,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config, {
     include: [
-      AppModule
+      AppModule, PpeModule, UsersModule
     ]
   });
   SwaggerModule.setup('api/docs', app, document);

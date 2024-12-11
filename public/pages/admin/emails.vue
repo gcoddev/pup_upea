@@ -36,23 +36,33 @@
                                                     <UIcon name="i-material-symbols-unfold-more"
                                                         class="w-3 h-3 d-inline-block" />
                                                 </th>
+                                                <th class="sorting text-center">
+                                                    Estado
+                                                    <UIcon name="i-material-symbols-unfold-more"
+                                                        class="w-3 h-3 d-inline-block" />
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(mail, id) of mails" :key="id" class="cursor-pointer"
+                                            <tr v-for="(mail, id) of mails" :key="id"
+                                                class="cursor-pointer border-green-500"
+                                                :class="mail.leido ? '' : 'font-weight-bold'"
                                                 @click="openInNewTab(mail.idMail)">
                                                 <td class="text-nowrap">
-                                                    {{ id + 1 }}
+                                                    {{ mail.idMail }}
                                                 </td>
                                                 <td class="dtr-control text-nowrap text-center">
                                                     <DateFormat :date="mail.creadoEl" />
                                                 </td>
                                                 <td class="text-nowrap">
-                                                    <b>
-                                                        .:: Orden #{{ mail.orden.idOrden }}
-                                                        - {{ mail.orden.codigoTransaccion }} ::.
-                                                    </b>
+                                                    Orden #{{ mail.orden.idOrden }} -
                                                     {{ mail.subject }}
+                                                </td>
+                                                <td>
+                                                    <span class="badge"
+                                                        :class="mail.enviado ? 'text-green-500' : 'text-red-700'">
+                                                        {{ mail.enviado ? 'Enviado' : 'No enviado' }}
+                                                    </span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -132,7 +142,7 @@ const initializeTable = () => {
         pageLength: 5,
         paging: true,
         searching: true,
-        ordering: true,
+        ordering: false,
     })
 
     $('#customSearch').on('keyup', function () {
@@ -147,12 +157,24 @@ const initializeTable = () => {
 }
 
 function openInNewTab(idMail) {
+    updateMail(idMail)
     if (typeof window !== 'undefined') {
         window.open(
             `/mail?id=${idMail}`,
             'MailDetail',
             'width=800,height=600,scrollbars=yes,resizable=yes'
         );
+    }
+    getMails()
+}
+
+const updateMail = async (id) => {
+    try {
+        await useApiFetch('/mail/' + id, {
+            method: 'PATCH'
+        })
+    } catch (err) {
+        console.log(err)
     }
 }
 

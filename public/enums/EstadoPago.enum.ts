@@ -37,3 +37,11 @@ export enum EstadoBg {
     FALLIDO = 'bg-red-500',
     ANULADO = 'bg-gray-400'
 }
+
+export enum EstadoText {
+    PROCESADO = 'text-success',
+    EN_PROCESO = 'text-warning',
+    EXPIRADO = 'text-secondary',
+    FALLIDO = 'text-danger',
+    ANULADO = 'text-light'
+}

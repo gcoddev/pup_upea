@@ -217,7 +217,7 @@ body {
 }
 
 .main-body {
-    margin: 0;
+    margin: 50px;
     padding: 0 !important;
 }
 

@@ -8,11 +8,24 @@ export class ComprobanteController {
 
     @Get(':cod')
     @Version('1')
+    async generatePdf(@Param('cod') cod: string, @Res() res: Response): Promise<void> {
+        const pdfBuffer = await this.comprobanteService.generatePdf(cod);
+
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `inline; filename="factura_${cod}.pdf"`,
+        });
+
+        res.send(pdfBuffer);
+    }
+
+    @Get(':cod')
+    @Version('2')
     async generate(@Param('cod') cod: string, @Res() res: Response) {
         const templateUrl = `${process.env.URL_FRONT_DEV}/comprobante?cod=${cod}`;
         console.log(templateUrl);
 
-        const pdfBuffer = await this.comprobanteService.generatePdf(templateUrl);
+        const pdfBuffer = await this.comprobanteService.generatePdfP(templateUrl);
 
         res.set({
             'Content-Type': 'application/pdf',

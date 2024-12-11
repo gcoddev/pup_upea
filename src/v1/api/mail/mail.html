@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma Universitaria de Pagos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            background: #fff;
+            padding: 0px;
+            margin: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            background-color: #f7f7f7;
+            padding: 10px;
+            margin: 0;
+        }
+        .header h1 {
+            color: #333;
+            margin: 0;
+            font-size: 2.3rem;
+            padding: 15px;
+        }
+        .content {
+            line-height: 1.6;
+            color: #555;
+            padding: 15px;
+        }
+        .content p {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .content b {
+            color: #000;
+        }
+        .table {
+            display: table;
+            width: 100%;
+        }
+        .row {
+            display: table-row;
+        }
+        .cell {
+            display: table-cell;
+            padding: 10px;
+            vertical-align: top;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+        .footer a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .content p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Plataforma Universitaria de Pagos - UPEA</h1>
+        </div>
+        <div class="content">
+            <div class="table">
+                <div class="row">
+                    <div class="cell">
+                        <p>Hola <b>Gary Apaza Apaza Mamani</b>!</p>
+                        <p><b>Asunto:</b> Estado de pago</p>
+                        <p><b>EL PAGO FALLO.</b> El pago no se procesó.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="cell">
+                        <p><b>Fecha:</b> 2024-12-06</p>
+                        <p><b>Concepto:</b></p>
+                        <ul>
+                            <li>Bs. 180.00 - MATRICULACIÓN NUEVOS Y ANTIGUOS - PROFESIONALES</li>
+                            <li>Bs. 1.00 - Comisión</li>
+                        </ul>
+                        <p><b>Monto total:</b> Bs. 181.00</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="cell">
+                        <p>Ingrese a <a href="http://test.com:3000/comprobante?cod?4">http://test.com:3000/comprobante?cod?4</a> para ver detalles de su pedido.</p>
+                        <p>Plataforma Universitaria de pagos<br>
+                        <a href="http://test.com:3000">http://test.com:3000</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p><a href="#">Visita nuestra web</a> | <a href="#">Ingresa a su cuenta</a></p>
+            <p>Copyright © Plataforma Universitaria de Pagos - UPEA</p>
+        </div>
+    </div>
+</body>
+</html>

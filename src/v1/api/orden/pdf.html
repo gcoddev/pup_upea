@@ -1,0 +1,213 @@
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Factura</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .invoice {
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #ddd;
+            }
+
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 2px solid #4caf50;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+            .logo {
+                display: flex;
+                align-items: center;
+            }
+
+            .header .logo img {
+                height: 50px;
+                margin-right: 10px;
+            }
+
+            .header .logo h2 {
+                margin: 0;
+                /* font-size: 18px; */
+                color: #333;
+            }
+
+            .header .qr-code img {
+                height: 100px;
+            }
+
+            .order-info {
+                background-color: #4caf50;
+                color: white;
+                padding: 10px;
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .order-info span {
+                font-weight: bold;
+            }
+
+            .payment-info {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+
+            .payment-info div {
+                flex: 1;
+                padding: 0 10px;
+            }
+
+            .payment-info p {
+                margin: 5px 0;
+                color: #555;
+            }
+
+            .details,
+            .transactions {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            .details th,
+            .details td,
+            .transactions th,
+            .transactions td {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            .details th,
+            .transactions th {
+                background-color: #f4f4f4;
+                text-align: left;
+                color: #555;
+            }
+
+            .details td,
+            .transactions td {
+                color: #555;
+            }
+
+            .totals {
+                text-align: right;
+                margin-top: 20px;
+            }
+
+            p {
+                color: #555;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="invoice">
+            <!-- Encabezado -->
+            <div class="header">
+                <div class="logo">
+                    <img src="https://via.placeholder.com/100" alt="Logo">
+                    <h2>Plataforma Universitaria de Pagos</h2>
+                </div>
+                <div class="qr-code">
+                    <img src="https://via.placeholder.com/100" alt="Código QR">
+                </div>
+            </div>
+
+            <!-- Información de la orden -->
+            <div class="order-info">
+                <div>Orden <span>#4</span></div>
+                <div>Procesado</div>
+            </div>
+
+            <!-- Información de pago -->
+            <div class="payment-info">
+                <div>
+                    <p><strong>Fecha del pago:</strong></p>
+                    <p>2024-12-06</p>
+                </div>
+                <div>
+                    <p><strong>Método de pago:</strong></p>
+                    <p>QR</p>
+                </div>
+                <div>
+                    <p><strong>A:</strong></p>
+                    <p>10077835 LP</p>
+                    <p>Gary Apaza Apaza Mamani</p>
+                    <p>El Alto, La Paz</p>
+                    <p>Bolivia</p>
+                </div>
+            </div>
+
+            <!-- Tabla de conceptos -->
+            <table class="details">
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Importe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MATRICULACIÓN NUEVOS Y ANTIGUOS - PROFESIONALES</td>
+                        <td>Bs. 180.00</td>
+                    </tr>
+                    <tr>
+                        <td>Sub Total</td>
+                        <td>Bs. 180.00</td>
+                    </tr>
+                    <tr>
+                        <td>Comisión</td>
+                        <td>Bs. 1.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td><strong>Bs. 181.00</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Tabla de transacciones -->
+            <h3 style="color: #333;">Transacciones</h3>
+            <table class="transactions">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Método</th>
+                        <th>ID Transacción</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024-04-12</td>
+                        <td>QR</td>
+                        <td>4</td>
+                        <td>Bs. 181.00</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Balance</td>
+                        <td>Bs. 0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+
+    </html>

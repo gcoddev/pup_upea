@@ -72,7 +72,4 @@ export class Orden {
 
     @Column({ nullable: true })
     notaAdicional?: string
-
-    // @OneToMany(() => OrdenConcepto, (ordenConcepto) => ordenConcepto.orden, { eager: true })
-    // ordenConcepto: OrdenConcepto[];
 }

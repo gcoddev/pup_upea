@@ -672,7 +672,8 @@ const postOrder = async () => {
         }).then(() => {
             cartStore.reset()
             // navigateTo('/orden/')
-            location.href = data.response.datos.urlRedireccion
+            // location.href = data.response.datos.urlRedireccion
+            return navigateTo('/admin/orden')
         })
     } catch (e) {
         console.log(e);

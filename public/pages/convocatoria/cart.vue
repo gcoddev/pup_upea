@@ -111,7 +111,7 @@
                                                             </label>
                                                             <input type="date" name="fecha_nac" id="inputFecha_nac"
                                                                 class="form-control" v-model="fecha_nac"
-                                                                @change="searchCI">
+                                                                @change="searchCI" :max="maxDate" :min="minDate">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 col-12">
@@ -598,6 +598,8 @@ const idPersona = ref('')
 const info_nota = ref('')
 const id_concepto = ref(36)
 const concepto = ref({})
+const minDate = ref('')
+const maxDate = ref('')
 const searchCI = async () => {
     if (numeroDocumento.value && expedido.value && fecha_nac.value) {
         try {
@@ -734,7 +736,7 @@ const submitOrder = () => {
 }
 const postOrder = async () => {
     try {
-        const data = await useApiFetch('/orden', {
+        const data = await useApiFetch('/orden/pre', {
             method: 'POST',
             body: {
                 descripcion: `CTA ${nombres.value} ${paterno.value} ${materno.value}`,
@@ -785,5 +787,15 @@ onMounted(() => {
         getIp()
         getConcepto()
     }, 250)
+
+    const today = new Date();
+
+    const max = new Date();
+    max.setFullYear(today.getFullYear() - 15);
+    maxDate.value = max.toISOString().split('T')[0];
+
+    const min = new Date();
+    min.setFullYear(today.getFullYear() - 60);
+    minDate.value = min.toISOString().split('T')[0];
 })
 </script>

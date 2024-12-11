@@ -15,9 +15,17 @@ export class OrdenController {
 
   @Post()
   @Version('1')
+  @Auth(Role.GUEST)
+  // @UseGuards(ApiKeyGuard)
+  create(@Body() createOrdenDto: CreateOrdenDto, @Req() req: Request) {
+    return this.ordenService.create(createOrdenDto, req);
+  }
+
+  @Post('pre')
+  @Version('1')
   // @Auth(Role.GUEST)
   @UseGuards(ApiKeyGuard)
-  create(@Body() createOrdenDto: CreateOrdenDto, @Req() req: Request) {
+  createPre(@Body() createOrdenDto: CreateOrdenDto, @Req() req: Request) {
     return this.ordenService.create(createOrdenDto, req);
   }
 
